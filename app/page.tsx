@@ -96,6 +96,7 @@ export default function HomePage() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-8">
+          {/* KARTU 1: ONLINE */}
           <Link
             href="/30-day-challenge"
             className="group bg-[#F4FBFF] border-2 border-[#CBEBFF] hover:border-[#4CC3FA] rounded-3xl p-8 sm:p-10 shadow-sm hover:shadow-xl hover:shadow-[#4CC3FA]/15 transition-all flex flex-col justify-between"
@@ -127,13 +128,14 @@ export default function HomePage() {
             </div>
           </Link>
 
+          {/* KARTU 2: OFFLINE (WARNA TONE BIRU LANGIT SERASI) */}
           <Link
             href="/digital-detox"
-            className="group bg-white border-2 border-[#E2F2FC] hover:border-[#0B2D48] rounded-3xl p-8 sm:p-10 shadow-sm hover:shadow-xl hover:shadow-slate-200/60 transition-all flex flex-col justify-between"
+            className="group bg-[#F4FBFF] border-2 border-[#CBEBFF] hover:border-[#4CC3FA] rounded-3xl p-8 sm:p-10 shadow-sm hover:shadow-xl hover:shadow-[#4CC3FA]/15 transition-all flex flex-col justify-between"
           >
             <div>
               <div className="flex flex-wrap items-center justify-between gap-2 mb-6">
-                <span className="bg-[#E8F7FF] text-[#0E5A8A] text-xs font-bold px-3.5 py-1.5 rounded-full">
+                <span className="bg-white text-[#0E5A8A] text-xs font-bold px-3.5 py-1.5 rounded-full border border-[#CBEBFF]">
                   OFFLINE • TAMAN SUROPATI
                 </span>
                 <span className="bg-rose-100 text-rose-700 text-xs font-extrabold px-3.5 py-1.5 rounded-full">
@@ -141,7 +143,7 @@ export default function HomePage() {
                 </span>
               </div>
 
-              <h3 className="text-2xl sm:text-3xl font-extrabold text-[#0B2D48] mb-3">
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-[#0B2D48] mb-3 group-hover:text-[#28A9EB] transition">
                 Digital Detox: Silent Reading
               </h3>
               <p className="text-slate-600 text-sm sm:text-base leading-relaxed mb-8">
@@ -150,9 +152,9 @@ export default function HomePage() {
               </p>
             </div>
 
-            <div className="flex items-center justify-between pt-5 border-t border-slate-100">
-              <span className="font-bold text-sm text-[#0B2D48]">Buka Halaman Event</span>
-              <span className="w-10 h-10 rounded-full bg-[#E8F7FF] text-[#0B2D48] group-hover:bg-[#0B2D48] group-hover:text-white flex items-center justify-center font-extrabold transition">
+            <div className="flex items-center justify-between pt-5 border-t border-[#D9F1FF]">
+              <span className="font-bold text-sm text-[#0E5A8A]">Buka Halaman Event</span>
+              <span className="w-10 h-10 rounded-full bg-white text-[#35B6F5] group-hover:bg-[#4CC3FA] group-hover:text-white flex items-center justify-center font-extrabold shadow-xs transition">
                 →
               </span>
             </div>
@@ -243,110 +245,3 @@ export default function HomePage() {
                 MySkill
               </span>
             </div>
-
-            {/* Lemonilo */}
-            <div className="w-full h-16 px-4 rounded-2xl bg-slate-50/70 border border-slate-100 flex items-center justify-center">
-              <span className="font-black text-xl tracking-tight text-[#65A30D]">
-                lemonilo
-              </span>
-            </div>
-
-            {/* Cressida */}
-            <div className="w-full h-16 px-4 rounded-2xl bg-slate-50/70 border border-slate-100 flex items-center justify-center">
-              <span className="font-bold text-base tracking-[0.2em] text-[#DC2626] uppercase">
-                CRESSIDA
-              </span>
-            </div>
-
-            {/* CRiB */}
-            <div className="w-full h-16 px-4 rounded-2xl bg-slate-50/70 border border-slate-100 flex items-center justify-center gap-2">
-              <span className="w-7 h-7 rounded-lg bg-[#6D28D9] text-white font-black text-sm flex items-center justify-center">
-                C
-              </span>
-              <span className="font-black text-base text-[#4C1D95]">CRiB</span>
-            </div>
-
-            {/* CoverMake */}
-            <div className="w-full h-16 px-4 rounded-2xl bg-slate-50/70 border border-slate-100 flex items-center justify-center">
-              <span className="font-light text-base tracking-[0.18em] text-slate-800 uppercase">
-                COVER<strong className="font-extrabold">MAKE</strong>
-              </span>
-            </div>
-
-            {/* Beauvrys */}
-            <div className="w-full h-16 px-4 rounded-2xl bg-slate-50/70 border border-slate-100 flex items-center justify-center gap-2">
-              <span className="w-7 h-7 rounded-full bg-slate-900 text-white font-serif italic font-bold text-sm flex items-center justify-center">
-                B
-              </span>
-              <span className="font-serif font-bold text-base text-slate-900">Beauvrys</span>
-            </div>
-
-            {/* Ruangguru */}
-            <div className="w-full h-16 px-4 rounded-2xl bg-slate-50/70 border border-slate-100 flex items-center justify-center">
-              <div className="leading-none text-left">
-                <span className="block font-bold text-base text-[#0891B2]">ruang</span>
-                <span className="block font-bold text-base text-[#0891B2] -mt-1">guru</span>
-              </div>
-            </div>
-
-            {/* Finetiks */}
-            <div className="w-full h-16 px-4 rounded-2xl bg-slate-50/70 border border-slate-100 flex items-center justify-center gap-2">
-              <span className="w-6 h-6 rounded-md bg-[#0284C7] text-white font-black text-xs flex items-center justify-center">
-                F
-              </span>
-              <span className="font-extrabold text-base tracking-wider text-[#0F172A] uppercase">
-                FINETIKS
-              </span>
-            </div>
-
-            {/* Kacamatamoo */}
-            <div className="w-full h-16 px-4 rounded-2xl bg-slate-50/70 border border-slate-100 flex items-center justify-center">
-              <span className="px-3 py-1.5 rounded-full bg-[#5EEAD4]/35 text-[#0F766E] font-extrabold text-[11px] tracking-wider uppercase">
-                KACAMATAMOO
-              </span>
-            </div>
-
-            {/* Somethinc */}
-            <div className="w-full h-16 px-4 rounded-2xl bg-slate-50/70 border border-slate-100 flex items-center justify-center">
-              <span className="font-black text-sm tracking-[0.25em] text-slate-950 uppercase">
-                SOMETHINC
-              </span>
-            </div>
-
-            {/* Campina */}
-            <div className="w-full h-16 px-4 rounded-2xl bg-slate-50/70 border border-slate-100 flex items-center justify-center">
-              <span className="px-4 py-1 rounded-full bg-[#1D4ED8] text-amber-300 font-extrabold italic text-base">
-                Campina
-              </span>
-            </div>
-
-            {/* Bosshire */}
-            <div className="w-full h-16 px-4 rounded-2xl bg-slate-50/70 border border-slate-100 flex items-center justify-center">
-              <span className="font-extrabold text-lg text-[#F59E0B]">
-                bosshire
-              </span>
-            </div>
-
-            {/* Glico */}
-            <div className="w-full h-16 px-4 rounded-2xl bg-slate-50/70 border border-slate-100 flex items-center justify-center">
-              <span className="font-black italic text-2xl text-[#E11D48]">
-                Glico
-              </span>
-            </div>
-          </div>
-
-          {/* HANYA TOMBOL KOLABORASI BRAND (DONASI DIHAPUS DARI BAGIAN INI) */}
-          <div className="pt-8 border-t border-[#E8F7FF] flex justify-center">
-            <Link
-              href="/kolaborasi"
-              className="bg-[#0B2D48] hover:bg-[#123E61] text-white text-sm font-bold px-8 py-4 rounded-2xl transition inline-flex items-center justify-center gap-2"
-            >
-              <span>Kolaborasi Brand &amp; Media Partner</span>
-              <span>→</span>
-            </Link>
-          </div>
-        </div>
-      </section>
-    </div>
-  );
-}
