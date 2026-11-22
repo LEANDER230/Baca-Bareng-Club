@@ -1,284 +1,249 @@
 import React from "react";
-
-// =========================================================================
-// PENGATURAN KONTEN, KUOTA & LINK (Ubah bagian ini kapan saja dengan mudah)
-// =========================================================================
-const SITE_CONFIG = {
-  onlineChallenge: {
-    batchName: "Batch Terbaru — 30-Day Morning Reading Challenge",
-    schedule: "Setiap Hari • Pukul 05.00 – 06.00 WIB (via Zoom)",
-    totalSlots: 50,
-    remainingSlots: 14, // <-- Ubah angka ini untuk update sisa kuota online
-    registerUrl: "https://bit.ly/DaftarBacaBarengClubGB",
-  },
-  offlineDetox: {
-    eventName: "Digital Detox: Silent Reading di Taman",
-    schedule: "2x Sebulan • Minggu Pagi, 08.00 – 10.15 WIB",
-    location: "Taman Suropati, Jakarta Pusat",
-    totalSeats: 20,
-    remainingSeats: 6, // <-- Ubah angka ini untuk update sisa kursi offline
-    registerUrl: "https://bit.ly/bacabarengclub5",
-  },
-  support: {
-    donationUrl: "https://bit.ly/DaftarBacaBarengClubGB",
-    bookDonationUrl: "https://wa.me/6285694057352?text=Halo%20Admin%20Baca%20Bareng%20Club,%20saya%20ingin%20menyumbang%20buku",
-    brandPartnerUrl: "https://wa.me/6285694057352?text=Halo%20Tim%20Grow%20Bareng,%20kami%20tertarik%20kolaborasi%20brand%20dengan%20Baca%20Bareng%20Club",
-  },
-};
+import Link from "next/link";
+import { BacaBarengLogo } from "./components/Navbar";
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 font-sans">
-      {/* NAVBAR */}
-      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
-        <div className="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
-          <div>
-            <span className="font-bold text-xl text-sky-600 tracking-tight">
-              Baca Bareng Club.
-            </span>
-            <span className="block text-xs text-slate-500">
-              by Grow Bareng
-            </span>
-          </div>
-          <nav className="hidden sm:flex gap-6 text-sm font-medium text-slate-600">
-            <a href="#program" className="hover:text-sky-600 transition">Program</a>
-            <a href="#dukungan" className="hover:text-sky-600 transition">Donasi & Buku</a>
-            <a href="#kolaborasi" className="hover:text-sky-600 transition">Brand Partner</a>
-          </nav>
-          <a
-            href="#program"
-            className="bg-sky-600 hover:bg-sky-700 text-white text-sm font-semibold px-4 py-2 rounded-full transition"
-          >
-            Gabung Growmates
-          </a>
-        </div>
-      </header>
+    <div>
+      {/* 1. HERO SECTION (Gaya Clean Proposal Baca Bareng Club) */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-sky-50 via-white to-white pt-16 pb-20">
+        <div className="max-w-6xl mx-auto px-5 grid lg:grid-cols-12 gap-12 items-center">
+          <div className="lg:col-span-7">
+            <div className="inline-flex items-center gap-2 bg-sky-100/80 text-sky-700 text-xs font-bold px-3.5 py-1.5 rounded-full mb-6">
+              <span className="w-2 h-2 rounded-full bg-sky-500"></span>
+              Intellectual Property by Grow Bareng
+            </div>
 
-      {/* HERO SECTION */}
-      <section className="max-w-5xl mx-auto px-4 pt-14 pb-16 text-center">
-        <span className="inline-block bg-sky-100 text-sky-700 text-xs font-semibold px-3 py-1 rounded-full mb-4">
-          Komunitas Literasi & Self-Growth Anak Muda
-        </span>
-        <h1 className="text-3xl sm:text-5xl font-extrabold text-slate-900 leading-tight mb-5">
-          Bukan Cuma Menyelesaikan Buku, <br className="hidden sm:inline" />
-          Tapi <span className="text-sky-600">Tumbuh Bareng</span> Setelah Membacanya.
-        </h1>
-        <p className="max-w-2xl mx-auto text-slate-600 text-base sm:text-lg mb-8 leading-relaxed">
-          Bangun kebiasaan membaca yang konsisten bersama para <strong>Growmates</strong>. 
-          Pilih ruang belajarmu: tantangan membaca rutin setiap pagi secara online atau 
-          detoks layar gawai langsung di taman.
-        </p>
-        <div className="flex flex-col sm:flex-row justify-center gap-3">
-          <a
-            href="#online"
-            className="bg-sky-600 hover:bg-sky-700 text-white font-semibold px-6 py-3.5 rounded-xl shadow-sm transition"
-          >
-            Ikut 30-Day Challenge (Online)
-          </a>
-          <a
-            href="#offline"
-            className="bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 font-semibold px-6 py-3.5 rounded-xl transition"
-          >
-            Ikut Digital Detox (Offline)
-          </a>
+            <h1 className="text-4xl sm:text-6xl font-extrabold text-slate-950 leading-[1.12] tracking-tight mb-6">
+              Baca Bareng, <br />
+              Tumbuh Bareng, <br />
+              <span className="text-sky-500">Kasih Impact Bareng.</span>
+            </h1>
+
+            <p className="text-slate-600 text-base sm:text-lg leading-relaxed max-w-xl mb-8">
+              Membaca bukan cuma tentang menyelesaikan buku, tapi tentang apa yang berubah 
+              setelah membacanya. Bangun <em>self-awareness</em> dan kebiasaan positif bersama 
+              ribuan <strong>Growmates</strong> di seluruh Indonesia.
+            </p>
+
+            <div className="flex flex-wrap gap-4">
+              <Link
+                href="/30-day-challenge"
+                className="bg-sky-500 hover:bg-sky-600 text-white font-bold px-7 py-4 rounded-2xl shadow-lg shadow-sky-200 transition flex items-center gap-2"
+              >
+                <span>Ikut 30-Day Challenge</span>
+                <span>→</span>
+              </Link>
+              <Link
+                href="/digital-detox"
+                className="bg-white hover:bg-sky-50 text-slate-900 border-2 border-slate-200 hover:border-sky-300 font-bold px-7 py-4 rounded-2xl transition flex items-center gap-2"
+              >
+                <span>Ikut Digital Detox</span>
+                <span>→</span>
+              </Link>
+            </div>
+          </div>
+
+          {/* KARTU VISUAL BRANDING DI KANAN */}
+          <div className="lg:col-span-5">
+            <div className="bg-white rounded-3xl border border-sky-100 shadow-xl shadow-sky-100/50 p-8 relative">
+              <div className="flex items-center justify-between mb-6">
+                <BacaBarengLogo className="w-14 h-16" />
+                <span className="text-xs font-bold uppercase tracking-widest text-sky-600 bg-sky-50 px-3 py-1.5 rounded-full">
+                  Since 2024 • 11+ Batches
+                </span>
+              </div>
+              <h2 className="text-2xl font-extrabold text-slate-900 mb-3">
+                What & Why Baca Bareng?
+              </h2>
+              <p className="text-sm text-slate-600 leading-relaxed mb-6">
+                Data PISA 2022 menunjukkan baru <strong>25%</strong> siswa Indonesia mencapai standar 
+                minimum kemampuan membaca. Kami hadir menjadikan membaca sebagai gaya hidup yang 
+                relevan, seru, dan reflektif bagi anak muda usia 18–30 tahun.
+              </p>
+              <div className="grid grid-cols-3 gap-3 pt-5 border-t border-slate-100 text-center">
+                <div>
+                  <span className="block text-2xl font-extrabold text-sky-500">40++</span>
+                  <span className="text-xs text-slate-500 font-medium">Peserta / Batch</span>
+                </div>
+                <div>
+                  <span className="block text-2xl font-extrabold text-sky-500">11+</span>
+                  <span className="text-xs text-slate-500 font-medium">Batch Terlaksana</span>
+                </div>
+                <div>
+                  <span className="block text-2xl font-extrabold text-sky-500">68,4%</span>
+                  <span className="text-xs text-slate-500 font-medium">Pembaca Aktif</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* PROGRAM SECTION (ONLINE & OFFLINE) */}
-      <section id="program" className="max-w-5xl mx-auto px-4 py-12">
-        <div className="text-center mb-10">
-          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">
-            Pilih Ruang Baca Bareng Kamu
-          </h2>
-          <p className="text-slate-600 mt-2">
-            Gratis / Bayar Seikhlasnya. Amankan kuotamu sebelum pendaftaran ditutup.
+      {/* 2. PILIH PROGRAM (KLIK UNTUK PINDAH KE HALAMAN DETAIL MASING-MASING) */}
+      <section className="max-w-6xl mx-auto px-5 py-16">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+          <div>
+            <span className="text-sky-500 font-bold text-sm uppercase tracking-wider">
+              Program Komunitas
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-950 mt-1">
+              Pilih Ruang Tumbuh Kamu
+            </h2>
+          </div>
+          <p className="text-slate-500 text-sm max-w-md">
+            Klik salah satu program di bawah ini untuk melihat detail kegiatan, jadwal, sisa kuota, dan link pendaftaran.
           </p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-8">
-          {/* KARTU 1: ONLINE 30-DAY CHALLENGE */}
-          <div
-            id="online"
-            className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 shadow-sm flex flex-col justify-between"
+          {/* KARTU PROGRAM 1: 30-DAY CHALLENGE -> PINDAH HALAMAN */}
+          <Link
+            href="/30-day-challenge"
+            className="group bg-sky-500 text-white rounded-3xl p-8 sm:p-10 shadow-lg shadow-sky-200/60 hover:-translate-y-1 transition-all flex flex-col justify-between"
           >
             <div>
-              <div className="flex items-center justify-between gap-2 mb-4">
-                <span className="bg-blue-100 text-blue-700 text-xs font-bold px-3 py-1 rounded-full uppercase">
-                  Online • Zoom & WhatsApp
+              <div className="flex items-center justify-between gap-2 mb-6">
+                <span className="bg-white/20 backdrop-blur-sm text-white text-xs font-bold px-3.5 py-1.5 rounded-full">
+                  ONLINE • VIA ZOOM & WHATSAPP
                 </span>
-                <span className="bg-amber-100 text-amber-800 text-xs font-bold px-3 py-1 rounded-full">
-                  Sisa {SITE_CONFIG.onlineChallenge.remainingSlots} / {SITE_CONFIG.onlineChallenge.totalSlots} Slot
+                <span className="bg-amber-300 text-slate-950 text-xs font-extrabold px-3.5 py-1.5 rounded-full">
+                  Sisa 14 Slot
                 </span>
               </div>
 
-              <h3 className="text-xl font-bold text-slate-900 mb-2">
+              <h3 className="text-2xl sm:text-3xl font-extrabold mb-3">
                 30-Day Morning Reading Challenge
               </h3>
-              <p className="text-sm text-slate-500 mb-5">
-                {SITE_CONFIG.onlineChallenge.schedule}
-              </p>
-
-              <p className="text-slate-600 text-sm mb-4 leading-relaxed">
-                Ganti kebiasaan <em>doom scrolling</em> pagi hari dengan membaca buku bersama 
-                selama satu bulan penuh ditemani sistem dan mentor:
-              </p>
-
-              <ul className="space-y-2.5 text-sm text-slate-700 mb-6">
-                <li className="flex items-start gap-2">
-                  <span className="text-sky-600 font-bold">✓</span>
-                  <span><strong>45 Menit Silent Reading</strong> via Zoom (On-Cam membangun fokus).</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-sky-600 font-bold">✓</span>
-                  <span><strong>15 Menit Sharing & Journaling</strong> di breakout room interaktif.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-sky-600 font-bold">✓</span>
-                  <span><strong>Grup WhatsApp Mentor,</strong> modul <em>1 Day 1 Insight</em>, Leaderboard, & E-Sertifikat.</span>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <a
-                href={SITE_CONFIG.onlineChallenge.registerUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block w-full text-center bg-sky-600 hover:bg-sky-700 text-white font-semibold py-3.5 rounded-xl transition"
-              >
-                Daftar 30-Day Challenge →
-              </a>
-              <p className="text-xs text-center text-slate-400 mt-2.5">
-                Link grup WhatsApp & panduan onboarding dikirim setelah mengisi form.
+              <p className="text-sky-50 text-sm sm:text-base leading-relaxed mb-8">
+                Setiap jam 05.00 – 06.00 WIB baca buku bareng selama satu bulan penuh. 
+                Dilengkapi pendampingan mentor harian, modul <em>1 Day 1 Insight</em>, dan sistem leaderboard.
               </p>
             </div>
-          </div>
 
-          {/* KARTU 2: OFFLINE DIGITAL DETOX */}
-          <div
-            id="offline"
-            className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 shadow-sm flex flex-col justify-between"
+            <div className="flex items-center justify-between pt-5 border-t border-sky-400/50">
+              <span className="font-bold text-sm">Lihat Detail & Daftar Program</span>
+              <span className="w-10 h-10 rounded-full bg-white text-sky-600 flex items-center justify-center font-extrabold group-hover:translate-x-1 transition">
+                →
+              </span>
+            </div>
+          </Link>
+
+          {/* KARTU PROGRAM 2: DIGITAL DETOX -> PINDAH HALAMAN */}
+          <Link
+            href="/digital-detox"
+            className="group bg-slate-900 text-white rounded-3xl p-8 sm:p-10 shadow-lg hover:-translate-y-1 transition-all flex flex-col justify-between"
           >
             <div>
-              <div className="flex items-center justify-between gap-2 mb-4">
-                <span className="bg-emerald-100 text-emerald-700 text-xs font-bold px-3 py-1 rounded-full uppercase">
-                  Offline • Tatap Muka
+              <div className="flex items-center justify-between gap-2 mb-6">
+                <span className="bg-white/10 text-sky-300 text-xs font-bold px-3.5 py-1.5 rounded-full">
+                  OFFLINE • TAMAN SUROPATI
                 </span>
-                <span className="bg-rose-100 text-rose-700 text-xs font-bold px-3 py-1 rounded-full">
-                  Terbatas! Sisa {SITE_CONFIG.offlineDetox.remainingSeats} dari {SITE_CONFIG.offlineDetox.totalSeats} Kursi
+                <span className="bg-rose-500 text-white text-xs font-extrabold px-3.5 py-1.5 rounded-full">
+                  Terbatas! Sisa 6 dari 20 Kursi
                 </span>
               </div>
 
-              <h3 className="text-xl font-bold text-slate-900 mb-2">
-                {SITE_CONFIG.offlineDetox.eventName}
+              <h3 className="text-2xl sm:text-3xl font-extrabold mb-3">
+                Digital Detox: Silent Reading
               </h3>
-              <p className="text-sm text-slate-500 mb-5">
-                {SITE_CONFIG.offlineDetox.schedule} • {SITE_CONFIG.offlineDetox.location}
-              </p>
-
-              <p className="text-slate-600 text-sm mb-4 leading-relaxed">
-                Rehat sejenak dari notifikasi layar ponsel. Duduk santai di atas tikar taman 
-                untuk membaca buku fisik dan berinteraksi langsung tanpa gangguan gawai:
-              </p>
-
-              <ul className="space-y-2.5 text-sm text-slate-700 mb-6">
-                <li className="flex items-start gap-2">
-                  <span className="text-emerald-600 font-bold">✓</span>
-                  <span><strong>Komitmen Bebas Layar:</strong> Ponsel dikumpulkan sementara selama sesi membaca.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-emerald-600 font-bold">✓</span>
-                  <span><strong>Silent Reading & Self-Reflection</strong> di ruang terbuka hijau.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-emerald-600 font-bold">✓</span>
-                  <span><strong>Bonding Games & Tukar Cerita</strong> hangat bersama teman baru.</span>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <a
-                href={SITE_CONFIG.offlineDetox.registerUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block w-full text-center bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3.5 rounded-xl transition"
-              >
-                Amankan Kursi Digital Detox →
-              </a>
-              <p className="text-xs text-center text-slate-400 mt-2.5">
-                Gratis pendaftaran. Kuota ketat maksimal 20 orang agar diskusi tetap intim.
+              <p className="text-slate-300 text-sm sm:text-base leading-relaxed mb-8">
+                Kegiatan membaca buku fisik bersama secara langsung di taman dengan komitmen 
+                mengurangi <em>screen time</em>, main <em>bonding games</em>, dan refleksi bareng.
               </p>
             </div>
-          </div>
+
+            <div className="flex items-center justify-between pt-5 border-t border-slate-800">
+              <span className="font-bold text-sm text-sky-400">Lihat Detail & Amankan Kursi</span>
+              <span className="w-10 h-10 rounded-full bg-sky-500 text-white flex items-center justify-center font-extrabold group-hover:translate-x-1 transition">
+                →
+              </span>
+            </div>
+          </Link>
         </div>
       </section>
 
-      {/* DUKUNGAN & SUMBANG BUKU SECTION */}
-      <section id="dukungan" className="max-w-5xl mx-auto px-4 py-12">
-        <div className="bg-sky-900 text-white rounded-3xl p-8 sm:p-10 grid md:grid-cols-2 gap-8 items-center">
-          <div>
-            <span className="text-sky-300 text-xs font-bold uppercase tracking-wider">
-              Dukung Gerakan Literasi
+      {/* 3. TIGA PILAR HOW WE WORK (DARI BRAND PROPOSAL) */}
+      <section className="bg-slate-50 py-16 border-y border-slate-100">
+        <div className="max-w-6xl mx-auto px-5">
+          <div className="text-center max-w-2xl mx-auto mb-12">
+            <span className="text-sky-500 font-bold text-sm uppercase tracking-wider">
+              How We Work
             </span>
-            <h2 className="text-2xl sm:text-3xl font-bold mt-2 mb-4">
-              Bantu Baca Bareng Club Terus Bergerak
+            <h2 className="text-3xl font-extrabold text-slate-950 mt-1">
+              Tiga Hal yang Kami Fokuskan
             </h2>
-            <p className="text-sky-100 text-sm leading-relaxed mb-4">
-              Seluruh program kami dapat diikuti secara <strong>gratis / bayar seikhlasnya</strong>. 
-              Kontribusi dana dan buku dari kamu digunakan sepenuhnya untuk operasional Zoom, 
-              alat desain, serta ongkos kirim hadiah buku bagi para Growmates pemenang tantangan.
-            </p>
           </div>
-          <div className="flex flex-col gap-3">
-            <a
-              href={SITE_CONFIG.support.donationUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-amber-400 hover:bg-amber-300 text-slate-900 font-bold text-center py-3.5 px-6 rounded-xl transition"
-            >
-              Donasi Operasional (Seikhlasnya)
-            </a>
-            <a
-              href={SITE_CONFIG.support.bookDonationUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-sky-800 hover:bg-sky-700 border border-sky-600 text-white font-semibold text-center py-3.5 px-6 rounded-xl transition"
-            >
-              Sumbang Buku Fisik untuk Komunitas
-            </a>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            <div className="bg-white p-7 rounded-2xl border border-slate-200/80">
+              <span className="inline-block w-10 h-10 rounded-xl bg-sky-100 text-sky-600 font-extrabold flex items-center justify-center mb-4">
+                01
+              </span>
+              <h3 className="text-lg font-extrabold text-slate-900 mb-2">Mindset</h3>
+              <p className="text-sm text-slate-600 leading-relaxed">
+                Membaca bukan aktivitas yang membosankan atau eksklusif, tetapi sebuah <em>lifestyle</em> yang relevan, menyenangkan, dan keren untuk dijalani.
+              </p>
+            </div>
+
+            <div className="bg-white p-7 rounded-2xl border border-slate-200/80">
+              <span className="inline-block w-10 h-10 rounded-xl bg-sky-100 text-sky-600 font-extrabold flex items-center justify-center mb-4">
+                02
+              </span>
+              <h3 className="text-lg font-extrabold text-slate-900 mb-2">Ruang Memulai</h3>
+              <p className="text-sm text-slate-600 leading-relaxed">
+                Menciptakan ruang yang nyaman dan terbuka bagi semua level pembaca, termasuk bagi kamu yang baru ingin memulai kebiasaan membaca.
+              </p>
+            </div>
+
+            <div className="bg-white p-7 rounded-2xl border border-slate-200/80">
+              <span className="inline-block w-10 h-10 rounded-xl bg-sky-100 text-sky-600 font-extrabold flex items-center justify-center mb-4">
+                03
+              </span>
+              <h3 className="text-lg font-extrabold text-slate-900 mb-2">Pendampingan</h3>
+              <p className="text-sm text-slate-600 leading-relaxed">
+                Memulai membaca mungkin mudah, tetapi membangun konsistensi hingga menemukan ritme dan menikmati prosesnya butuh sistem dan mentor.
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* BRAND COLLABORATION SECTION */}
-      <section id="kolaborasi" className="max-w-5xl mx-auto px-4 py-12 text-center">
-        <div className="bg-white border border-slate-200 rounded-2xl p-8">
-          <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-2">
-            Kolaborasi Brand & Sponsorship
-          </h2>
-          <p className="text-slate-600 text-sm max-w-2xl mx-auto mb-6">
-            Jangkau audiens aktif usia 18–30 tahun yang peduli pada pengembangan diri dan literasi. 
-            Tersedia paket <em>Product Experience</em>, <em>Special Voucher</em>, hingga <em>Collaboration Post</em>.
+      {/* 4. PAST COLLABORATORS & BRAND PARTNER CTA */}
+      <section className="max-w-6xl mx-auto px-5 pt-16">
+        <div className="bg-white border border-slate-200 rounded-3xl p-8 sm:p-12 text-center">
+          <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">
+            Dipercaya & Berkolaborasi Bersama
           </p>
-          <a
-            href={SITE_CONFIG.support.brandPartnerUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold px-6 py-3 rounded-xl transition"
-          >
-            Hubungi Tim Partnership via WhatsApp
-          </a>
+          <div className="flex flex-wrap justify-center gap-x-8 gap-y-3 text-slate-700 font-extrabold text-base sm:text-lg mb-8">
+            <span>Gramedia Digital</span>
+            <span className="text-sky-300">•</span>
+            <span>Ruangguru</span>
+            <span className="text-sky-300">•</span>
+            <span>MySkill</span>
+            <span className="text-sky-300">•</span>
+            <span>Glico</span>
+            <span className="text-sky-300">•</span>
+            <span>Somethinc</span>
+            <span className="text-sky-300">•</span>
+            <span>Lemonilo</span>
+            <span className="text-sky-300">•</span>
+            <span>Campina</span>
+          </div>
+
+          <div className="pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <p className="text-sm text-slate-600">
+              Ingin berkolaborasi sebagai brand partner atau mendukung donasi buku?
+            </p>
+            <Link
+              href="/partner"
+              className="bg-sky-500 hover:bg-sky-600 text-white text-sm font-bold px-6 py-3 rounded-xl transition"
+            >
+              Lihat Paket Kolaborasi & Donasi →
+            </Link>
+          </div>
         </div>
       </section>
-
-      {/* FOOTER */}
-      <footer className="border-t border-slate-200 py-8 text-center text-xs text-slate-500">
-        <p className="font-semibold text-slate-700 mb-1">
-          Baca Bareng Club — Intellectual Property by Grow Bareng
-        </p>
-        <p>Instagram: @bacabareng.club • www.growbarengplatform.com</p>
-      </footer>
     </div>
   );
 }
