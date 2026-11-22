@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 
-// Logo Resmi Baca Bareng Club. (Persis sesuai referensi: ikon biru langit + teks 3 baris hitam)
+// Logo Resmi Baca Bareng Club (Tanpa titik, warna persis sesuai logo)
 export function BacaBarengLogo({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
   const iconSize =
     size === "sm" ? "w-8 h-9" : size === "lg" ? "w-14 h-16" : "w-10 h-11";
@@ -24,42 +24,40 @@ export function BacaBarengLogo({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
         {/* Bagian Kanan / Speech Bubble Biru Muda */}
         <path
           d="M16 24C16 20.6863 18.6863 18 22 18H82C85.3137 18 88 20.6863 88 24V90C88 93.3137 85.3137 96 82 96H67L69 112L52 96H22C18.6863 96 16 93.3137 16 90V24Z"
-          fill="#8CE0FF"
+          fill="#8EE0FF"
         />
-        {/* Bagian Kiri / Halaman Buku Biru Cerah */}
+        {/* Bagian Kiri / Halaman Buku Biru Utama */}
         <path
           d="M16 24C16 20.4 18.5 17.3 22 16.1L63 3.2C66.5 2.1 70 4.7 70 8.4V75.5C70 78.7 67.9 81.5 64.8 82.4L22.5 95.8C18.9 96.9 16 94.2 16 90.5V24Z"
-          fill="#47C2F7"
+          fill="#4CC3FA"
         />
-        {/* Area Overlap Tengah */}
+        {/* Area Overlap */}
         <path
           d="M16 24C16 20.6863 18.6863 18 22 18H70V75.5C70 78.7 67.9 81.5 64.8 82.4L22.5 95.8C18.9 96.9 16 94.2 16 90.5V24Z"
           fill="#3BB7F5"
-          fillOpacity="0.45"
+          fillOpacity="0.4"
         />
       </svg>
 
       <div className={`font-extrabold tracking-tight text-slate-900 ${textSize}`}>
         <span className="block">Baca</span>
         <span className="block">Bareng</span>
-        <span className="block">Club.</span>
+        <span className="block">Club</span>
       </div>
     </div>
   );
 }
 
-// Logo Resmi Grow Bareng (Ikon Chevron Hijau + Panah Putih + Huruf W Grafik Naik)
+// Logo Resmi Grow Bareng
 export function GrowBarengLogo() {
   return (
     <div className="inline-flex items-center gap-3 select-none">
-      {/* Ikon Pohon / Panah Bertumpuk */}
       <svg
         viewBox="0 0 48 56"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         className="w-8 h-9 shrink-0"
       >
-        {/* Chevron Paling Atas (Hijau Emerald) */}
         <path
           d="M11 20L24 8L37 20"
           stroke="#00B884"
@@ -67,7 +65,6 @@ export function GrowBarengLogo() {
           strokeLinecap="round"
           strokeLinejoin="round"
         />
-        {/* Chevron Tengah (Hijau Tosca Cerah) */}
         <path
           d="M8 31L24 17L40 31"
           stroke="#10C493"
@@ -75,7 +72,6 @@ export function GrowBarengLogo() {
           strokeLinecap="round"
           strokeLinejoin="round"
         />
-        {/* Panah Bawah (Putih Gading) */}
         <path
           d="M8 42L24 27L40 42"
           stroke="#F5F7E8"
@@ -91,7 +87,6 @@ export function GrowBarengLogo() {
         />
       </svg>
 
-      {/* Tipografi GROW BARENG */}
       <div className="leading-none">
         <div className="flex items-end font-black text-xl tracking-wide text-[#00B884]">
           <span>GRO</span>
@@ -122,37 +117,37 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-100">
+    <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-[#E0F5FF]">
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-        {/* LOGO BACA BARENG CLUB (BERSIH & FOKUS) */}
+        {/* LOGO BACA BARENG CLUB */}
         <Link href="/" className="hover:opacity-90 transition">
           <BacaBarengLogo size="md" />
         </Link>
 
         {/* NAVIGASI RAPI */}
         <nav className="hidden md:flex items-center gap-8 text-[15px] font-semibold text-slate-600">
-          <Link href="/" className="hover:text-sky-500 transition">
+          <Link href="/" className="hover:text-[#2EB5F5] transition">
             Beranda
           </Link>
-          <Link href="/30-day-challenge" className="hover:text-sky-500 transition">
+          <Link href="/30-day-challenge" className="hover:text-[#2EB5F5] transition">
             30-Day Challenge
           </Link>
-          <Link href="/digital-detox" className="hover:text-sky-500 transition">
+          <Link href="/digital-detox" className="hover:text-[#2EB5F5] transition">
             Digital Detox
           </Link>
-          <Link href="/kolaborasi" className="hover:text-sky-500 transition">
+          <Link href="/kolaborasi" className="hover:text-[#2EB5F5] transition">
             Kolaborasi Brand
           </Link>
-          <Link href="/donasi" className="hover:text-sky-500 transition">
+          <Link href="/donasi" className="hover:text-[#2EB5F5] transition">
             Donasi &amp; Buku
           </Link>
         </nav>
 
-        {/* TOMBOL AKSI UTAMA */}
+        {/* TOMBOL AKSI DENGAN WARNA BIRU LOGO */}
         <div className="hidden md:block">
           <Link
             href="/30-day-challenge"
-            className="bg-sky-500 hover:bg-sky-600 text-white text-sm font-bold px-6 py-2.5 rounded-full shadow-sm transition"
+            className="bg-[#4CC3FA] hover:bg-[#33B5F2] text-white text-sm font-bold px-6 py-2.5 rounded-full shadow-sm shadow-[#4CC3FA]/30 transition"
           >
             Gabung Sekarang
           </Link>
@@ -161,7 +156,7 @@ export default function Navbar() {
         {/* TOMBOL MENU HP */}
         <button
           onClick={() => setMenuOpen(!menuOpen)}
-          className="md:hidden p-2 rounded-xl text-slate-700 hover:bg-slate-100"
+          className="md:hidden p-2 rounded-xl text-slate-700 hover:bg-[#E0F5FF]"
           aria-label="Menu"
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -176,20 +171,20 @@ export default function Navbar() {
 
       {/* MENU DROPDOWN HP */}
       {menuOpen && (
-        <div className="md:hidden bg-white border-b border-slate-100 px-6 py-5 space-y-3 text-sm font-semibold text-slate-700">
-          <Link href="/" onClick={() => setMenuOpen(false)} className="block py-1.5 hover:text-sky-500">
+        <div className="md:hidden bg-white border-b border-[#E0F5FF] px-6 py-5 space-y-3 text-sm font-semibold text-slate-700">
+          <Link href="/" onClick={() => setMenuOpen(false)} className="block py-1.5 hover:text-[#2EB5F5]">
             Beranda
           </Link>
-          <Link href="/30-day-challenge" onClick={() => setMenuOpen(false)} className="block py-1.5 hover:text-sky-500">
+          <Link href="/30-day-challenge" onClick={() => setMenuOpen(false)} className="block py-1.5 hover:text-[#2EB5F5]">
             30-Day Challenge
           </Link>
-          <Link href="/digital-detox" onClick={() => setMenuOpen(false)} className="block py-1.5 hover:text-sky-500">
+          <Link href="/digital-detox" onClick={() => setMenuOpen(false)} className="block py-1.5 hover:text-[#2EB5F5]">
             Digital Detox
           </Link>
-          <Link href="/kolaborasi" onClick={() => setMenuOpen(false)} className="block py-1.5 hover:text-sky-500">
+          <Link href="/kolaborasi" onClick={() => setMenuOpen(false)} className="block py-1.5 hover:text-[#2EB5F5]">
             Kolaborasi Brand
           </Link>
-          <Link href="/donasi" onClick={() => setMenuOpen(false)} className="block py-1.5 hover:text-sky-500">
+          <Link href="/donasi" onClick={() => setMenuOpen(false)} className="block py-1.5 hover:text-[#2EB5F5]">
             Donasi &amp; Buku
           </Link>
         </div>
