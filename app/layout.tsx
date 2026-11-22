@@ -4,7 +4,7 @@ import Navbar, { GrowBarengLogo } from "./components/Navbar";
 export const metadata = {
   title: "Baca Bareng Club | Komunitas Literasi & Self-Growth",
   description:
-    "Ruang baca bareng yang hangat, ramah, dan suportif bagi anak muda Indonesia. 30-Day Morning Reading Challenge & Digital Detox.",
+    "Ruang baca bareng yang hangat, ramah, dan suportif bagi anak muda Indonesia. 30 Day Morning Reading Challenge & Digital Detox.",
 };
 
 export default function RootLayout({
@@ -28,7 +28,6 @@ export default function RootLayout({
         <Navbar />
         <main>{children}</main>
 
-        {/* FOOTER DENGAN LOGO GROW BARENG MELEBUR TANPA KOTAK LATAR */}
         <footer className="bg-[#0B2D48] text-white pt-16 pb-10 mt-24">
           <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-12 gap-10 pb-12 border-b border-sky-900/70">
             <div className="md:col-span-5">
@@ -39,7 +38,6 @@ export default function RootLayout({
                 Baca Bareng, Kolaborasi Bareng, Kasih Impact Bareng. Ruang tumbuh yang nyaman untuk membangun kebiasaan membaca setiap hari.
               </p>
 
-              {/* POWERED BY GROW BARENG (TRANSPARAN & MELEBUR) */}
               <div className="flex flex-col items-start gap-2">
                 <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-sky-200/60">
                   Powered by
@@ -53,7 +51,7 @@ export default function RootLayout({
               <ul className="space-y-2.5 text-sm text-sky-100/80">
                 <li>
                   <a href="/30-day-challenge" className="hover:text-[#4CC3FA] transition">
-                    30-Day Morning Reading Challenge
+                    30 Day Morning Reading Challenge
                   </a>
                 </li>
                 <li>
@@ -68,7 +66,7 @@ export default function RootLayout({
                 </li>
                 <li>
                   <a href="/donasi" className="hover:text-[#4CC3FA] transition">
-                    Donasi &amp; Sumbang Buku
+                    Donasi Buku
                   </a>
                 </li>
               </ul>
