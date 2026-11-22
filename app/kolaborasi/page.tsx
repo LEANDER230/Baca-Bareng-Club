@@ -13,7 +13,7 @@ export default function KolaborasiPage() {
 
       <div className="mt-6 mb-12">
         <span className="text-sky-500 font-bold text-sm uppercase tracking-wider">
-          Brand & Media Partnership
+          Brand &amp; Media Partnership
         </span>
         <h1 className="text-3xl sm:text-5xl font-extrabold text-slate-950 mt-2 mb-4">
           Hi, Brand! Let&apos;s Make Something Matter.
@@ -24,7 +24,6 @@ export default function KolaborasiPage() {
         </p>
       </div>
 
-      {/* RATE CARD / PAKET KOLABORASI BRAND */}
       <div className="grid md:grid-cols-3 gap-6 mb-12">
         <div className="bg-white border border-slate-200 rounded-2xl p-7 flex flex-col justify-between">
           <div>
@@ -51,7 +50,7 @@ export default function KolaborasiPage() {
             </h3>
             <p className="text-2xl font-extrabold text-sky-500 mb-4">Rp 500.000</p>
             <p className="text-sm text-slate-600 leading-relaxed">
-              Konten video Reels kreatif memperkenalkan produk atau layanan brand, sudah termasuk <em>logo placement</em> di poster promosi & event.
+              Konten video Reels kreatif memperkenalkan produk atau layanan brand, sudah termasuk <em>logo placement</em> di poster promosi &amp; event.
             </p>
           </div>
         </div>
@@ -62,7 +61,7 @@ export default function KolaborasiPage() {
               Paket 03
             </span>
             <h3 className="text-xl font-extrabold text-slate-900 mt-4 mb-2">
-              Product Experience & Voucher
+              Product Experience &amp; Voucher
             </h3>
             <p className="text-2xl font-extrabold text-sky-500 mb-4">Rp 600.000</p>
             <p className="text-sm text-slate-600 leading-relaxed">
