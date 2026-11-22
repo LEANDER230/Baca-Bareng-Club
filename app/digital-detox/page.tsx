@@ -72,4 +72,9 @@ export default function DigitalDetoxPage() {
           Amankan Kursi Digital Detox Sekarang →
         </a>
         <p className="text-xs text-center text-slate-500 mt-3">
-          Gratis pendaftaran. Ku
+          Gratis pendaftaran. Kuota dibatasi maksimal 20 orang agar suasana diskusi tetap intim dan nyaman.
+        </p>
+      </div>
+    </div>
+  );
+}
