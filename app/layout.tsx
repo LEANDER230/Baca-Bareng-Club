@@ -2,7 +2,7 @@ import React from "react";
 import Navbar from "./components/Navbar";
 
 export const metadata = {
-  title: "Baca Bareng Club. — by Grow Bareng",
+  title: "Baca Bareng Club. | by Grow Bareng",
   description:
     "Komunitas Literasi & Self-Growth Anak Muda Indonesia. 30-Day Morning Reading Challenge & Digital Detox.",
 };
@@ -39,12 +39,13 @@ export default function RootLayout({
             </div>
             <div>
               <h4 className="font-bold text-sm uppercase tracking-wider text-sky-400 mb-3">
-                Program Utama
+                Menu & Program
               </h4>
               <ul className="space-y-2 text-sm text-slate-300">
                 <li><a href="/30-day-challenge" className="hover:text-white">30-Day Morning Reading Challenge</a></li>
                 <li><a href="/digital-detox" className="hover:text-white">Digital Detox di Taman</a></li>
-                <li><a href="/partner" className="hover:text-white">Brand Collaboration & Donasi</a></li>
+                <li><a href="/kolaborasi" className="hover:text-white">Kolaborasi Brand</a></li>
+                <li><a href="/donasi" className="hover:text-white">Donasi & Sumbang Buku</a></li>
               </ul>
             </div>
             <div>
