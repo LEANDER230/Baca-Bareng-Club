@@ -28,18 +28,20 @@ export default function RootLayout({
         <Navbar />
         <main>{children}</main>
 
-        {/* FOOTER DENGAN TONE BIRU GELAP LEMBUT & POWERED BY GROW BARENG */}
+        {/* FOOTER DENGAN LOGO GROW BARENG MELEBUR TANPA KOTAK LATAR */}
         <footer className="bg-[#0B2D48] text-white pt-16 pb-10 mt-24">
           <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-12 gap-10 pb-12 border-b border-sky-900/70">
             <div className="md:col-span-5">
               <h3 className="font-extrabold text-2xl tracking-tight mb-3">
                 Baca Bareng Club
               </h3>
-              <p className="text-sky-100/75 text-sm leading-relaxed max-w-sm mb-6">
+              <p className="text-sky-100/75 text-sm leading-relaxed max-w-sm mb-7">
                 Baca Bareng, Kolaborasi Bareng, Kasih Impact Bareng. Ruang tumbuh yang nyaman untuk membangun kebiasaan membaca setiap hari.
               </p>
-              <div className="inline-flex flex-col gap-2 bg-[#082238] border border-sky-900/80 px-5 py-3.5 rounded-2xl">
-                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-sky-200/70">
+
+              {/* POWERED BY GROW BARENG (TRANSPARAN & MELEBUR) */}
+              <div className="flex flex-col items-start gap-2">
+                <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-sky-200/60">
                   Powered by
                 </span>
                 <GrowBarengLogo />
