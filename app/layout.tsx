@@ -1,8 +1,8 @@
 import React from "react";
-import Navbar from "./components/Navbar";
+import Navbar, { GrowBarengLogo } from "./components/Navbar";
 
 export const metadata = {
-  title: "Baca Bareng Club. | by Grow Bareng",
+  title: "Baca Bareng Club. | Powered by Grow Bareng",
   description:
     "Komunitas Literasi & Self-Growth Anak Muda Indonesia. 30-Day Morning Reading Challenge & Digital Detox.",
 };
@@ -33,19 +33,25 @@ export default function RootLayout({
               <h3 className="font-extrabold text-2xl tracking-tight mb-2">
                 Baca Bareng <span className="text-sky-400">Club.</span>
               </h3>
-              <p className="text-slate-400 text-sm leading-relaxed">
-                Baca Bareng, Kolaborasi Bareng, Kasih Impact Bareng. Intellectual Property (IP) turunan dari Grow Bareng.
+              <p className="text-slate-400 text-sm leading-relaxed mb-5">
+                Baca Bareng, Kolaborasi Bareng, Kasih Impact Bareng.
               </p>
+              <div className="inline-flex items-center gap-3 bg-slate-900 border border-slate-800 px-4 py-2.5 rounded-xl">
+                <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+                  Powered by
+                </span>
+                <GrowBarengLogo darkText={false} />
+              </div>
             </div>
             <div>
               <h4 className="font-bold text-sm uppercase tracking-wider text-sky-400 mb-3">
-                Menu & Program
+                Menu &amp; Program
               </h4>
               <ul className="space-y-2 text-sm text-slate-300">
                 <li><a href="/30-day-challenge" className="hover:text-white">30-Day Morning Reading Challenge</a></li>
                 <li><a href="/digital-detox" className="hover:text-white">Digital Detox di Taman</a></li>
                 <li><a href="/kolaborasi" className="hover:text-white">Kolaborasi Brand</a></li>
-                <li><a href="/donasi" className="hover:text-white">Donasi & Sumbang Buku</a></li>
+                <li><a href="/donasi" className="hover:text-white">Donasi &amp; Sumbang Buku</a></li>
               </ul>
             </div>
             <div>
@@ -57,7 +63,7 @@ export default function RootLayout({
             </div>
           </div>
           <div className="max-w-6xl mx-auto px-5 pt-8 mt-8 border-t border-slate-800 text-xs text-slate-500 text-center">
-            © {new Date().getFullYear()} Baca Bareng Club by Grow Bareng. All rights reserved.
+            © {new Date().getFullYear()} Baca Bareng Club. Powered by Grow Bareng. All rights reserved.
           </div>
         </footer>
       </body>
