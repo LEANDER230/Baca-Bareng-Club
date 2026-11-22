@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 
-// Logo Resmi Baca Bareng Club (Tanpa titik, warna persis sesuai logo)
+// Logo Resmi Baca Bareng Club
 export function BacaBarengLogo({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
   const iconSize =
     size === "sm" ? "w-8 h-9" : size === "lg" ? "w-14 h-16" : "w-10 h-11";
@@ -21,17 +21,14 @@ export function BacaBarengLogo({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
         xmlns="http://www.w3.org/2000/svg"
         className={`${iconSize} shrink-0`}
       >
-        {/* Bagian Kanan / Speech Bubble Biru Muda */}
         <path
           d="M16 24C16 20.6863 18.6863 18 22 18H82C85.3137 18 88 20.6863 88 24V90C88 93.3137 85.3137 96 82 96H67L69 112L52 96H22C18.6863 96 16 93.3137 16 90V24Z"
           fill="#8EE0FF"
         />
-        {/* Bagian Kiri / Halaman Buku Biru Utama */}
         <path
           d="M16 24C16 20.4 18.5 17.3 22 16.1L63 3.2C66.5 2.1 70 4.7 70 8.4V75.5C70 78.7 67.9 81.5 64.8 82.4L22.5 95.8C18.9 96.9 16 94.2 16 90.5V24Z"
           fill="#4CC3FA"
         />
-        {/* Area Overlap */}
         <path
           d="M16 24C16 20.6863 18.6863 18 22 18H70V75.5C70 78.7 67.9 81.5 64.8 82.4L22.5 95.8C18.9 96.9 16 94.2 16 90.5V24Z"
           fill="#3BB7F5"
@@ -119,18 +116,17 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-[#E0F5FF]">
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-        {/* LOGO BACA BARENG CLUB */}
         <Link href="/" className="hover:opacity-90 transition">
           <BacaBarengLogo size="md" />
         </Link>
 
-        {/* NAVIGASI RAPI */}
+        {/* NAVIGASI DESKTOP */}
         <nav className="hidden md:flex items-center gap-8 text-[15px] font-semibold text-slate-600">
           <Link href="/" className="hover:text-[#2EB5F5] transition">
             Beranda
           </Link>
           <Link href="/30-day-challenge" className="hover:text-[#2EB5F5] transition">
-            30-Day Challenge
+            30 Day Challenge
           </Link>
           <Link href="/digital-detox" className="hover:text-[#2EB5F5] transition">
             Digital Detox
@@ -139,11 +135,10 @@ export default function Navbar() {
             Kolaborasi Brand
           </Link>
           <Link href="/donasi" className="hover:text-[#2EB5F5] transition">
-            Donasi &amp; Buku
+            Donasi Buku
           </Link>
         </nav>
 
-        {/* TOMBOL AKSI DENGAN WARNA BIRU LOGO */}
         <div className="hidden md:block">
           <Link
             href="/30-day-challenge"
@@ -153,7 +148,6 @@ export default function Navbar() {
           </Link>
         </div>
 
-        {/* TOMBOL MENU HP */}
         <button
           onClick={() => setMenuOpen(!menuOpen)}
           className="md:hidden p-2 rounded-xl text-slate-700 hover:bg-[#E0F5FF]"
@@ -176,7 +170,7 @@ export default function Navbar() {
             Beranda
           </Link>
           <Link href="/30-day-challenge" onClick={() => setMenuOpen(false)} className="block py-1.5 hover:text-[#2EB5F5]">
-            30-Day Challenge
+            30 Day Challenge
           </Link>
           <Link href="/digital-detox" onClick={() => setMenuOpen(false)} className="block py-1.5 hover:text-[#2EB5F5]">
             Digital Detox
@@ -185,7 +179,7 @@ export default function Navbar() {
             Kolaborasi Brand
           </Link>
           <Link href="/donasi" onClick={() => setMenuOpen(false)} className="block py-1.5 hover:text-[#2EB5F5]">
-            Donasi &amp; Buku
+            Donasi Buku
           </Link>
         </div>
       )}
