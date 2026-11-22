@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 
 const BOOK_DONATION_URL =
-  "https://wa.me/6285694057352?text=Halo%20Admin%20Baca%20Bareng%20Club,%20saya%20ingin%20menyumbang%20buku%20untuk%20komunitas";
+  "https://wa.me/6285694057352?text=Halo%20Admin%20Baca%20Bareng%20Club,%20saya%20ingin%20berpartisipasi%20dalam%20program%20Donasi%20Buku";
 
 export default function DonasiPage() {
   return (
@@ -16,18 +16,17 @@ export default function DonasiPage() {
           Gerakan Literasi Komunitas
         </span>
         <h1 className="text-3xl sm:text-5xl font-extrabold text-[#0B2D48] mt-2 mb-4">
-          Donasi &amp; Sumbang Buku
+          Donasi Buku
         </h1>
         <p className="text-slate-600 text-base sm:text-lg leading-relaxed">
           Punya buku bacaan yang sudah selesai dibaca dan ingin berbagi manfaatnya? 
-          Hibahkan bukumu agar bisa terus dibaca bersama dan menjadi hadiah apresiasi bagi para Growmates.
+          Salurkan bukumu agar bisa terus dibaca bersama dan menjadi hadiah apresiasi bagi para Growmates.
         </p>
       </div>
 
-      {/* KARTU KHUSUS DONASI BUKU */}
       <div className="bg-[#F4FBFF] border-2 border-[#CBEBFF] rounded-3xl p-8 sm:p-12">
         <span className="inline-block bg-[#4CC3FA] text-white text-xs font-bold px-3.5 py-1.5 rounded-full mb-5">
-          Hibah Buku Fisik
+          Program Donasi Buku
         </span>
 
         <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0B2D48] mb-4">
@@ -35,7 +34,7 @@ export default function DonasiPage() {
         </h2>
 
         <p className="text-slate-600 text-sm sm:text-base leading-relaxed mb-6">
-          Kami menerima sumbangan buku fisik layak baca dalam berbagai kategori—mulai dari buku 
+          Kami menerima donasi buku fisik layak baca dalam berbagai kategori—mulai dari buku 
           pengembangan diri (<em>self-improvement</em>), psikologi populer, biografi, bisnis, 
           hingga novel fiksi inspiratif.
         </p>
@@ -47,7 +46,7 @@ export default function DonasiPage() {
           </li>
           <li className="flex items-start gap-3">
             <span className="text-[#35B6F5] font-extrabold">✓</span>
-            <span>Akan disalurkan untuk sesi baca bersama saat Digital Detox dan apresiasi peserta 30-Day Challenge.</span>
+            <span>Akan disalurkan untuk sesi baca bersama saat Digital Detox dan apresiasi peserta 30 Day Challenge.</span>
           </li>
           <li className="flex items-start gap-3">
             <span className="text-[#35B6F5] font-extrabold">✓</span>
@@ -61,7 +60,7 @@ export default function DonasiPage() {
           rel="noopener noreferrer"
           className="inline-block w-full sm:w-auto text-center bg-[#0B2D48] hover:bg-[#123E61] text-white font-bold px-8 py-4 rounded-2xl transition"
         >
-          Konfirmasi Sumbang Buku via WhatsApp →
+          Konfirmasi Donasi Buku via WhatsApp →
         </a>
       </div>
     </div>
