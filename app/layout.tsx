@@ -75,8 +75,16 @@ export default function RootLayout({
             <div className="md:col-span-3">
               <h4 className="font-bold text-sm text-[#8EE0FF] mb-4">Kontak &amp; Sosial Media</h4>
               <ul className="space-y-2.5 text-sm text-sky-100/80">
-                <li>Instagram: @bacabareng.club</li>
-                <li>Website: growbarengplatform.com</li>
+                <li>
+                  <a
+                    href="https://instagram.com/bacabareng.club"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-[#4CC3FA] transition"
+                  >
+                    Instagram: @bacabareng.club
+                  </a>
+                </li>
               </ul>
             </div>
           </div>
