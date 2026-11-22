@@ -128,7 +128,7 @@ export default function HomePage() {
             </div>
           </Link>
 
-          {/* KARTU 2: OFFLINE (WARNA TONE BIRU LANGIT SERASI) */}
+          {/* KARTU 2: OFFLINE */}
           <Link
             href="/digital-detox"
             className="group bg-[#F4FBFF] border-2 border-[#CBEBFF] hover:border-[#4CC3FA] rounded-3xl p-8 sm:p-10 shadow-sm hover:shadow-xl hover:shadow-[#4CC3FA]/15 transition-all flex flex-col justify-between"
@@ -215,7 +215,6 @@ export default function HomePage() {
             Our Past Collaborators
           </p>
 
-          {/* GRID LOGO BRAND KOLABORATOR */}
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-5 items-center justify-items-center mb-12">
             {/* Gramedia Digital */}
             <div className="w-full h-16 px-4 rounded-2xl bg-slate-50/70 border border-slate-100 flex items-center justify-center gap-2">
@@ -245,3 +244,109 @@ export default function HomePage() {
                 MySkill
               </span>
             </div>
+
+            {/* Lemonilo */}
+            <div className="w-full h-16 px-4 rounded-2xl bg-slate-50/70 border border-slate-100 flex items-center justify-center">
+              <span className="font-black text-xl tracking-tight text-[#65A30D]">
+                lemonilo
+              </span>
+            </div>
+
+            {/* Cressida */}
+            <div className="w-full h-16 px-4 rounded-2xl bg-slate-50/70 border border-slate-100 flex items-center justify-center">
+              <span className="font-bold text-base tracking-[0.2em] text-[#DC2626] uppercase">
+                CRESSIDA
+              </span>
+            </div>
+
+            {/* CRiB */}
+            <div className="w-full h-16 px-4 rounded-2xl bg-slate-50/70 border border-slate-100 flex items-center justify-center gap-2">
+              <span className="w-7 h-7 rounded-lg bg-[#6D28D9] text-white font-black text-sm flex items-center justify-center">
+                C
+              </span>
+              <span className="font-black text-base text-[#4C1D95]">CRiB</span>
+            </div>
+
+            {/* CoverMake */}
+            <div className="w-full h-16 px-4 rounded-2xl bg-slate-50/70 border border-slate-100 flex items-center justify-center">
+              <span className="font-light text-base tracking-[0.18em] text-slate-800 uppercase">
+                COVER<strong className="font-extrabold">MAKE</strong>
+              </span>
+            </div>
+
+            {/* Beauvrys */}
+            <div className="w-full h-16 px-4 rounded-2xl bg-slate-50/70 border border-slate-100 flex items-center justify-center gap-2">
+              <span className="w-7 h-7 rounded-full bg-slate-900 text-white font-serif italic font-bold text-sm flex items-center justify-center">
+                B
+              </span>
+              <span className="font-serif font-bold text-base text-slate-900">Beauvrys</span>
+            </div>
+
+            {/* Ruangguru */}
+            <div className="w-full h-16 px-4 rounded-2xl bg-slate-50/70 border border-slate-100 flex items-center justify-center">
+              <div className="leading-none text-left">
+                <span className="block font-bold text-base text-[#0891B2]">ruang</span>
+                <span className="block font-bold text-base text-[#0891B2] -mt-1">guru</span>
+              </div>
+            </div>
+
+            {/* Finetiks */}
+            <div className="w-full h-16 px-4 rounded-2xl bg-slate-50/70 border border-slate-100 flex items-center justify-center gap-2">
+              <span className="w-6 h-6 rounded-md bg-[#0284C7] text-white font-black text-xs flex items-center justify-center">
+                F
+              </span>
+              <span className="font-extrabold text-base tracking-wider text-[#0F172A] uppercase">
+                FINETIKS
+              </span>
+            </div>
+
+            {/* Kacamatamoo */}
+            <div className="w-full h-16 px-4 rounded-2xl bg-slate-50/70 border border-slate-100 flex items-center justify-center">
+              <span className="px-3 py-1.5 rounded-full bg-[#5EEAD4]/35 text-[#0F766E] font-extrabold text-[11px] tracking-wider uppercase">
+                KACAMATAMOO
+              </span>
+            </div>
+
+            {/* Somethinc */}
+            <div className="w-full h-16 px-4 rounded-2xl bg-slate-50/70 border border-slate-100 flex items-center justify-center">
+              <span className="font-black text-sm tracking-[0.25em] text-slate-950 uppercase">
+                SOMETHINC
+              </span>
+            </div>
+
+            {/* Campina */}
+            <div className="w-full h-16 px-4 rounded-2xl bg-slate-50/70 border border-slate-100 flex items-center justify-center">
+              <span className="px-4 py-1 rounded-full bg-[#1D4ED8] text-amber-300 font-extrabold italic text-base">
+                Campina
+              </span>
+            </div>
+
+            {/* Bosshire */}
+            <div className="w-full h-16 px-4 rounded-2xl bg-slate-50/70 border border-slate-100 flex items-center justify-center">
+              <span className="font-extrabold text-lg text-[#F59E0B]">
+                bosshire
+              </span>
+            </div>
+
+            {/* Glico */}
+            <div className="w-full h-16 px-4 rounded-2xl bg-slate-50/70 border border-slate-100 flex items-center justify-center">
+              <span className="font-black italic text-2xl text-[#E11D48]">
+                Glico
+              </span>
+            </div>
+          </div>
+
+          <div className="pt-8 border-t border-[#E8F7FF] flex justify-center">
+            <Link
+              href="/kolaborasi"
+              className="bg-[#0B2D48] hover:bg-[#123E61] text-white text-sm font-bold px-8 py-4 rounded-2xl transition inline-flex items-center justify-center gap-2"
+            >
+              <span>Kolaborasi Brand &amp; Media Partner</span>
+              <span>→</span>
+            </Link>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
