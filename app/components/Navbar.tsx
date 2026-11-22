@@ -11,13 +11,11 @@ export function BacaBarengLogo({ className = "w-9 h-9" }: { className?: string }
       xmlns="http://www.w3.org/2000/svg"
       className={className}
     >
-      {/* Halaman Belakang / Kanan (Biru Langit Muda Transparan) */}
       <path
         d="M15 24C15 20.6863 17.6863 18 21 18H82C85.3137 18 88 20.6863 88 24V92C88 95.3137 85.3137 98 82 98H66L68 114L51 98H21C17.6863 98 15 95.3137 15 92V24Z"
         fill="#7DD3FC"
         fillOpacity="0.75"
       />
-      {/* Halaman Depan / Kiri Miring (Biru Langit Utama) */}
       <path
         d="M15 24C15 20.5 17.5 17.5 20.8 16.2L63.5 3.5C66.8 2.5 70 5 70 8.5V77.5C70 80.5 68 83.2 65.1 84.1L21.5 97.5C18 98.5 15 95.9 15 92.3V24Z"
         fill="#38BDF8"
@@ -45,8 +43,8 @@ export default function Navbar() {
           </div>
         </Link>
 
-        {/* MENU DESKTOP */}
-        <nav className="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600">
+        {/* MENU DESKTOP (KOLABORASI & DONASI SUDAH DIPISAH) */}
+        <nav className="hidden md:flex items-center gap-7 text-sm font-semibold text-slate-600">
           <Link href="/" className="hover:text-sky-500 transition">
             Beranda
           </Link>
@@ -56,8 +54,11 @@ export default function Navbar() {
           <Link href="/digital-detox" className="hover:text-sky-500 transition">
             Digital Detox
           </Link>
-          <Link href="/partner" className="hover:text-sky-500 transition">
-            Kolaborasi & Donasi
+          <Link href="/kolaborasi" className="hover:text-sky-500 transition">
+            Kolaborasi Brand
+          </Link>
+          <Link href="/donasi" className="hover:text-sky-500 transition">
+            Donasi & Buku
           </Link>
         </nav>
 
@@ -99,8 +100,11 @@ export default function Navbar() {
           <Link href="/digital-detox" onClick={() => setMenuOpen(false)} className="block py-1.5 hover:text-sky-500">
             Digital Detox (Offline)
           </Link>
-          <Link href="/partner" onClick={() => setMenuOpen(false)} className="block py-1.5 hover:text-sky-500">
-            Kolaborasi Brand & Donasi
+          <Link href="/kolaborasi" onClick={() => setMenuOpen(false)} className="block py-1.5 hover:text-sky-500">
+            Kolaborasi Brand
+          </Link>
+          <Link href="/donasi" onClick={() => setMenuOpen(false)} className="block py-1.5 hover:text-sky-500">
+            Donasi & Sumbang Buku
           </Link>
         </div>
       )}
