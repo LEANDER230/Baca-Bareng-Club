@@ -115,7 +115,7 @@ export default function ChallengePage() {
           </p>
         </div>
 
-        {/* DETAIL JADWAL & FASILITAS TANPA PEMISAH TITIK */}
+        {/* DETAIL JADWAL & FASILITAS */}
         <div className="p-5 sm:p-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
             <div className="bg-[#F8FCFF] border border-[#E1F3FF] rounded-2xl p-4">
@@ -297,13 +297,28 @@ export default function ChallengePage() {
                 </p>
               </div>
 
-              <label className="flex flex-col items-center justify-center w-full rounded-2xl border-2 border-dashed border-[#8ED8FC] bg-[#F9FDFF] hover:bg-[#F0F9FF] p-8 cursor-pointer transition text-center">
-                <span className="text-sm font-extrabold text-[#0B2D48]">
-                  {tagFile ? `✓ ${tagFile.name}` : "+ Unggah Bukti Tag 5 Teman"}
-                </span>
-                <span className="text-xs text-slate-400 mt-1">
-                  {tagFile ? "Ketuk untuk mengganti file" : "Format Screenshot (JPG/PNG) atau PDF"}
-                </span>
+              {/* KOTAK UPLOAD TAG IG RAPI */}
+              <label className="block w-full min-w-0 rounded-2xl border-2 border-dashed border-[#8ED8FC] bg-[#F9FDFF] hover:bg-[#F0F9FF] p-6 cursor-pointer transition text-center">
+                {tagFile ? (
+                  <div className="min-w-0 space-y-1">
+                    <span className="inline-block bg-[#E8F7FF] text-[#0E5A8A] text-[11px] font-extrabold px-2.5 py-0.5 rounded-full">
+                      File Terpilih ✓
+                    </span>
+                    <p className="w-full truncate px-2 text-xs sm:text-sm font-bold text-[#0B2D48]">
+                      {tagFile.name}
+                    </p>
+                    <p className="text-[11px] text-slate-400">Ketuk untuk mengganti file</p>
+                  </div>
+                ) : (
+                  <div className="space-y-1">
+                    <p className="text-sm font-extrabold text-[#0B2D48]">
+                      + Unggah Bukti Tag 5 Teman
+                    </p>
+                    <p className="text-xs text-slate-400">
+                      Format Screenshot (JPG/PNG) atau PDF
+                    </p>
+                  </div>
+                )}
                 <input
                   type="file"
                   accept="image/*,.pdf"
@@ -370,10 +385,23 @@ export default function ChallengePage() {
                 </a>
               </div>
 
-              <label className="flex flex-col items-center justify-center w-full rounded-2xl border border-dashed border-slate-300 bg-slate-50/60 hover:bg-slate-100/70 p-4 cursor-pointer transition text-center">
-                <span className="text-xs font-bold text-[#0B2D48]">
-                  {donationFile ? `✓ ${donationFile.name}` : "+ Lampirkan Bukti QRIS (Opsional)"}
-                </span>
+              {/* KOTAK UPLOAD BUKTI QRIS RAPI */}
+              <label className="block w-full min-w-0 rounded-2xl border border-dashed border-slate-300 bg-slate-50/60 hover:bg-slate-100/70 p-4 cursor-pointer transition text-center">
+                {donationFile ? (
+                  <div className="min-w-0 space-y-1">
+                    <span className="inline-block bg-[#E8F7FF] text-[#0E5A8A] text-[11px] font-extrabold px-2.5 py-0.5 rounded-full">
+                      File Terpilih ✓
+                    </span>
+                    <p className="w-full truncate px-2 text-xs font-bold text-[#0B2D48]">
+                      {donationFile.name}
+                    </p>
+                    <p className="text-[11px] text-slate-400">Ketuk untuk mengganti file</p>
+                  </div>
+                ) : (
+                  <p className="text-xs font-bold text-[#0B2D48]">
+                    + Lampirkan Bukti QRIS (Opsional)
+                  </p>
+                )}
                 <input
                   type="file"
                   accept="image/*,.pdf"
