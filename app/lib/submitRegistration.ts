@@ -1,4 +1,21 @@
-export const APPS_SCRIPT_URL = "https://script.google.com/u/0/home/projects/1SLp0A82Db0cyhFvd4Pg_rt83piX5u8O0g9nF-LnQXV1dv_1Rp3Iv0WUs/edit";
+export const APPS_SCRIPT_URL = "GANTI_DENGAN_URL_WEB_APP_APPS_SCRIPT_KAMU";
+
+export interface QuotaResponse {
+  online: { total: number; remaining: number; isFull: boolean };
+  offline: { total: number; remaining: number; isFull: boolean };
+}
+
+export async function fetchQuota(): Promise<QuotaResponse | null> {
+  try {
+    const res = await fetch(`${APPS_SCRIPT_URL}?t=${Date.now()}`, {
+      cache: "no-store",
+    });
+    if (!res.ok) return null;
+    return await res.json();
+  } catch {
+    return null;
+  }
+}
 
 export async function fileToPayload(file: File) {
   return new Promise<{ base64: string; mimeType: string; name: string }>(
