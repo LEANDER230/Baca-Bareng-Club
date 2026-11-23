@@ -3,13 +3,15 @@ import Link from "next/link";
 
 const OFFLINE_DATA = {
   totalSeats: 20,
-  remainingSeats: 0,
+  remainingSeats: 0, // Ubah angka ini saat kuota batch berikutnya dibuka
   location: "Taman Suropati, Jakarta Pusat",
   schedule: "2x Sebulan • Minggu Pagi, 08.00 - 10.15 WIB",
   registerUrl: "https://bit.ly/bacabarengclub5",
 };
 
 export default function DigitalDetoxPage() {
+  const isFull = OFFLINE_DATA.remainingSeats <= 0;
+
   return (
     <div className="max-w-4xl mx-auto px-6 pt-10 pb-16">
       <Link href="/" className="text-sm font-bold text-[#28A9EB] hover:underline">
@@ -21,9 +23,15 @@ export default function DigitalDetoxPage() {
           <span className="bg-[#4CC3FA] text-white text-xs font-bold px-3.5 py-1.5 rounded-full">
             OFFLINE EVENT • TATAP MUKA
           </span>
-          <span className="bg-rose-100 text-rose-700 text-xs font-extrabold px-4 py-1.5 rounded-full">
-            Kuota Ketat! Sisa {OFFLINE_DATA.remainingSeats} dari {OFFLINE_DATA.totalSeats} Kursi
-          </span>
+          {isFull ? (
+            <span className="bg-slate-200 text-slate-700 text-xs font-extrabold px-4 py-1.5 rounded-full">
+              Kuota Batch Ini Penuh ({OFFLINE_DATA.totalSeats}/{OFFLINE_DATA.totalSeats} Kursi)
+            </span>
+          ) : (
+            <span className="bg-rose-100 text-rose-700 text-xs font-extrabold px-4 py-1.5 rounded-full">
+              Kuota Ketat! Sisa {OFFLINE_DATA.remainingSeats} dari {OFFLINE_DATA.totalSeats} Kursi
+            </span>
+          )}
         </div>
 
         <h1 className="text-3xl sm:text-5xl font-extrabold text-[#0B2D48] leading-tight mb-4">
@@ -63,17 +71,39 @@ export default function DigitalDetoxPage() {
           </li>
         </ul>
 
-        <a
-          href={OFFLINE_DATA.registerUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block w-full text-center bg-[#4CC3FA] hover:bg-[#33B5F2] text-white font-extrabold text-lg py-4 rounded-2xl shadow-lg shadow-[#4CC3FA]/30 transition"
-        >
-          Amankan Kursi Digital Detox Sekarang →
-        </a>
-        <p className="text-xs text-center text-slate-500 mt-3">
-          Gratis pendaftaran. Kuota dibatasi maksimal 20 orang agar suasana diskusi tetap intim dan nyaman.
-        </p>
+        {isFull ? (
+          <div>
+            <div className="block w-full text-center bg-slate-200 text-slate-500 font-extrabold text-lg py-4 rounded-2xl cursor-not-allowed">
+              Kuota Batch Ini Sudah Penuh
+            </div>
+            <p className="text-xs text-center text-slate-500 mt-3">
+              Pantau Instagram{" "}
+              <a
+                href="https://instagram.com/bacabareng.club"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-bold text-[#28A9EB] hover:underline"
+              >
+                @bacabareng.club
+              </a>{" "}
+              untuk info pembukaan jadwal sesi berikutnya.
+            </p>
+          </div>
+        ) : (
+          <div>
+            <a
+              href={OFFLINE_DATA.registerUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block w-full text-center bg-[#4CC3FA] hover:bg-[#33B5F2] text-white font-extrabold text-lg py-4 rounded-2xl shadow-lg shadow-[#4CC3FA]/30 transition"
+            >
+              Amankan Kursi Digital Detox Sekarang →
+            </a>
+            <p className="text-xs text-center text-slate-500 mt-3">
+              Gratis pendaftaran. Kuota dibatasi maksimal 20 orang agar suasana diskusi tetap intim dan nyaman.
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );
