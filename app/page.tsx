@@ -2,7 +2,17 @@ import React from "react";
 import Link from "next/link";
 import { BacaBarengLogo } from "./components/Navbar";
 
+// UBAH ANGKA KUOTA DI SINI SAJA:
+const SLOT_CONFIG = {
+  onlineRemaining: 0, // 0 = otomatis tampil "Kuota Batch Ini Penuh"
+  offlineTotal: 20,
+  offlineRemaining: 0, // 0 = otomatis tampil "Kuota Batch Ini Penuh"
+};
+
 export default function HomePage() {
+  const isOfflineFull = SLOT_CONFIG.offlineRemaining <= 0;
+  const isOnlineFull = SLOT_CONFIG.onlineRemaining <= 0;
+
   return (
     <div>
       {/* 1. HERO SECTION */}
@@ -96,6 +106,7 @@ export default function HomePage() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-6 sm:gap-8">
+          {/* KARTU 1: 30 DAY CHALLENGE */}
           <Link
             href="/30-day-challenge"
             className="group bg-[#F4FBFF] border-2 border-[#CBEBFF] hover:border-[#4CC3FA] rounded-3xl p-7 sm:p-10 shadow-sm hover:shadow-xl hover:shadow-[#4CC3FA]/15 transition-all flex flex-col justify-between"
@@ -105,9 +116,15 @@ export default function HomePage() {
                 <span className="bg-white text-[#0E5A8A] text-[11px] sm:text-xs font-bold px-3 py-1.5 rounded-full border border-[#CBEBFF]">
                   ONLINE • ZOOM &amp; WHATSAPP
                 </span>
-                <span className="bg-amber-100 text-amber-800 text-[11px] sm:text-xs font-extrabold px-3 py-1.5 rounded-full">
-                  Sisa 14 Slot
-                </span>
+                {isOnlineFull ? (
+                  <span className="bg-slate-200 text-slate-700 text-[11px] sm:text-xs font-extrabold px-3 py-1.5 rounded-full">
+                    Kuota Batch Ini Penuh
+                  </span>
+                ) : (
+                  <span className="bg-amber-100 text-amber-800 text-[11px] sm:text-xs font-extrabold px-3 py-1.5 rounded-full">
+                    Sisa {SLOT_CONFIG.onlineRemaining} Slot
+                  </span>
+                )}
               </div>
 
               <h3 className="text-xl sm:text-3xl font-extrabold text-[#0B2D48] mb-3 group-hover:text-[#28A9EB] transition">
@@ -127,6 +144,7 @@ export default function HomePage() {
             </div>
           </Link>
 
+          {/* KARTU 2: DIGITAL DETOX */}
           <Link
             href="/digital-detox"
             className="group bg-[#F4FBFF] border-2 border-[#CBEBFF] hover:border-[#4CC3FA] rounded-3xl p-7 sm:p-10 shadow-sm hover:shadow-xl hover:shadow-[#4CC3FA]/15 transition-all flex flex-col justify-between"
@@ -136,9 +154,15 @@ export default function HomePage() {
                 <span className="bg-white text-[#0E5A8A] text-[11px] sm:text-xs font-bold px-3 py-1.5 rounded-full border border-[#CBEBFF]">
                   OFFLINE • TAMAN SUROPATI
                 </span>
-                <span className="bg-rose-100 text-rose-700 text-[11px] sm:text-xs font-extrabold px-3 py-1.5 rounded-full">
-                  Terbatas! Sisa 6 dari 20 Kursi
-                </span>
+                {isOfflineFull ? (
+                  <span className="bg-slate-200 text-slate-700 text-[11px] sm:text-xs font-extrabold px-3 py-1.5 rounded-full">
+                    Kuota Batch Ini Penuh
+                  </span>
+                ) : (
+                  <span className="bg-rose-100 text-rose-700 text-[11px] sm:text-xs font-extrabold px-3 py-1.5 rounded-full">
+                    Terbatas! Sisa {SLOT_CONFIG.offlineRemaining} dari {SLOT_CONFIG.offlineTotal} Kursi
+                  </span>
+                )}
               </div>
 
               <h3 className="text-xl sm:text-3xl font-extrabold text-[#0B2D48] mb-3 group-hover:text-[#28A9EB] transition">
