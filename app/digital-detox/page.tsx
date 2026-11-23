@@ -115,7 +115,7 @@ export default function DigitalDetoxPage() {
           </p>
         </div>
 
-        {/* DETAIL JADWAL & CATATAN RAPI TANPA PEMISAH TITIK */}
+        {/* DETAIL JADWAL & CATATAN */}
         <div className="p-5 sm:p-8 space-y-5">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
             <div className="bg-[#F8FCFF] border border-[#E1F3FF] rounded-2xl p-4">
@@ -341,7 +341,7 @@ export default function DigitalDetoxPage() {
           {/* STEP 2 */}
           {step === 2 && (
             <div className="space-y-5">
-              <div className="bg-[#F8FCFF] border border-[#CBEBFF] rounded-2xl p-5 space-y-4">
+              <div className="bg-[#F8FCFF] border border-[#CBEBFF] rounded-2xl p-4 sm:p-5 space-y-4">
                 <div className="text-center">
                   <span className="inline-block bg-white border border-[#CBEBFF] text-[#0B2D48] font-extrabold text-xs px-4 py-1.5 rounded-full mb-2">
                     Commitment Fee (Wajib): Rp15.000
@@ -366,13 +366,28 @@ export default function DigitalDetoxPage() {
                   </div>
                 </div>
 
-                <label className="flex flex-col items-center justify-center w-full rounded-2xl border-2 border-dashed border-[#8ED8FC] bg-white hover:bg-[#F0F9FF] p-4 cursor-pointer transition text-center">
-                  <span className="text-xs font-extrabold text-[#0B2D48]">
-                    {paymentFile ? `✓ ${paymentFile.name}` : "+ Unggah Bukti Pembayaran Rp15.000 *"}
-                  </span>
-                  <span className="text-[11px] text-slate-400 mt-0.5">
-                    {paymentFile ? "Ketuk untuk mengganti file" : "Wajib (Format JPG, PNG, atau PDF)"}
-                  </span>
+                {/* KOTAK UPLOAD RAPI (NAMA FILE PANJANG TERPOTONG RAPI) */}
+                <label className="block w-full min-w-0 rounded-2xl border-2 border-dashed border-[#8ED8FC] bg-white hover:bg-[#F0F9FF] p-4 cursor-pointer transition text-center">
+                  {paymentFile ? (
+                    <div className="min-w-0 space-y-1">
+                      <span className="inline-block bg-[#E8F7FF] text-[#0E5A8A] text-[11px] font-extrabold px-2.5 py-0.5 rounded-full">
+                        File Terpilih ✓
+                      </span>
+                      <p className="w-full truncate px-2 text-xs font-bold text-[#0B2D48]">
+                        {paymentFile.name}
+                      </p>
+                      <p className="text-[11px] text-slate-400">Ketuk untuk mengganti file</p>
+                    </div>
+                  ) : (
+                    <div className="space-y-1">
+                      <p className="text-xs font-extrabold text-[#0B2D48]">
+                        + Unggah Bukti Pembayaran Rp15.000 *
+                      </p>
+                      <p className="text-[11px] text-slate-400">
+                        Wajib (Format JPG, PNG, atau PDF)
+                      </p>
+                    </div>
+                  )}
                   <input
                     type="file"
                     accept="image/*,.pdf"
