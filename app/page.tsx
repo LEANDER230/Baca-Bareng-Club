@@ -132,7 +132,7 @@ export default function HomePage() {
               </h3>
               <p className="text-slate-600 text-sm sm:text-base leading-relaxed mb-7">
                 Bangun jam 05.00 WIB dan baca buku bareng selama 30 hari penuh. Didampingi mentor 
-                harian, jurnal <em>1 Day 1 Insight</em>, dan sesi diskusi hangat di pagi hari.
+                harian, journaling, <em>1 Day 1 Insight</em>, dan sesi diskusi hangat di pagi hari.
               </p>
             </div>
 
