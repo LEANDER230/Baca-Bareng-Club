@@ -89,8 +89,8 @@ export default function DigitalDetoxPage() {
       <div className="bg-white border border-[#CBEBFF] rounded-3xl overflow-hidden shadow-xs mb-6">
         <div className="bg-gradient-to-r from-[#E8F7FF] to-[#F4FBFF] px-5 sm:px-8 py-6 border-b border-[#CBEBFF]">
           <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
-            <span className="bg-[#4CC3FA] text-white text-[11px] font-extrabold uppercase tracking-wider px-3 py-1 rounded-full">
-              Offline Event • Vol. 6
+            <span className="bg-[#4CC3FA] text-white text-[11px] font-extrabold uppercase tracking-wider px-3.5 py-1 rounded-full">
+              Offline Event Vol. 6
             </span>
             {loadingQuota ? (
               <span className="bg-white text-slate-500 text-xs font-bold px-3.5 py-1 rounded-full border border-[#CBEBFF]">
@@ -102,7 +102,7 @@ export default function DigitalDetoxPage() {
               </span>
             ) : (
               <span className="bg-rose-100 text-rose-700 text-xs font-extrabold px-3.5 py-1 rounded-full">
-                Tersisa {quota.remaining} dari {quota.total} Kursi
+                Sisa {quota.remaining} dari {quota.total} Kursi
               </span>
             )}
           </div>
@@ -115,12 +115,12 @@ export default function DigitalDetoxPage() {
           </p>
         </div>
 
-        {/* DETAIL JADWAL & CATATAN RAPI */}
+        {/* DETAIL JADWAL & CATATAN RAPI TANPA PEMISAH TITIK */}
         <div className="p-5 sm:p-8 space-y-5">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
             <div className="bg-[#F8FCFF] border border-[#E1F3FF] rounded-2xl p-4">
               <span className="block text-[11px] font-extrabold uppercase tracking-wider text-[#28A9EB]">
-                Waktu Pelaksanaan
+                Hari &amp; Waktu
               </span>
               <p className="text-sm font-bold text-[#0B2D48] mt-1">Minggu, 22 November 2026</p>
               <p className="text-xs text-slate-500 mt-0.5">Pukul 08.00 – 10.15 WIB</p>
@@ -130,7 +130,7 @@ export default function DigitalDetoxPage() {
               <span className="block text-[11px] font-extrabold uppercase tracking-wider text-[#28A9EB]">
                 Lokasi &amp; Commitment Fee
               </span>
-              <p className="text-sm font-bold text-[#0B2D48] mt-1">Taman Langsat, Jaksel</p>
+              <p className="text-sm font-bold text-[#0B2D48] mt-1">Taman Langsat, Jakarta Selatan</p>
               <p className="text-xs text-slate-500 mt-0.5">Commitment Fee: Rp15.000</p>
             </div>
           </div>
@@ -155,7 +155,7 @@ export default function DigitalDetoxPage() {
               <li className="flex items-start gap-2">
                 <span className="text-[#35B6F5] font-extrabold">✓</span>
                 <span>
-                  CP: <strong>Fathur</strong> (0821 3816 6394)
+                  Contact Person: <strong>Fathur</strong> (0821 3816 6394)
                 </span>
               </li>
             </ul>
@@ -224,7 +224,7 @@ export default function DigitalDetoxPage() {
             </div>
           </div>
 
-          {/* STEP 1: DATA PESERTA + DONASI BUKU OPSIONAL */}
+          {/* STEP 1 */}
           {step === 1 && (
             <form onSubmit={goToStep2} className="space-y-5">
               <div>
@@ -312,7 +312,7 @@ export default function DigitalDetoxPage() {
                   </span>
                 </div>
                 <p className="text-xs text-slate-600 leading-relaxed">
-                  Yuk donasikan ke Baca Bareng Club! Buku yang kamu berikan akan kami <em>giveaway</em> kepada peserta yang menyelesaikan 30 Day Reading Challenge. Jika ada, tulis Nama &amp; Judul Bukunya di bawah:
+                  Yuk donasikan ke Baca Bareng Club untuk kami <em>giveaway</em> kepada peserta yang menyelesaikan 30 Day Reading Challenge. Jika ada, tulis Nama &amp; Judul Bukunya di bawah:
                 </p>
                 <input
                   type="text"
@@ -338,7 +338,7 @@ export default function DigitalDetoxPage() {
             </form>
           )}
 
-          {/* STEP 2: PEMBAYARAN WAJIB COMMITMENT FEE RP15.000 */}
+          {/* STEP 2 */}
           {step === 2 && (
             <div className="space-y-5">
               <div className="bg-[#F8FCFF] border border-[#CBEBFF] rounded-2xl p-5 space-y-4">
@@ -371,7 +371,7 @@ export default function DigitalDetoxPage() {
                     {paymentFile ? `✓ ${paymentFile.name}` : "+ Unggah Bukti Pembayaran Rp15.000 *"}
                   </span>
                   <span className="text-[11px] text-slate-400 mt-0.5">
-                    {paymentFile ? "Ketuk untuk mengganti file" : "Wajib • Format JPG, PNG, atau PDF"}
+                    {paymentFile ? "Ketuk untuk mengganti file" : "Wajib (Format JPG, PNG, atau PDF)"}
                   </span>
                   <input
                     type="file"
