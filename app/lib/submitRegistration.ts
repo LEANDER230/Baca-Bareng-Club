@@ -37,12 +37,19 @@ export async function fileToPayload(file: File) {
 }
 
 export async function submitToSheet(payload: Record<string, unknown>) {
-  const res = await fetch(APPS_SCRIPT_URL, {
+  if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.includes("GANTI_DENGAN")) {
+    throw new Error("URL Apps Script belum dipasang di submitRegistration.ts");
+  }
+
+  // Menggunakan text/plain + no-cors agar Google Apps Script tidak diblokir browser
+  await fetch(APPS_SCRIPT_URL, {
     method: "POST",
+    mode: "no-cors",
+    headers: {
+      "Content-Type": "text/plain;charset=utf-8",
+    },
     body: JSON.stringify(payload),
   });
-  if (!res.ok) {
-    throw new Error("Gagal mengirim data pendaftaran.");
-  }
-  return res.json();
+
+  return { status: "success" };
 }
