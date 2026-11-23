@@ -85,12 +85,12 @@ export default function ChallengePage() {
         <span>Kembali ke Beranda</span>
       </Link>
 
-      {/* KARTU INFO PROGRAM YANG TERSTRUKTUR */}
+      {/* KARTU INFO PROGRAM */}
       <div className="bg-white border border-[#CBEBFF] rounded-3xl overflow-hidden shadow-xs mb-6">
         <div className="bg-gradient-to-r from-[#E8F7FF] to-[#F4FBFF] px-5 sm:px-8 py-6 border-b border-[#CBEBFF]">
           <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
-            <span className="bg-[#4CC3FA] text-white text-[11px] font-extrabold uppercase tracking-wider px-3 py-1 rounded-full">
-              Online Program • Zoom &amp; WA
+            <span className="bg-[#4CC3FA] text-white text-[11px] font-extrabold uppercase tracking-wider px-3.5 py-1 rounded-full">
+              Online Program
             </span>
             {loadingQuota ? (
               <span className="bg-white text-slate-500 text-xs font-bold px-3.5 py-1 rounded-full border border-[#CBEBFF]">
@@ -115,15 +115,15 @@ export default function ChallengePage() {
           </p>
         </div>
 
-        {/* RINGKASAN JADWAL & ALUR */}
-        <div className="p-5 sm:p-8 space-y-5">
+        {/* DETAIL JADWAL & FASILITAS TANPA PEMISAH TITIK */}
+        <div className="p-5 sm:p-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
             <div className="bg-[#F8FCFF] border border-[#E1F3FF] rounded-2xl p-4">
               <span className="block text-[11px] font-extrabold uppercase tracking-wider text-[#28A9EB]">
                 Jadwal Harian
               </span>
-              <p className="text-sm font-bold text-[#0B2D48] mt-1">Setiap Hari • 05.00 – 06.00 WIB</p>
-              <p className="text-xs text-slate-500 mt-0.5">45 menit silent reading + 15 menit sharing</p>
+              <p className="text-sm font-bold text-[#0B2D48] mt-1">Setiap Hari (05.00 – 06.00 WIB)</p>
+              <p className="text-xs text-slate-500 mt-0.5">Via Zoom &amp; Grup WhatsApp</p>
             </div>
 
             <div className="bg-[#F8FCFF] border border-[#E1F3FF] rounded-2xl p-4">
@@ -344,8 +344,8 @@ export default function ChallengePage() {
           {step === 3 && (
             <div className="space-y-5">
               <div className="text-center">
-                <span className="inline-block text-[11px] font-extrabold uppercase tracking-wider text-[#28A9EB] bg-[#E8F7FF] px-3 py-1 rounded-full mb-2">
-                  Opsional • Bayar Seikhlasnya
+                <span className="inline-block text-[11px] font-extrabold uppercase tracking-wider text-[#28A9EB] bg-[#E8F7FF] px-3.5 py-1 rounded-full mb-2">
+                  Opsional (Bayar Seikhlasnya)
                 </span>
                 <h3 className="text-lg font-extrabold text-[#0B2D48]">
                   Bantu Tumbuh Bareng yuk!
