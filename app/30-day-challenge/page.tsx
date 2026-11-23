@@ -4,7 +4,7 @@ import Link from "next/link";
 const CHALLENGE_DATA = {
   totalSlots: 50,
   remainingSlots: 0, // Ubah angka ini saat kuota batch berikutnya dibuka
-  schedule: "Setiap Hari • 05.00 - 06.00 WIB",
+  schedule: "Setiap Hari, Pukul 05.00 - 06.00 WIB",
   fee: "Gratis / Bayar Seikhlasnya",
   registerUrl: "https://bit.ly/DaftarBacaBarengClubGB",
 };
