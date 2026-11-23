@@ -1,4 +1,5 @@
-export const APPS_SCRIPT_URL = "GANTI_DENGAN_URL_WEB_APP_APPS_SCRIPT_KAMU";
+// TEMPEL URL WEB APP APPS SCRIPT (/exec) KAMU DI DALAM TANDA KUTIP INI:
+export const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwU26Jh08nDPPsMmxPLOq2x4xf9txtELZlmJnxbLsiV21Nh_uTCQUW94DJg1uYS1nVi/exec";
 
 export interface QuotaResponse {
   online: { total: number; remaining: number; isFull: boolean };
@@ -6,8 +7,14 @@ export interface QuotaResponse {
 }
 
 export async function fetchQuota(): Promise<QuotaResponse | null> {
+  if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.includes("PASTE_ID_SCRIPT_KAMU")) {
+    return null;
+  }
+
   try {
     const res = await fetch(`${APPS_SCRIPT_URL}?t=${Date.now()}`, {
+      method: "GET",
+      redirect: "follow",
       cache: "no-store",
     });
     if (!res.ok) return null;
@@ -37,11 +44,10 @@ export async function fileToPayload(file: File) {
 }
 
 export async function submitToSheet(payload: Record<string, unknown>) {
-  if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.includes("GANTI_DENGAN")) {
-    throw new Error("URL Apps Script belum dipasang di submitRegistration.ts");
+  if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.includes("PASTE_ID_SCRIPT_KAMU")) {
+    throw new Error("URL Apps Script belum dipasang.");
   }
 
-  // Menggunakan text/plain + no-cors agar Google Apps Script tidak diblokir browser
   await fetch(APPS_SCRIPT_URL, {
     method: "POST",
     mode: "no-cors",
