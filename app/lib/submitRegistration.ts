@@ -1,5 +1,5 @@
 // TEMPEL URL WEB APP APPS SCRIPT (/exec) KAMU DI DALAM TANDA KUTIP INI:
-export const APPS_SCRIPT_URL = "";
+export const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx3KCF4-8fUU-M9KNGLRq5lea992-XPylo7X3h5S5OrU28wSZln_JTiLRPaDs8z8uIxog/exec";
 
 export interface QuotaResponse {
   online: { total: number; remaining: number; isFull: boolean };
