@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const OFFLINE_DATA = {
   totalSeats: 20,
-  remainingSeats: 6,
+  remainingSeats: 0,
   location: "Taman Suropati, Jakarta Pusat",
   schedule: "2x Sebulan • Minggu Pagi, 08.00 - 10.15 WIB",
   registerUrl: "https://bit.ly/bacabarengclub5",
