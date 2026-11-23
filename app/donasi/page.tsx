@@ -34,7 +34,7 @@ export default function DonasiPage() {
         </h2>
 
         <p className="text-slate-600 text-sm sm:text-base leading-relaxed mb-6">
-          Kami menerima donasi buku fisik layak baca dalam berbagai kategori—mulai dari buku 
+          Kami menerima donasi buku fisik layak baca dalam berbagai kategori, mulai dari buku 
           pengembangan diri (<em>self-improvement</em>), psikologi populer, biografi, bisnis, 
           hingga novel fiksi inspiratif.
         </p>
