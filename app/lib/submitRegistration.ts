@@ -7,7 +7,7 @@ export interface QuotaResponse {
 }
 
 export async function fetchQuota(): Promise<QuotaResponse | null> {
-  if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.includes("PASTE_ID_SCRIPT_KAMU")) {
+  if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.includes("https://script.google.com/macros/s/AKfycbx3KCF4-8fUU-M9KNGLRq5lea992-XPylo7X3h5S5OrU28wSZln_JTiLRPaDs8z8uIxog/exec")) {
     return null;
   }
 
@@ -44,8 +44,8 @@ export async function fileToPayload(file: File) {
 }
 
 export async function submitToSheet(payload: Record<string, unknown>) {
-  if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.includes("PASTE_ID_SCRIPT_KAMU")) {
-    throw new Error("URL Apps Script belum dipasang.");
+  if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.includes("https://script.google.com/macros/s/AKfycbx3KCF4-8fUU-M9KNGLRq5lea992-XPylo7X3h5S5OrU28wSZln_JTiLRPaDs8z8uIxog/exec")) {
+    throw new Error("https://script.google.com/macros/s/AKfycbx3KCF4-8fUU-M9KNGLRq5lea992-XPylo7X3h5S5OrU28wSZln_JTiLRPaDs8z8uIxog/exec");
   }
 
   await fetch(APPS_SCRIPT_URL, {
