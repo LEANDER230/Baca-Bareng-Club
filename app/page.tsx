@@ -249,7 +249,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 4. PAST COLLABORATORS (PRESISI DI HP & DESKTOP) */}
+      {/* 4. PAST COLLABORATORS */}
       <section className="max-w-6xl mx-auto px-5 sm:px-6 pt-10 sm:pt-14">
         <div className="bg-white border border-[#CBEBFF] rounded-3xl p-6 sm:p-11 text-center shadow-xs">
           <p className="text-xs font-bold uppercase tracking-widest text-[#5694BA] mb-6">
