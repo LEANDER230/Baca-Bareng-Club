@@ -22,8 +22,31 @@ export async function fetchQuota(): Promise<QuotaResponse | null> {
   }
 }
 
-// Kompres gambar otomatis di browser agar upload 1-2 file foto jauh lebih cepat
-function compressImage(file: File, maxWidth = 1080, quality = 0.75): Promise<string> {
+function readRawFile(
+  file: File
+): Promise<{ base64: string; mimeType: string; name: string }> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = reader.result as string;
+      const base64 = result.split(",")[1];
+      resolve({
+        base64,
+        mimeType: file.type || "application/octet-stream",
+        name: file.name,
+      });
+    };
+    reader.onerror = () =>
+      reject(new Error("Gagal membaca file dari perangkat."));
+    reader.readAsDataURL(file);
+  });
+}
+
+function compressImage(
+  file: File,
+  maxWidth = 1000,
+  quality = 0.72
+): Promise<string> {
   return new Promise((resolve, reject) => {
     const img = new Image();
     const objectUrl = URL.createObjectURL(file);
@@ -41,7 +64,7 @@ function compressImage(file: File, maxWidth = 1080, quality = 0.75): Promise<str
       canvas.height = height;
       const ctx = canvas.getContext("2d");
       if (!ctx) {
-        reject(new Error("Gagal memproses gambar"));
+        reject(new Error("Canvas tidak didukung"));
         return;
       }
 
@@ -52,7 +75,7 @@ function compressImage(file: File, maxWidth = 1080, quality = 0.75): Promise<str
 
     img.onerror = () => {
       URL.revokeObjectURL(objectUrl);
-      reject(new Error("File gambar tidak valid"));
+      reject(new Error("Format gambar tidak didukung canvas"));
     };
 
     img.src = objectUrl;
@@ -60,32 +83,25 @@ function compressImage(file: File, maxWidth = 1080, quality = 0.75): Promise<str
 }
 
 export async function fileToPayload(file: File) {
-  if (file.type.startsWith("image/")) {
-    const base64 = await compressImage(file);
-    const cleanName = file.name.replace(/\.[^/.]+$/, "") + ".jpg";
-    return {
-      base64,
-      mimeType: "image/jpeg",
-      name: cleanName,
-    };
+  if (
+    file.type.startsWith("image/") &&
+    !file.type.includes("heic") &&
+    !file.type.includes("heif")
+  ) {
+    try {
+      const base64 = await compressImage(file);
+      const cleanName = file.name.replace(/\.[^/.]+$/, "") + ".jpg";
+      return {
+        base64,
+        mimeType: "image/jpeg",
+        name: cleanName,
+      };
+    } catch {
+      return await readRawFile(file);
+    }
   }
 
-  return new Promise<{ base64: string; mimeType: string; name: string }>(
-    (resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const result = reader.result as string;
-        const base64 = result.split(",")[1];
-        resolve({
-          base64,
-          mimeType: file.type || "application/octet-stream",
-          name: file.name,
-        });
-      };
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    }
-  );
+  return await readRawFile(file);
 }
 
 export async function submitToSheet(payload: Record<string, unknown>) {
