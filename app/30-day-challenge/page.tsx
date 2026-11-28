@@ -215,22 +215,27 @@ export default function ChallengePage() {
             <strong>Baca Bareng Club</strong> selama 30 hari penuh.
           </p>
 
-          {/* BAR STATUS KUOTA MODERN */}
-          <div className="mt-5 bg-white/95 border border-[#D4EEFF] rounded-2xl px-4 py-3">
-            <div className="flex items-center justify-between gap-2 text-xs mb-2">
-              <span className="font-bold text-slate-500">Ketersediaan Kuota</span>
+          {/* BAR STATUS KUOTA 1 BARIS LURUS & PRESISI */}
+          <div className="mt-5 bg-white border border-[#D4EEFF] rounded-2xl p-4">
+            <div className="flex items-center justify-between gap-3 mb-2.5">
+              <span className="text-xs font-bold text-slate-500 whitespace-nowrap">
+                Kuota Tersedia
+              </span>
+
               {loadingQuota ? (
-                <span className="font-bold text-slate-400">Memeriksa...</span>
+                <span className="text-xs font-bold text-slate-400 whitespace-nowrap">
+                  Memuat...
+                </span>
               ) : quota.isFull ? (
-                <span className="inline-flex items-center gap-1.5 font-extrabold text-slate-700">
-                  <span className="w-2 h-2 rounded-full bg-slate-400" />
-                  <span>Kuota Penuh ({quota.total}/{quota.total})</span>
+                <span className="inline-flex items-center gap-1.5 bg-slate-100 text-slate-700 text-xs font-extrabold px-2.5 py-1 rounded-full whitespace-nowrap">
+                  <span className="w-1.5 h-1.5 rounded-full bg-slate-500" />
+                  <span>Penuh ({quota.total}/{quota.total})</span>
                 </span>
               ) : (
-                <span className="inline-flex items-center gap-1.5 font-extrabold text-[#0B2D48]">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-700 border border-emerald-200/70 text-xs font-extrabold px-2.5 py-0.5 rounded-full whitespace-nowrap">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                   <span>
-                    Tersisa {quota.remaining} dari {quota.total} Slot
+                    {quota.remaining} / {quota.total} Slot
                   </span>
                 </span>
               )}
@@ -298,33 +303,39 @@ export default function ChallengePage() {
         </div>
       ) : submitted ? (
         <div className="bg-white border border-[#CBEBFF] rounded-3xl p-6 sm:p-10 shadow-sm">
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#3BB9F7] to-[#1D8FE1] text-white flex items-center justify-center mx-auto mb-5 shadow-md shadow-[#3BB9F7]/25">
-            <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M5 12.5L9.5 17L19 7.5"
-                stroke="currentColor"
-                strokeWidth="2.6"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </div>
+          <div className="max-w-md mx-auto text-center">
+            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#3BB9F7] to-[#1D8FE1] text-white flex items-center justify-center mx-auto mb-5 shadow-md shadow-[#3BB9F7]/25">
+              <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M5 12.5L9.5 17L19 7.5"
+                  stroke="currentColor"
+                  strokeWidth="2.6"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </div>
 
-          <div className="text-center">
-            <span className="inline-block bg-[#EBF8FF] text-[#0E5A8A] text-[11px] font-extrabold uppercase tracking-wider px-3.5 py-1 rounded-full mb-2.5">
+            <span className="inline-block bg-[#EBF8FF] text-[#0E5A8A] text-[11px] font-extrabold uppercase tracking-wider px-3.5 py-1 rounded-full mb-3">
               Registrasi Terkonfirmasi
             </span>
-            <h2 className="text-xl sm:text-2xl font-extrabold text-[#0B2D48] tracking-tight">
-              Terima Kasih, {nama}
+
+            <p className="text-xs sm:text-sm font-bold text-slate-500">
+              Terima Kasih,
+            </p>
+            <h2 className="text-xl sm:text-2xl font-extrabold text-[#0B2D48] tracking-tight mt-0.5 leading-snug">
+              {nama}
             </h2>
-            <p className="text-slate-600 text-sm leading-relaxed max-w-md mx-auto mt-2">
+
+            <p className="text-slate-600 text-sm leading-relaxed mt-3">
               Data kepesertaan Anda telah resmi tercatat dalam sistem{" "}
               <strong>Baca Bareng Club</strong>. Dokumen{" "}
               <strong>Welcome Letter</strong> beserta{" "}
-              <strong>Commitment Sheet (PDF)</strong> sedang dikirimkan secara otomatis ke alamat email terdaftar:
+              <strong>Commitment Sheet (PDF)</strong> sedang dikirimkan secara otomatis ke alamat email:
             </p>
 
-            <div className="mt-4 mb-6 inline-flex items-center gap-2 bg-[#F4FBFF] border border-[#CBEBFF] px-4 py-2.5 rounded-xl text-sm font-bold text-[#0B2D48]">
+            {/* KOTAK EMAIL SEJAJAR PENUH DENGAN KOTAK INFORMASI */}
+            <div className="mt-4 mb-5 w-full flex items-center justify-center gap-2 bg-[#F4FBFF] border border-[#CBEBFF] px-4 py-3 rounded-2xl text-xs sm:text-sm font-bold text-[#0B2D48]">
               <svg className="w-4 h-4 text-[#28A9EB] shrink-0" viewBox="0 0 20 20" fill="none">
                 <path
                   d="M3 5.5C3 4.67157 3.67157 4 4.5 4H15.5C16.3284 4 17 4.67157 17 5.5V14.5C17 15.3284 16.3284 16 15.5 16H4.5C3.67157 16 3 15.3284 3 14.5V5.5Z"
@@ -339,43 +350,44 @@ export default function ChallengePage() {
                   strokeLinejoin="round"
                 />
               </svg>
-              <span>{email}</span>
+              <span className="truncate">{email}</span>
             </div>
-          </div>
 
-          <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-4 sm:p-5 max-w-md mx-auto mb-7">
-            <p className="text-xs font-extrabold uppercase tracking-wider text-[#0B2D48] mb-2">
-              Informasi Pengiriman Email
-            </p>
-            <ul className="text-xs text-slate-600 space-y-2 list-disc pl-4 leading-relaxed">
-              <li>
-                Proses pengiriman dokumen otomatis memerlukan waktu sekitar{" "}
-                <strong>1–3 menit</strong>.
-              </li>
-              <li>
-                Apabila email belum terlihat di <strong>Kotak Masuk (Inbox)</strong>, mohon periksa folder{" "}
-                <strong>Spam / Junk</strong> atau tab <strong>Promosi (Promotions)</strong>.
-              </li>
-              <li>
-                Simpan tautan grup koordinasi yang tercantum di dalam dokumen tersebut untuk bergabung bersama peserta lainnya.
-              </li>
-            </ul>
-          </div>
+            {/* PANDUAN PENGIRIMAN EMAIL */}
+            <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-4 sm:p-5 text-left mb-6">
+              <p className="text-xs font-extrabold uppercase tracking-wider text-[#0B2D48] mb-2">
+                Informasi Pengiriman Email
+              </p>
+              <ul className="text-xs text-slate-600 space-y-2 list-disc pl-4 leading-relaxed">
+                <li>
+                  Proses pengiriman dokumen otomatis memerlukan waktu sekitar{" "}
+                  <strong>1–3 menit</strong>.
+                </li>
+                <li>
+                  Apabila email belum terlihat di <strong>Kotak Masuk (Inbox)</strong>, mohon periksa folder{" "}
+                  <strong>Spam / Junk</strong> atau tab <strong>Promosi (Promotions)</strong>.
+                </li>
+                <li>
+                  Simpan tautan grup koordinasi yang tercantum di dalam dokumen tersebut untuk bergabung bersama peserta lainnya.
+                </li>
+              </ul>
+            </div>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-            <Link
-              href="/"
-              className="w-full sm:w-auto bg-[#0B2D48] hover:bg-[#143F63] text-white text-xs font-bold px-6 py-3 rounded-xl transition text-center"
-            >
-              Kembali ke Halaman Utama
-            </Link>
-            <button
-              type="button"
-              onClick={() => window.location.reload()}
-              className="w-full sm:w-auto bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 text-xs font-bold px-6 py-3 rounded-xl transition"
-            >
-              Daftarkan Peserta Lain
-            </button>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <Link
+                href="/"
+                className="w-full bg-[#0B2D48] hover:bg-[#143F63] text-white text-xs font-bold py-3.5 px-5 rounded-2xl transition text-center"
+              >
+                Kembali ke Halaman Utama
+              </Link>
+              <button
+                type="button"
+                onClick={() => window.location.reload()}
+                className="w-full bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 text-xs font-bold py-3.5 px-5 rounded-2xl transition"
+              >
+                Daftarkan Peserta Lain
+              </button>
+            </div>
           </div>
         </div>
       ) : (
@@ -430,7 +442,7 @@ export default function ChallengePage() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="nama@domain.com (untuk pengiriman Welcome Letter)"
+                  placeholder="nama@domain.com"
                   className="w-full rounded-2xl border border-slate-200 bg-slate-50/60 focus:bg-white px-4 py-3.5 text-sm text-[#0B2D48] focus:border-[#3BB9F7] focus:outline-none transition"
                 />
               </div>
