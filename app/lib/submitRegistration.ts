@@ -6,6 +6,18 @@ export interface QuotaResponse {
   offline: { total: number; remaining: number; isFull: boolean };
 }
 
+const QUOTA_CACHE_KEY = "bbc_quota_cache_v1";
+
+export function getCachedQuota(): QuotaResponse | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = sessionStorage.getItem(QUOTA_CACHE_KEY);
+    return raw ? (JSON.parse(raw) as QuotaResponse) : null;
+  } catch {
+    return null;
+  }
+}
+
 export async function fetchQuota(): Promise<QuotaResponse | null> {
   if (!APPS_SCRIPT_URL) return null;
 
@@ -16,7 +28,13 @@ export async function fetchQuota(): Promise<QuotaResponse | null> {
       cache: "no-store",
     });
     if (!res.ok) return null;
-    return await res.json();
+    const data = (await res.json()) as QuotaResponse;
+    try {
+      sessionStorage.setItem(QUOTA_CACHE_KEY, JSON.stringify(data));
+    } catch {
+      // Abaikan jika storage penuh
+    }
+    return data;
   } catch {
     return null;
   }
@@ -37,14 +55,14 @@ function readRawFile(
       });
     };
     reader.onerror = () =>
-      reject(new Error("Gagal membaca file dari perangkat."));
+      reject(new Error("Berkas tidak dapat dibaca oleh perangkat."));
     reader.readAsDataURL(file);
   });
 }
 
 function compressImage(
   file: File,
-  maxWidth = 1000,
+  maxWidth = 960,
   quality = 0.72
 ): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -64,7 +82,7 @@ function compressImage(
       canvas.height = height;
       const ctx = canvas.getContext("2d");
       if (!ctx) {
-        reject(new Error("Canvas tidak didukung"));
+        reject(new Error("Canvas tidak tersedia"));
         return;
       }
 
@@ -75,7 +93,7 @@ function compressImage(
 
     img.onerror = () => {
       URL.revokeObjectURL(objectUrl);
-      reject(new Error("Format gambar tidak didukung canvas"));
+      reject(new Error("Format gambar tidak didukung"));
     };
 
     img.src = objectUrl;
@@ -106,7 +124,7 @@ export async function fileToPayload(file: File) {
 
 export async function submitToSheet(payload: Record<string, unknown>) {
   if (!APPS_SCRIPT_URL) {
-    throw new Error("URL Apps Script belum diatur.");
+    throw new Error("Konfigurasi layanan belum tersedia.");
   }
 
   await fetch(APPS_SCRIPT_URL, {
