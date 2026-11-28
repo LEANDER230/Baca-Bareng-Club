@@ -12,7 +12,7 @@ import {
 const MENTOR_WA_NUMBER = "6285694057352";
 
 const SUMBER_INFO_OPTIONS = [
-  "Instagram @bacabareng.club",
+  "Instagram",
   "TikTok / Reels",
   "Teman / Komunitas",
   "Alumni Batch Sebelumnya",
@@ -26,7 +26,7 @@ export default function DigitalDetoxPage() {
   const [nama, setNama] = useState("");
   const [email, setEmail] = useState("");
   const [whatsapp, setWhatsapp] = useState("");
-  const [sumberInfo, setSumberInfo] = useState("Instagram @bacabareng.club");
+  const [sumberInfo, setSumberInfo] = useState("Instagram");
   const [harapan, setHarapan] = useState("");
   const [donasiBuku, setDonasiBuku] = useState<"ya" | "tidak">("tidak");
   const [detailBuku, setDetailBuku] = useState("");
@@ -263,7 +263,7 @@ export default function DigitalDetoxPage() {
           </div>
         </div>
 
-        {/* GRID DETAIL WAKTU & LOKASI INTERAKTIF */}
+        {/* GRID DETAIL WAKTU, BIAYA & TITIK KUMPUL RAPI */}
         <div className="p-5 sm:p-8 space-y-3.5">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
             <div className="bg-[#F8FCFF] border border-[#DCEEFF] rounded-2xl p-4 sm:p-5 flex flex-col justify-center">
@@ -291,46 +291,44 @@ export default function DigitalDetoxPage() {
             </div>
           </div>
 
-          {/* KARTU LOKASI RINGKAS DENGAN TOMBOL GOOGLE MAPS BERANIMASI */}
-          <a
-            href="https://maps.google.com/?q=Taman+Suropati+Menteng+Jakarta+Pusat"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group flex items-center justify-between gap-3 bg-[#F8FCFF] hover:bg-[#EDF8FF] border border-[#DCEEFF] hover:border-[#8ED8FC] rounded-2xl p-4 sm:px-5 transition-all"
-          >
-            <div className="flex items-center gap-3.5 min-w-0">
-              <div className="relative w-10 h-10 rounded-xl bg-white border border-[#CBEBFF] flex items-center justify-center shrink-0 text-[#28A9EB] group-hover:scale-105 transition-transform">
-                <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#3BB9F7] opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#28A9EB]" />
-                </span>
-                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none">
-                  <path
-                    d="M12 21C16 17 19 13.4183 19 9.5C19 5.35786 15.866 2 12 2C8.13401 2 5 5.35786 5 9.5C5 13.4183 8 17 12 21Z"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <circle cx="12" cy="9.5" r="2.5" stroke="currentColor" strokeWidth="2" />
-                </svg>
-              </div>
-
-              <div className="min-w-0">
-                <span className="block text-[11px] font-extrabold uppercase tracking-wider text-[#28A9EB]">
+          {/* KARTU TITIK KUMPUL LOKASI DENGAN TOMBOL ANIMASI */}
+          <div className="bg-[#F8FCFF] border border-[#DCEEFF] rounded-2xl p-4 sm:p-5">
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#28A9EB]">
                   Titik Kumpul Lokasi
                 </span>
-                <p className="text-sm font-extrabold text-[#0B2D48] truncate">
+                <p className="text-sm font-extrabold text-[#0B2D48] mt-1">
                   Taman Suropati, Menteng
                 </p>
-                <p className="text-xs text-slate-500 truncate">
+                <p className="text-xs text-slate-500 mt-0.5">
                   Jakarta Pusat
                 </p>
               </div>
+
+              <span className="relative flex h-3 w-3 mt-1 shrink-0">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#3BB9F7] opacity-75" />
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-[#28A9EB]" />
+              </span>
             </div>
 
-            <span className="shrink-0 inline-flex items-center gap-1.5 bg-white group-hover:bg-[#3BB9F7] text-[#0B2D48] group-hover:text-white border border-[#CBEBFF] group-hover:border-[#3BB9F7] text-xs font-extrabold px-3.5 py-2 rounded-xl transition-colors">
-              <span>Buka Maps</span>
+            <a
+              href="https://maps.google.com/?q=Taman+Suropati+Menteng+Jakarta+Pusat"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group mt-3.5 w-full inline-flex items-center justify-center gap-2 bg-white hover:bg-[#3BB9F7] text-[#0B2D48] hover:text-white border border-[#CBEBFF] hover:border-[#3BB9F7] text-xs font-extrabold py-2.5 px-4 rounded-xl transition-all"
+            >
+              <svg className="w-4 h-4 text-[#28A9EB] group-hover:text-white transition-colors" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M12 21C16 17 19 13.4183 19 9.5C19 5.35786 15.866 2 12 2C8.13401 2 5 5.35786 5 9.5C5 13.4183 8 17 12 21Z"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <circle cx="12" cy="9.5" r="2.5" stroke="currentColor" strokeWidth="2" />
+              </svg>
+              <span>Buka Lokasi di Google Maps</span>
               <svg
                 className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"
                 viewBox="0 0 16 16"
@@ -344,8 +342,8 @@ export default function DigitalDetoxPage() {
                   strokeLinejoin="round"
                 />
               </svg>
-            </span>
-          </a>
+            </a>
+          </div>
         </div>
       </div>
 
@@ -547,7 +545,7 @@ export default function DigitalDetoxPage() {
                 />
               </div>
 
-              {/* SUMBER INFO BERBENTUK KOTAK-KOTAK PILIHAN */}
+              {/* SUMBER INFO BERBENTUK KOTAK-KOTAK PILIHAN RAPI */}
               <div>
                 <label className="block text-sm font-bold text-[#0B2D48] mb-2">
                   Tahu Event Ini dari Mana?
@@ -560,13 +558,13 @@ export default function DigitalDetoxPage() {
                         key={option}
                         type="button"
                         onClick={() => setSumberInfo(option)}
-                        className={`p-3 rounded-2xl border text-left text-xs font-bold leading-snug transition flex items-center justify-between gap-2 ${
+                        className={`w-full min-w-0 p-3.5 rounded-2xl border text-left text-xs font-bold leading-snug transition flex items-center justify-between gap-2 ${
                           isSelected
-                            ? "bg-[#EBF8FF] border-[#3BB9F7] text-[#0B2D48] shadow-2xs"
+                            ? "bg-[#EBF8FF] border-[#3BB9F7] text-[#0B2D48]"
                             : "bg-slate-50/60 hover:bg-slate-100/70 border-slate-200 text-slate-600"
                         }`}
                       >
-                        <span>{option}</span>
+                        <span className="min-w-0 break-words">{option}</span>
                         <span
                           className={`w-4 h-4 rounded-full flex items-center justify-center shrink-0 border ${
                             isSelected
@@ -655,139 +653,4 @@ export default function DigitalDetoxPage() {
 
               <button
                 type="submit"
-                className="w-full bg-[#3BB9F7] hover:bg-[#28A9EB] text-white font-extrabold text-sm sm:text-base py-4 rounded-2xl shadow-md shadow-[#3BB9F7]/25 transition inline-flex items-center justify-center gap-2"
-              >
-                <span>Lanjut ke Langkah 2</span>
-                <svg className="w-4 h-4" viewBox="0 0 20 20" fill="none">
-                  <path
-                    d="M7.5 5L12.5 10L7.5 15"
-                    stroke="currentColor"
-                    strokeWidth="2.2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </button>
-            </form>
-          )}
-
-          {/* STEP 2 */}
-          {step === 2 && (
-            <div className="space-y-5">
-              <div className="bg-[#F8FCFF] border border-[#CBEBFF] rounded-2xl p-5 text-center">
-                <span className="inline-block text-[11px] font-extrabold uppercase tracking-wider text-[#28A9EB] bg-[#E8F7FF] px-3.5 py-1 rounded-full mb-2">
-                  Biaya Komitmen: Rp25.000
-                </span>
-                <p className="text-xs text-slate-600 leading-relaxed max-w-md mx-auto">
-                  Scan QRIS di bawah ini sebesar <strong>Rp25.000</strong> untuk mengunci kursi kehadiranmu pada{" "}
-                  <strong>Sabtu, 5 Desember 2026</strong> di <strong>Taman Suropati</strong>.
-                </p>
-
-                <div className="max-w-[230px] mx-auto mt-4 bg-white p-3 rounded-2xl border border-[#CBEBFF]">
-                  <img
-                    src="/qris.jpeg"
-                    alt="QRIS Baca Bareng Club"
-                    className="w-full h-auto rounded-xl"
-                  />
-                  <a
-                    href="/qris.jpeg"
-                    download="QRIS-Digital-Detox-Vol7.jpeg"
-                    className="inline-block mt-2 text-xs font-extrabold text-[#28A9EB] hover:underline"
-                  >
-                    Simpan Gambar QRIS
-                  </a>
-                </div>
-              </div>
-
-              <label
-                className={`block w-full min-w-0 rounded-2xl border-2 border-dashed border-[#8ED8FC] bg-[#F9FDFF] p-5 text-center transition ${
-                  loading ? "opacity-50 pointer-events-none" : "hover:bg-[#F0F9FF] cursor-pointer"
-                }`}
-              >
-                {paymentFile ? (
-                  <div className="min-w-0 space-y-1.5">
-                    <span className="inline-flex items-center gap-1.5 bg-[#E8F7FF] text-[#0E5A8A] text-[11px] font-extrabold px-3 py-1 rounded-full">
-                      <svg className="w-3.5 h-3.5" viewBox="0 0 16 16" fill="none">
-                        <path
-                          d="M3.5 8.5L6.5 11.5L12.5 4.5"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                      <span>Bukti Terpilih</span>
-                    </span>
-                    <p className="w-full truncate px-2 text-xs sm:text-sm font-bold text-[#0B2D48]">
-                      {paymentFile.name}
-                    </p>
-                    <p className="text-[11px] text-slate-400">Ketuk di sini kalau mau ganti file</p>
-                  </div>
-                ) : (
-                  <div className="space-y-1">
-                    <p className="text-sm font-extrabold text-[#0B2D48]">
-                      Unggah Bukti Pembayaran QRIS
-                    </p>
-                    <p className="text-xs text-slate-400">
-                      Format gambar (JPG, PNG) atau PDF
-                    </p>
-                  </div>
-                )}
-                <input
-                  type="file"
-                  accept="image/*,.pdf"
-                  disabled={loading}
-                  onChange={(e) => setPaymentFile(e.target.files?.[0] || null)}
-                  className="hidden"
-                />
-              </label>
-
-              {errorMsg && (
-                <p className="text-xs font-bold text-rose-600 bg-rose-50 border border-rose-100 px-4 py-3 rounded-xl">
-                  {errorMsg}
-                </p>
-              )}
-
-              <div className="grid grid-cols-3 gap-3 pt-2">
-                <button
-                  type="button"
-                  disabled={loading}
-                  onClick={() => {
-                    setErrorMsg("");
-                    setStep(1);
-                  }}
-                  className="col-span-1 bg-slate-100 hover:bg-slate-200 disabled:opacity-50 text-slate-700 font-bold text-sm py-4 rounded-2xl transition"
-                >
-                  Kembali
-                </button>
-                <button
-                  type="button"
-                  disabled={loading}
-                  onClick={handleFinalSubmit}
-                  className="col-span-2 bg-[#3BB9F7] hover:bg-[#28A9EB] disabled:bg-[#8ED8FC] text-white font-extrabold text-sm sm:text-base py-4 rounded-2xl shadow-md shadow-[#3BB9F7]/25 transition"
-                >
-                  Selesaikan Pendaftaran
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* BANTUAN WHATSAPP MENTOR DI BAWAH FORM */}
-          <div className="mt-6 pt-5 border-t border-slate-100 text-center">
-            <p className="text-xs text-slate-500">
-              Ada kendala saat daftar?{" "}
-              <a
-                href={getMentorWhatsAppUrl()}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-bold text-[#28A9EB] hover:underline"
-              >
-                Hubungi Mentor
-              </a>
-            </p>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
+                className="w-full bg-[#3BB9F7] hover:bg-[#28A9EB] text-white font-extrabold text-sm
