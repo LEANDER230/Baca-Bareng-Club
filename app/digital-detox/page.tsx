@@ -2,392 +2,441 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { BacaBarengLogo } from "./components/Navbar";
-import { fetchQuota } from "./lib/submitRegistration";
+import { fetchQuota, fileToPayload, submitToSheet } from "../lib/submitRegistration";
 
-export default function HomePage() {
-  const [quota, setQuota] = useState({
-    online: { total: 50, remaining: 50, isFull: false },
-    offline: { total: 20, remaining: 20, isFull: false },
-  });
+export default function DigitalDetoxPage() {
+  const [quota, setQuota] = useState({ total: 20, remaining: 20, isFull: false });
   const [loadingQuota, setLoadingQuota] = useState(true);
+
+  const [step, setStep] = useState<1 | 2>(1);
+  const [nama, setNama] = useState("");
+  const [whatsapp, setWhatsapp] = useState("");
+  const [sumberInfo, setSumberInfo] = useState("Instagram @bacabareng.club");
+  const [harapan, setHarapan] = useState("");
+  const [donasiBuku, setDonasiBuku] = useState<"ya" | "tidak">("tidak");
+  const [detailBuku, setDetailBuku] = useState("");
+  const [paymentFile, setPaymentFile] = useState<File | null>(null);
+
+  const [loading, setLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
     fetchQuota().then((data) => {
-      if (data) {
-        setQuota(data);
-      }
+      if (data?.offline) setQuota(data.offline);
       setLoadingQuota(false);
     });
   }, []);
 
-  const isOfflineFull = quota.offline.isFull;
-  const isOnlineFull = quota.online.isFull;
+  function goToStep2(e: React.FormEvent) {
+    e.preventDefault();
+    setErrorMsg("");
+    if (!nama.trim() || !whatsapp.trim() || !harapan.trim()) {
+      setErrorMsg("Lengkapi seluruh data peserta pada Langkah 1 terlebih dahulu.");
+      return;
+    }
+    if (donasiBuku === "ya" && !detailBuku.trim()) {
+      setErrorMsg("Tuliskan judul/jenis buku yang ingin kamu donasikan.");
+      return;
+    }
+    setStep(2);
+  }
+
+  async function handleFinalSubmit() {
+    setErrorMsg("");
+    if (!paymentFile) {
+      setErrorMsg("Unggah bukti pembayaran komitmen Rp25.000 terlebih dahulu.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const paymentPayload = await fileToPayload(paymentFile);
+
+      await submitToSheet({
+        program: "digital-detox",
+        nama,
+        whatsapp,
+        sumberInfo,
+        harapan,
+        detailBuku: donasiBuku === "ya" ? detailBuku : "Tidak membawa donasi buku",
+        paymentFile: paymentPayload,
+      });
+
+      setSubmitted(true);
+      fetchQuota().then((updated) => {
+        if (updated?.offline) setQuota(updated.offline);
+      });
+    } catch (err) {
+      const detail = err instanceof Error ? err.message : "Silakan coba kirim ulang.";
+      setErrorMsg(`Gagal mengirim: ${detail}`);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
-    <div className="pb-14 sm:pb-20">
-      {/* 1. HERO SECTION */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-[#E8F7FF] via-[#F5FBFF] to-white pt-8 pb-8 sm:pt-14 sm:pb-14">
-        <div className="max-w-6xl mx-auto px-5 sm:px-6 grid lg:grid-cols-12 gap-7 lg:gap-12 items-center">
-          <div className="lg:col-span-7">
-            <span className="inline-block bg-[#D4F0FF] text-[#0E5A8A] text-xs font-bold px-3.5 py-1.5 rounded-full mb-4">
-              Komunitas Baca &amp; Self-Growth Anak Muda
+    <div className="max-w-2xl mx-auto px-4 sm:px-6 pt-6 sm:pt-10 pb-24">
+      <Link
+        href="/"
+        className="inline-flex items-center gap-2 text-sm font-bold text-[#28A9EB] hover:text-[#0B2D48] transition mb-6"
+      >
+        <span>←</span>
+        <span>Kembali ke Beranda</span>
+      </Link>
+
+      {/* KARTU INFO EVENT */}
+      <div className="bg-white border border-[#CBEBFF] rounded-3xl overflow-hidden shadow-xs mb-6">
+        <div className="bg-gradient-to-r from-[#E8F7FF] to-[#F4FBFF] px-5 sm:px-8 py-6 border-b border-[#CBEBFF]">
+          <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+            <span className="bg-[#4CC3FA] text-white text-[11px] font-extrabold uppercase tracking-wider px-3.5 py-1 rounded-full">
+              Offline Event • Vol. 7
             </span>
+            {loadingQuota ? (
+              <span className="bg-white text-slate-500 text-xs font-bold px-3.5 py-1 rounded-full border border-[#CBEBFF]">
+                Memuat kursi...
+              </span>
+            ) : quota.isFull ? (
+              <span className="bg-slate-200 text-slate-700 text-xs font-extrabold px-3.5 py-1 rounded-full">
+                Kuota Penuh ({quota.total}/{quota.total})
+              </span>
+            ) : (
+              <span className="bg-rose-100 text-rose-700 text-xs font-extrabold px-3.5 py-1 rounded-full">
+                Tersisa {quota.remaining} dari {quota.total} Kursi
+              </span>
+            )}
+          </div>
 
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-[#0B2D48] leading-[1.15] tracking-tight mb-4">
-              Baca Bareng, <br />
-              Tumbuh Bareng, <br />
-              <span className="text-[#35B6F5]">Kasih Impact Bareng.</span>
-            </h1>
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0B2D48] tracking-tight">
+            Digital Detox Vol. 7: Silent Reading
+          </h1>
+          <p className="text-slate-600 text-sm mt-1.5 leading-relaxed">
+            Simpan sejenak ponselmu, bawa buku fisik favoritmu, dan nikmati sesi membaca tenang serta diskusi hangat di ruang terbuka hijau.
+          </p>
+        </div>
 
-            <p className="text-slate-600 text-sm sm:text-lg leading-relaxed max-w-xl mb-6 sm:mb-8">
-              Membaca bukan cuma soal menyelesaikan halaman buku, tapi tentang apa yang bertumbuh 
-              di dalam dirimu setelahnya. Yuk, bangun kebiasaan baca yang seru dan konsisten bersama 
-              ribuan <strong>Growmates</strong> lainnya.
-            </p>
+        {/* DETAIL WAKTU, LOKASI & GOOGLE MAPS */}
+        <div className="p-5 sm:p-8 space-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div className="bg-[#F8FCFF] border border-[#E1F3FF] rounded-2xl p-4">
+              <span className="block text-[11px] font-extrabold uppercase tracking-wider text-[#28A9EB]">
+                Hari &amp; Waktu
+              </span>
+              <p className="text-sm font-bold text-[#0B2D48] mt-1">
+                Sabtu, 5 Desember 2026
+              </p>
+              <p className="text-xs text-slate-500 mt-0.5">
+                Pukul 08.00 – 10.15 WIB
+              </p>
+            </div>
 
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-              <Link
-                href="/30-day-challenge"
-                className="bg-[#4CC3FA] hover:bg-[#33B5F2] text-white font-bold px-6 py-3.5 sm:px-7 sm:py-4 rounded-2xl shadow-lg shadow-[#4CC3FA]/30 transition flex items-center justify-center gap-2"
-              >
-                <span>Ikut 30 Day Challenge</span>
-                <span>→</span>
-              </Link>
-              <Link
-                href="/digital-detox"
-                className="bg-white hover:bg-[#F0F9FF] text-[#0B2D48] border border-[#BCE6FF] font-bold px-6 py-3.5 sm:px-7 sm:py-4 rounded-2xl transition flex items-center justify-center gap-2"
-              >
-                <span>Ikut Digital Detox Vol. 7</span>
-                <span>→</span>
-              </Link>
+            <div className="bg-[#F8FCFF] border border-[#E1F3FF] rounded-2xl p-4">
+              <span className="block text-[11px] font-extrabold uppercase tracking-wider text-[#28A9EB]">
+                Titik Kumpul Lokasi
+              </span>
+              <p className="text-sm font-bold text-[#0B2D48] mt-1">
+                Taman Suropati
+              </p>
+              <p className="text-xs text-slate-500 mt-0.5">
+                Menteng, Jakarta Pusat
+              </p>
             </div>
           </div>
 
-          {/* KARTU IDENTITAS */}
-          <div className="lg:col-span-5">
-            <div className="bg-white rounded-3xl border border-[#CBEBFF] shadow-lg shadow-[#4CC3FA]/10 p-6 sm:p-8">
-              <div className="flex items-center justify-between mb-5">
-                <BacaBarengLogo size="md" />
-                <span className="text-xs font-bold text-[#0E5A8A] bg-[#E8F7FF] px-3 py-1 rounded-full">
-                  11+ Batches
-                </span>
-              </div>
-
-              <h2 className="text-lg sm:text-xl font-extrabold text-[#0B2D48] mb-2.5">
-                Kenapa Baca Bareng Club Hadir?
-              </h2>
-              <p className="text-sm text-slate-600 leading-relaxed mb-5">
-                Data PISA 2022 mencatat baru <strong>25%</strong> pelajar Indonesia mencapai standar 
-                minimum literasi membaca. Kami menciptakan ruang aman agar membaca terasa ringan, 
-                menyenangkan, dan relevan bagi generasi muda usia 18–30 tahun.
-              </p>
-
-              <div className="grid grid-cols-3 gap-2.5 pt-4 border-t border-[#E8F7FF] text-center">
-                <div>
-                  <span className="block text-lg sm:text-2xl font-extrabold text-[#0B2D48]">40++</span>
-                  <span className="text-[11px] sm:text-xs text-slate-500 mt-0.5 block">Peserta / Batch</span>
-                </div>
-                <div>
-                  <span className="block text-lg sm:text-2xl font-extrabold text-[#35B6F5]">11+</span>
-                  <span className="text-[11px] sm:text-xs text-slate-500 mt-0.5 block">Batch Berjalan</span>
-                </div>
-                <div>
-                  <span className="block text-lg sm:text-2xl font-extrabold text-[#0B2D48]">68,4%</span>
-                  <span className="text-[11px] sm:text-xs text-slate-500 mt-0.5 block">Pembaca Aktif</span>
-                </div>
-              </div>
+          {/* PETA GOOGLE MAPS INTERAKTIF */}
+          <div className="rounded-2xl overflow-hidden border border-[#CBEBFF] bg-[#F8FCFF]">
+            <iframe
+              title="Peta Lokasi Taman Suropati, Jakarta Pusat"
+              src="https://maps.google.com/maps?q=Taman%20Suropati%20Menteng%20Jakarta%20Pusat&t=&z=16&ie=UTF8&iwloc=&output=embed"
+              className="w-full h-52 sm:h-60 border-0"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+            <div className="px-4 py-2.5 bg-white border-t border-[#E1F3FF] flex items-center justify-between gap-2">
+              <span className="text-xs font-semibold text-slate-600 truncate">
+                Jl. Taman Suropati, Menteng, Jakarta Pusat
+              </span>
+              <a
+                href="https://maps.google.com/?q=Taman+Suropati+Jakarta+Pusat"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="shrink-0 text-xs font-extrabold text-[#28A9EB] hover:underline"
+              >
+                Buka Google Maps ↗
+              </a>
             </div>
           </div>
         </div>
-      </section>
+      </div>
 
-      {/* 2. PILIH PROGRAM */}
-      <section className="max-w-6xl mx-auto px-5 sm:px-6 pt-4 pb-10 sm:py-12">
-        <div className="max-w-2xl mb-6 sm:mb-8">
-          <span className="text-[#35B6F5] font-bold text-xs sm:text-sm uppercase tracking-wider">
-            Program Utama
+      {/* AREA FORMULIR */}
+      {!loadingQuota && quota.isFull ? (
+        <div className="bg-white border border-slate-200 rounded-3xl p-8 text-center">
+          <span className="inline-block bg-slate-100 text-slate-700 font-extrabold text-sm px-5 py-2.5 rounded-full mb-3">
+            Kuota Digital Detox Vol. 7 Sudah Penuh
           </span>
-          <h2 className="text-2xl sm:text-4xl font-extrabold text-[#0B2D48] mt-1 mb-2">
-            Pilih Ruang Tumbuh Kamu
-          </h2>
-          <p className="text-slate-500 text-sm sm:text-base leading-relaxed">
-            Tersedia kelas rutin online setiap pagi dan sesi tatap muka langsung di taman. Klik kartu program untuk melihat detail lengkapnya.
-          </p>
-        </div>
-
-        <div className="grid md:grid-cols-2 gap-5 sm:gap-7">
-          {/* KARTU 1: 30 DAY CHALLENGE */}
-          <Link
-            href="/30-day-challenge"
-            className="group bg-[#F4FBFF] border-2 border-[#CBEBFF] hover:border-[#4CC3FA] rounded-3xl p-6 sm:p-8 shadow-xs hover:shadow-lg hover:shadow-[#4CC3FA]/15 transition-all flex flex-col justify-between"
-          >
-            <div>
-              <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
-                <span className="bg-white text-[#0E5A8A] text-[11px] sm:text-xs font-bold px-3 py-1 rounded-full border border-[#CBEBFF]">
-                  ONLINE (ZOOM &amp; WHATSAPP)
-                </span>
-                {loadingQuota ? (
-                  <span className="bg-white text-slate-500 text-[11px] sm:text-xs font-bold px-3 py-1 rounded-full border border-[#CBEBFF]">
-                    Memuat slot...
-                  </span>
-                ) : isOnlineFull ? (
-                  <span className="bg-slate-200 text-slate-700 text-[11px] sm:text-xs font-extrabold px-3 py-1 rounded-full">
-                    Kuota Batch Ini Penuh
-                  </span>
-                ) : (
-                  <span className="bg-amber-100 text-amber-800 text-[11px] sm:text-xs font-extrabold px-3 py-1 rounded-full">
-                    Sisa {quota.online.remaining} dari {quota.online.total} Slot
-                  </span>
-                )}
-              </div>
-
-              <h3 className="text-xl sm:text-2xl font-extrabold text-[#0B2D48] mb-2.5 group-hover:text-[#28A9EB] transition">
-                30 Day Morning Reading Challenge
-              </h3>
-              <p className="text-slate-600 text-sm sm:text-base leading-relaxed mb-6">
-                Bangun jam 05.00 WIB dan baca buku bareng selama 30 hari penuh. Didampingi mentor 
-                harian, <em>journaling</em>, <em>1 Day 1 Insight</em>, dan sesi diskusi hangat di pagi hari.
-              </p>
-            </div>
-
-            <div className="flex items-center justify-between pt-3.5 border-t border-[#D9F1FF]">
-              <span className="font-bold text-sm text-[#0E5A8A]">Buka Halaman Program</span>
-              <span className="w-8 h-8 rounded-full bg-white text-[#35B6F5] group-hover:bg-[#4CC3FA] group-hover:text-white flex items-center justify-center font-extrabold shadow-2xs transition">
-                →
-              </span>
-            </div>
-          </Link>
-
-          {/* KARTU 2: DIGITAL DETOX VOL. 7 */}
-          <Link
-            href="/digital-detox"
-            className="group bg-[#F4FBFF] border-2 border-[#CBEBFF] hover:border-[#4CC3FA] rounded-3xl p-6 sm:p-8 shadow-xs hover:shadow-lg hover:shadow-[#4CC3FA]/15 transition-all flex flex-col justify-between"
-          >
-            <div>
-              <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
-                <span className="bg-white text-[#0E5A8A] text-[11px] sm:text-xs font-bold px-3 py-1 rounded-full border border-[#CBEBFF]">
-                  OFFLINE (TAMAN SUROPATI)
-                </span>
-                {loadingQuota ? (
-                  <span className="bg-white text-slate-500 text-[11px] sm:text-xs font-bold px-3 py-1 rounded-full border border-[#CBEBFF]">
-                    Memuat kursi...
-                  </span>
-                ) : isOfflineFull ? (
-                  <span className="bg-slate-200 text-slate-700 text-[11px] sm:text-xs font-extrabold px-3 py-1 rounded-full">
-                    Kuota Batch Ini Penuh
-                  </span>
-                ) : (
-                  <span className="bg-rose-100 text-rose-700 text-[11px] sm:text-xs font-extrabold px-3 py-1 rounded-full">
-                    Terbatas! Sisa {quota.offline.remaining} dari {quota.offline.total} Kursi
-                  </span>
-                )}
-              </div>
-
-              <h3 className="text-xl sm:text-2xl font-extrabold text-[#0B2D48] mb-2.5 group-hover:text-[#28A9EB] transition">
-                Digital Detox Vol. 7: Silent Reading
-              </h3>
-              <p className="text-slate-600 text-sm sm:text-base leading-relaxed mb-6">
-                Sabtu, 5 Desember 2026 di Taman Suropati, Jakarta Pusat. Simpan sejenak ponselmu 
-                dan nikmati waktu membaca buku fisik langsung di ruang terbuka hijau bersama teman-teman baru.
-              </p>
-            </div>
-
-            <div className="flex items-center justify-between pt-3.5 border-t border-[#D9F1FF]">
-              <span className="font-bold text-sm text-[#0E5A8A]">Buka Halaman Event</span>
-              <span className="w-8 h-8 rounded-full bg-white text-[#35B6F5] group-hover:bg-[#4CC3FA] group-hover:text-white flex items-center justify-center font-extrabold shadow-2xs transition">
-                →
-              </span>
-            </div>
-          </Link>
-        </div>
-      </section>
-
-      {/* 3. TIGA PILAR BACA BARENG CLUB */}
-      <section className="bg-[#F4FBFF] py-10 sm:py-14 border-y border-[#DCF2FF]">
-        <div className="max-w-6xl mx-auto px-5 sm:px-6">
-          <div className="text-center max-w-xl mx-auto mb-7 sm:mb-10">
-            <span className="text-[#35B6F5] font-bold text-xs sm:text-sm uppercase tracking-wider">
-              Cara Kami Bertumbuh
-            </span>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0B2D48] mt-1">
-              Tiga Pilar Baca Bareng Club
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-4 sm:gap-6">
-            <div className="bg-white p-6 sm:p-7 rounded-3xl border border-[#D9F1FF]">
-              <div className="w-9 h-9 rounded-2xl bg-[#E8F7FF] text-[#28A9EB] font-extrabold text-sm flex items-center justify-center mb-3.5">
-                01
-              </div>
-              <h3 className="text-base sm:text-lg font-extrabold text-[#0B2D48] mb-1.5">Mindset Baru</h3>
-              <p className="text-sm text-slate-600 leading-relaxed">
-                Membaca bukan aktivitas yang kaku atau membosankan, melainkan gaya hidup yang relevan, menyenangkan, dan memperkaya sudut pandang.
-              </p>
-            </div>
-
-            <div className="bg-white p-6 sm:p-7 rounded-3xl border border-[#D9F1FF]">
-              <div className="w-9 h-9 rounded-2xl bg-[#E8F7FF] text-[#28A9EB] font-extrabold text-sm flex items-center justify-center mb-3.5">
-                02
-              </div>
-              <h3 className="text-base sm:text-lg font-extrabold text-[#0B2D48] mb-1.5">Ruang Memulai</h3>
-              <p className="text-sm text-slate-600 leading-relaxed">
-                Lingkungan yang ramah dan tanpa penghakiman bagi siapa pun, termasuk bagi kamu yang baru saja ingin memulai kebiasaan membaca dari nol.
-              </p>
-            </div>
-
-            <div className="bg-white p-6 sm:p-7 rounded-3xl border border-[#D9F1FF]">
-              <div className="w-9 h-9 rounded-2xl bg-[#E8F7FF] text-[#28A9EB] font-extrabold text-sm flex items-center justify-center mb-3.5">
-                03
-              </div>
-              <h3 className="text-base sm:text-lg font-extrabold text-[#0B2D48] mb-1.5">Pendampingan</h3>
-              <p className="text-sm text-slate-600 leading-relaxed">
-                Konsistensi jauh lebih mudah dijaga ketika dilakukan bersama-sama dengan jadwal teratur, mentor, dan teman seperjalanan.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 4. PAST COLLABORATORS */}
-      <section className="max-w-6xl mx-auto px-5 sm:px-6 pt-10 sm:pt-14">
-        <div className="bg-white border border-[#CBEBFF] rounded-3xl p-6 sm:p-11 text-center shadow-xs">
-          <p className="text-xs font-bold uppercase tracking-widest text-[#5694BA] mb-6">
-            Our Past Collaborators
-          </p>
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 items-center justify-items-center mb-8">
-            {/* Gramedia Digital */}
-            <div className="w-full h-14 sm:h-16 px-3 rounded-2xl bg-slate-50/80 border border-slate-100 flex items-center justify-center gap-2 overflow-hidden">
-              <span className="w-7 h-7 shrink-0 rounded-lg bg-[#00529C] text-white font-black text-sm flex items-center justify-center">
-                G
-              </span>
-              <div className="text-left leading-none">
-                <span className="block font-extrabold text-xs sm:text-sm text-[#00529C]">Gramedia</span>
-                <span className="block text-[8px] sm:text-[9px] font-bold tracking-wider text-slate-500 mt-0.5">DIGITAL</span>
-              </div>
-            </div>
-
-            {/* English Academy by Ruangguru */}
-            <div className="w-full h-14 sm:h-16 px-3 rounded-2xl bg-slate-50/80 border border-slate-100 flex items-center justify-center gap-2 overflow-hidden">
-              <span className="w-7 h-7 shrink-0 rounded-full bg-[#E11D48] text-white font-black text-[10px] flex items-center justify-center">
-                EA
-              </span>
-              <div className="text-left leading-none">
-                <span className="block font-extrabold text-[10px] sm:text-xs text-[#1E1B4B]">ENGLISH ACADEMY</span>
-                <span className="block text-[8px] sm:text-[9px] font-semibold text-slate-500 mt-0.5">By Ruangguru</span>
-              </div>
-            </div>
-
-            {/* MySkill */}
-            <div className="w-full h-14 sm:h-16 px-3 rounded-2xl bg-slate-50/80 border border-slate-100 flex items-center justify-center overflow-hidden">
-              <span className="font-extrabold text-lg sm:text-xl tracking-tight text-[#0D9488]">
-                MySkill
-              </span>
-            </div>
-
-            {/* Lemonilo */}
-            <div className="w-full h-14 sm:h-16 px-3 rounded-2xl bg-slate-50/80 border border-slate-100 flex items-center justify-center overflow-hidden">
-              <span className="font-black text-lg sm:text-xl tracking-tight text-[#65A30D]">
-                lemonilo
-              </span>
-            </div>
-
-            {/* Cressida */}
-            <div className="w-full h-14 sm:h-16 px-3 rounded-2xl bg-slate-50/80 border border-slate-100 flex items-center justify-center overflow-hidden">
-              <span className="font-bold text-xs sm:text-base tracking-[0.14em] sm:tracking-[0.2em] text-[#DC2626] uppercase">
-                CRESSIDA
-              </span>
-            </div>
-
-            {/* CRiB */}
-            <div className="w-full h-14 sm:h-16 px-3 rounded-2xl bg-slate-50/80 border border-slate-100 flex items-center justify-center gap-2 overflow-hidden">
-              <span className="w-7 h-7 shrink-0 rounded-lg bg-[#6D28D9] text-white font-black text-xs flex items-center justify-center">
-                C
-              </span>
-              <span className="font-black text-sm sm:text-base text-[#4C1D95]">CRiB</span>
-            </div>
-
-            {/* CoverMake */}
-            <div className="w-full h-14 sm:h-16 px-3 rounded-2xl bg-slate-50/80 border border-slate-100 flex items-center justify-center overflow-hidden">
-              <span className="font-light text-xs sm:text-base tracking-[0.1em] sm:tracking-[0.18em] text-slate-800 uppercase">
-                COVER<strong className="font-extrabold">MAKE</strong>
-              </span>
-            </div>
-
-            {/* Beauvrys */}
-            <div className="w-full h-14 sm:h-16 px-3 rounded-2xl bg-slate-50/80 border border-slate-100 flex items-center justify-center gap-2 overflow-hidden">
-              <span className="w-7 h-7 shrink-0 rounded-full bg-slate-900 text-white font-serif italic font-bold text-xs flex items-center justify-center">
-                B
-              </span>
-              <span className="font-serif font-bold text-sm sm:text-base text-slate-900">Beauvrys</span>
-            </div>
-
-            {/* Ruangguru */}
-            <div className="w-full h-14 sm:h-16 px-3 rounded-2xl bg-slate-50/80 border border-slate-100 flex items-center justify-center overflow-hidden">
-              <div className="leading-none text-left">
-                <span className="block font-bold text-sm sm:text-base text-[#0891B2]">ruang</span>
-                <span className="block font-bold text-sm sm:text-base text-[#0891B2] -mt-1">guru</span>
-              </div>
-            </div>
-
-            {/* Finetiks */}
-            <div className="w-full h-14 sm:h-16 px-3 rounded-2xl bg-slate-50/80 border border-slate-100 flex items-center justify-center gap-2 overflow-hidden">
-              <span className="w-6 h-6 shrink-0 rounded-md bg-[#0284C7] text-white font-black text-xs flex items-center justify-center">
-                F
-              </span>
-              <span className="font-extrabold text-xs sm:text-base tracking-wider text-[#0F172A] uppercase">
-                FINETIKS
-              </span>
-            </div>
-
-            {/* Kacamatamoo */}
-            <div className="w-full h-14 sm:h-16 px-3 rounded-2xl bg-slate-50/80 border border-slate-100 flex items-center justify-center overflow-hidden">
-              <span className="px-2.5 py-1 rounded-full bg-[#5EEAD4]/35 text-[#0F766E] font-extrabold text-[10px] sm:text-[11px] tracking-wide uppercase">
-                KACAMATAMOO
-              </span>
-            </div>
-
-            {/* Somethinc */}
-            <div className="w-full h-14 sm:h-16 px-3 rounded-2xl bg-slate-50/80 border border-slate-100 flex items-center justify-center overflow-hidden">
-              <span className="font-black text-xs sm:text-sm tracking-[0.14em] sm:tracking-[0.24em] text-slate-950 uppercase">
-                SOMETHINC
-              </span>
-            </div>
-
-            {/* Campina */}
-            <div className="w-full h-14 sm:h-16 px-3 rounded-2xl bg-slate-50/80 border border-slate-100 flex items-center justify-center overflow-hidden">
-              <span className="px-3.5 py-1 rounded-full bg-[#1D4ED8] text-amber-300 font-extrabold italic text-sm sm:text-base">
-                Campina
-              </span>
-            </div>
-
-            {/* Bosshire */}
-            <div className="w-full h-14 sm:h-16 px-3 rounded-2xl bg-slate-50/80 border border-slate-100 flex items-center justify-center overflow-hidden">
-              <span className="font-extrabold text-base sm:text-lg text-[#F59E0B]">
-                bosshire
-              </span>
-            </div>
-
-            {/* Glico */}
-            <div className="w-full h-14 sm:h-16 px-3 rounded-2xl bg-slate-50/80 border border-slate-100 flex items-center justify-center overflow-hidden col-span-2 sm:col-span-1">
-              <span className="font-black italic text-xl sm:text-2xl text-[#E11D48]">
-                Glico
-              </span>
-            </div>
-          </div>
-
-          <div className="pt-6 border-t border-[#E8F7FF] flex justify-center">
-            <Link
-              href="/kolaborasi"
-              className="w-full sm:w-auto bg-[#0B2D48] hover:bg-[#123E61] text-white text-sm font-bold px-7 py-3.5 rounded-2xl transition inline-flex items-center justify-center gap-2"
+          <p className="text-sm text-slate-600 max-w-md mx-auto">
+            Pantau Instagram{" "}
+            <a
+              href="https://instagram.com/bacabareng.club"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-bold text-[#28A9EB] hover:underline"
             >
-              <span>Kolaborasi Brand &amp; Media Partner</span>
-              <span>→</span>
-            </Link>
-          </div>
+              @bacabareng.club
+            </a>{" "}
+            untuk jadwal sesi offline berikutnya.
+          </p>
         </div>
-      </section>
+      ) : submitted ? (
+        <div className="bg-white border-2 border-[#4CC3FA] rounded-3xl p-8 sm:p-10 text-center shadow-sm">
+          <div className="w-14 h-14 rounded-full bg-[#E8F7FF] text-[#28A9EB] text-2xl font-extrabold flex items-center justify-center mx-auto mb-4">
+            ✓
+          </div>
+          <h2 className="text-xl sm:text-2xl font-extrabold text-[#0B2D48] mb-2">
+            Kursi Kamu Terdaftar, {nama}!
+          </h2>
+          <p className="text-slate-600 text-sm leading-relaxed max-w-md mx-auto mb-6">
+            Sampai bertemu di <strong>Taman Suropati, Jakarta Pusat</strong> pada{" "}
+            <strong>Sabtu, 5 Desember 2026 (08.00 – 10.15 WIB)</strong>. Admin akan menghubungi WhatsApp{" "}
+            <strong>{whatsapp}</strong> untuk undangan grup koordinasi.
+          </p>
+          <button
+            type="button"
+            onClick={() => window.location.reload()}
+            className="text-sm font-bold text-[#28A9EB] hover:underline"
+          >
+            Daftarkan peserta lainnya
+          </button>
+        </div>
+      ) : (
+        <div className="bg-white border border-slate-200 rounded-3xl p-5 sm:p-8 shadow-xs">
+          {/* STEPPER HEADER */}
+          <div className="flex items-center justify-between mb-6 pb-5 border-b border-slate-100">
+            <div className="flex items-center gap-3">
+              <span className="w-8 h-8 rounded-full bg-[#4CC3FA] text-white text-sm font-extrabold flex items-center justify-center">
+                {step}
+              </span>
+              <div>
+                <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                  Langkah {step} dari 2
+                </p>
+                <h2 className="text-base sm:text-lg font-extrabold text-[#0B2D48]">
+                  {step === 1 ? "Data Peserta & Donasi Buku" : "Commitment Fee & Konfirmasi"}
+                </h2>
+              </div>
+            </div>
+            <div className="flex gap-1.5">
+              <span className={`h-2 w-8 rounded-full ${step >= 1 ? "bg-[#4CC3FA]" : "bg-slate-200"}`} />
+              <span className={`h-2 w-8 rounded-full ${step >= 2 ? "bg-[#4CC3FA]" : "bg-slate-200"}`} />
+            </div>
+          </div>
+
+          {/* STEP 1 */}
+          {step === 1 && (
+            <form onSubmit={goToStep2} className="space-y-5">
+              <div>
+                <label className="block text-sm font-bold text-[#0B2D48] mb-1.5">
+                  Nama Lengkap <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={nama}
+                  onChange={(e) => setNama(e.target.value)}
+                  placeholder="Nama panggilan / lengkapmu"
+                  className="w-full rounded-2xl border border-slate-200 bg-slate-50/60 focus:bg-white px-4 py-3.5 text-sm text-[#0B2D48] focus:border-[#4CC3FA] focus:outline-none transition"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-bold text-[#0B2D48] mb-1.5">
+                  Nomor WhatsApp Aktif <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="tel"
+                  required
+                  value={whatsapp}
+                  onChange={(e) => setWhatsapp(e.target.value)}
+                  placeholder="Contoh: 081234567890"
+                  className="w-full rounded-2xl border border-slate-200 bg-slate-50/60 focus:bg-white px-4 py-3.5 text-sm text-[#0B2D48] focus:border-[#4CC3FA] focus:outline-none transition"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-bold text-[#0B2D48] mb-1.5">
+                  Tahu Event Ini dari Mana?
+                </label>
+                <select
+                  value={sumberInfo}
+                  onChange={(e) => setSumberInfo(e.target.value)}
+                  className="w-full rounded-2xl border border-slate-200 bg-slate-50/60 focus:bg-white px-4 py-3.5 text-sm text-[#0B2D48] focus:border-[#4CC3FA] focus:outline-none transition"
+                >
+                  <option value="Instagram @bacabareng.club">Instagram @bacabareng.club</option>
+                  <option value="Teman / Komunitas">Teman / Komunitas</option>
+                  <option value="TikTok / Reels">TikTok / Reels</option>
+                  <option value="Alumni Batch Sebelumnya">Alumni Batch Sebelumnya</option>
+                  <option value="Lainnya">Lainnya</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-bold text-[#0B2D48] mb-1.5">
+                  Buku yang Mau Dibawa / Harapan Ikut Sesi Ini <span className="text-rose-500">*</span>
+                </label>
+                <textarea
+                  required
+                  rows={3}
+                  value={harapan}
+                  onChange={(e) => setHarapan(e.target.value)}
+                  placeholder='Contoh: "Mau bawa buku Filosofi Teras dan kenalan sama teman baca baru"'
+                  className="w-full rounded-2xl border border-slate-200 bg-slate-50/60 focus:bg-white px-4 py-3.5 text-sm text-[#0B2D48] focus:border-[#4CC3FA] focus:outline-none transition"
+                />
+              </div>
+
+              {/* OPSI DONASI BUKU */}
+              <div className="bg-[#F8FCFF] border border-[#E1F3FF] rounded-2xl p-4 space-y-3">
+                <label className="block text-sm font-bold text-[#0B2D48]">
+                  Apakah kamu berencana membawa buku layak baca untuk didonasikan? (Opsional)
+                </label>
+                <div className="flex gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setDonasiBuku("ya")}
+                    className={`flex-1 py-2.5 rounded-xl text-xs font-extrabold border transition ${
+                      donasiBuku === "ya"
+                        ? "bg-[#4CC3FA] text-white border-[#4CC3FA]"
+                        : "bg-white text-slate-600 border-slate-200"
+                    }`}
+                  >
+                    Ya, Mau Donasi
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setDonasiBuku("tidak")}
+                    className={`flex-1 py-2.5 rounded-xl text-xs font-extrabold border transition ${
+                      donasiBuku === "tidak"
+                        ? "bg-[#0B2D48] text-white border-[#0B2D48]"
+                        : "bg-white text-slate-600 border-slate-200"
+                    }`}
+                  >
+                    Belum Kali Ini
+                  </button>
+                </div>
+
+                {donasiBuku === "ya" && (
+                  <input
+                    type="text"
+                    value={detailBuku}
+                    onChange={(e) => setDetailBuku(e.target.value)}
+                    placeholder="Tuliskan judul/genre buku yang akan didonasikan"
+                    className="w-full rounded-xl border border-[#CBEBFF] bg-white px-3.5 py-2.5 text-xs text-[#0B2D48] focus:border-[#4CC3FA] focus:outline-none"
+                  />
+                )}
+              </div>
+
+              {errorMsg && (
+                <p className="text-xs font-bold text-rose-600 bg-rose-50 px-4 py-3 rounded-xl">
+                  {errorMsg}
+                </p>
+              )}
+
+              <button
+                type="submit"
+                className="w-full bg-[#4CC3FA] hover:bg-[#33B5F2] text-white font-extrabold text-base py-4 rounded-2xl shadow-md shadow-[#4CC3FA]/25 transition"
+              >
+                Lanjut ke Pembayaran →
+              </button>
+            </form>
+          )}
+
+          {/* STEP 2 */}
+          {step === 2 && (
+            <div className="space-y-5">
+              <div className="bg-[#F8FCFF] border border-[#CBEBFF] rounded-2xl p-5 text-center">
+                <span className="inline-block text-[11px] font-extrabold uppercase tracking-wider text-[#28A9EB] bg-[#E8F7FF] px-3.5 py-1 rounded-full mb-2">
+                  Commitment Fee: Rp25.000
+                </span>
+                <p className="text-xs text-slate-600 leading-relaxed max-w-md mx-auto">
+                  Scan QRIS di bawah ini sebesar <strong>Rp25.000</strong> untuk mengunci kursi kehadiranmu pada <strong>Sabtu, 5 Desember 2026</strong> di <strong>Taman Suropati</strong>.
+                </p>
+
+                <div className="max-w-[230px] mx-auto mt-4 bg-white p-3 rounded-2xl border border-[#CBEBFF]">
+                  <img
+                    src="/qris.jpeg"
+                    alt="QRIS Baca Bareng Club"
+                    className="w-full h-auto rounded-xl"
+                  />
+                  <a
+                    href="/qris.jpeg"
+                    download="QRIS-Digital-Detox-Vol7.jpeg"
+                    className="inline-block mt-2 text-xs font-extrabold text-[#28A9EB] hover:underline"
+                  >
+                    Simpan Gambar QRIS ↓
+                  </a>
+                </div>
+              </div>
+
+              <label className="block w-full min-w-0 rounded-2xl border-2 border-dashed border-[#8ED8FC] bg-[#F9FDFF] hover:bg-[#F0F9FF] p-5 cursor-pointer transition text-center">
+                {paymentFile ? (
+                  <div className="min-w-0 space-y-1">
+                    <span className="inline-block bg-[#E8F7FF] text-[#0E5A8A] text-[11px] font-extrabold px-2.5 py-0.5 rounded-full">
+                      Bukti Terpilih ✓
+                    </span>
+                    <p className="w-full truncate px-2 text-xs sm:text-sm font-bold text-[#0B2D48]">
+                      {paymentFile.name}
+                    </p>
+                    <p className="text-[11px] text-slate-400">Ketuk untuk mengganti file</p>
+                  </div>
+                ) : (
+                  <div className="space-y-1">
+                    <p className="text-sm font-extrabold text-[#0B2D48]">
+                      + Unggah Bukti Pembayaran QRIS
+                    </p>
+                    <p className="text-xs text-slate-400">
+                      Format Screenshot (JPG/PNG) atau PDF
+                    </p>
+                  </div>
+                )}
+                <input
+                  type="file"
+                  accept="image/*,.pdf"
+                  onChange={(e) => setPaymentFile(e.target.files?.[0] || null)}
+                  className="hidden"
+                />
+              </label>
+
+              {errorMsg && (
+                <p className="text-xs font-bold text-rose-600 bg-rose-50 px-4 py-3 rounded-xl">
+                  {errorMsg}
+                </p>
+              )}
+
+              <div className="flex items-center gap-3 pt-2">
+                <button
+                  type="button"
+                  disabled={loading}
+                  onClick={() => {
+                    setErrorMsg("");
+                    setStep(1);
+                  }}
+                  className="w-1/3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm py-4 rounded-2xl transition"
+                >
+                  ← Kembali
+                </button>
+                <button
+                  type="button"
+                  disabled={loading}
+                  onClick={handleFinalSubmit}
+                  className="w-2/3 bg-[#4CC3FA] hover:bg-[#33B5F2] disabled:bg-slate-300 text-white font-extrabold text-base py-4 rounded-2xl shadow-md shadow-[#4CC3FA]/25 transition"
+                >
+                  {loading ? "Mengirim..." : "Kunci Kursi & Daftar ✓"}
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
