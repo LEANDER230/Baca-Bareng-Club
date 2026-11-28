@@ -363,4 +363,89 @@ export default function ChallengePage() {
 
           {/* STEP 3 */}
           {step === 3 && (
-            <div class
+            <div className="space-y-5">
+              <div className="text-center">
+                <span className="inline-block text-[11px] font-extrabold uppercase tracking-wider text-[#28A9EB] bg-[#E8F7FF] px-3.5 py-1 rounded-full mb-2">
+                  Opsional (Bayar Seikhlasnya)
+                </span>
+                <h3 className="text-lg font-extrabold text-[#0B2D48]">
+                  Bantu Tumbuh Bareng yuk!
+                </h3>
+                <p className="text-xs text-slate-500 mt-1 max-w-md mx-auto leading-relaxed">
+                  Scan QRIS di bawah ini jika ingin menyisihkan dukungan operasional seikhlasnya. Jika belum berkenan, kamu bisa langsung menyelesaikan pendaftaran.
+                </p>
+              </div>
+
+              <div className="max-w-[240px] mx-auto bg-[#F8FCFF] p-3.5 rounded-3xl border border-[#CBEBFF] text-center">
+                <img
+                  src="/qris.jpeg"
+                  alt="QRIS Baca Bareng Club"
+                  className="w-full h-auto rounded-2xl bg-white"
+                />
+                <a
+                  href="/qris.jpeg"
+                  download="QRIS-Baca-Bareng-Club.jpeg"
+                  className="inline-block mt-2.5 text-xs font-extrabold text-[#28A9EB] hover:underline"
+                >
+                  Simpan Gambar QRIS ↓
+                </a>
+              </div>
+
+              <label className="block w-full min-w-0 rounded-2xl border border-dashed border-slate-300 bg-slate-50/60 hover:bg-slate-100/70 p-4 cursor-pointer transition text-center">
+                {donationFile ? (
+                  <div className="min-w-0 space-y-1">
+                    <span className="inline-block bg-[#E8F7FF] text-[#0E5A8A] text-[11px] font-extrabold px-2.5 py-0.5 rounded-full">
+                      File Terpilih ✓
+                    </span>
+                    <p className="w-full truncate px-2 text-xs font-bold text-[#0B2D48]">
+                      {donationFile.name}
+                    </p>
+                    <p className="text-[11px] text-slate-400">Ketuk untuk mengganti file</p>
+                  </div>
+                ) : (
+                  <p className="text-xs font-bold text-[#0B2D48]">
+                    + Lampirkan Bukti QRIS (Opsional)
+                  </p>
+                )}
+                <input
+                  type="file"
+                  accept="image/*,.pdf"
+                  onChange={(e) => setDonationFile(e.target.files?.[0] || null)}
+                  className="hidden"
+                />
+              </label>
+
+              {errorMsg && (
+                <p className="text-xs font-bold text-rose-600 bg-rose-50 px-4 py-3 rounded-xl">
+                  {errorMsg}
+                </p>
+              )}
+
+              <div className="flex items-center gap-3 pt-2">
+                <button
+                  type="button"
+                  disabled={loading}
+                  onClick={() => {
+                    setErrorMsg("");
+                    setStep(2);
+                  }}
+                  className="w-1/3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm py-4 rounded-2xl transition"
+                >
+                  ← Kembali
+                </button>
+                <button
+                  type="button"
+                  disabled={loading}
+                  onClick={handleFinalSubmit}
+                  className="w-2/3 bg-[#4CC3FA] hover:bg-[#33B5F2] disabled:bg-slate-300 text-white font-extrabold text-base py-4 rounded-2xl shadow-md shadow-[#4CC3FA]/25 transition"
+                >
+                  {loading ? "Mengirim..." : "Selesai & Daftar ✓"}
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
