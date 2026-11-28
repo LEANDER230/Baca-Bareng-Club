@@ -9,6 +9,9 @@ import {
   submitToSheet,
 } from "../lib/submitRegistration";
 
+const CONTACT_WA_NUMBER = "6285694057352";
+const CONTACT_WA_DISPLAY = "0856-9405-7352";
+
 export default function ChallengePage() {
   const [quota, setQuota] = useState({ total: 50, remaining: 50, isFull: false });
   const [loadingQuota, setLoadingQuota] = useState(true);
@@ -52,11 +55,18 @@ export default function ChallengePage() {
     };
   }, [loading]);
 
+  function getWhatsAppHelpUrl() {
+    const participantName = nama.trim() || "Calon Peserta";
+    const participantEmail = email.trim() ? ` (${email.trim()})` : "";
+    const message = `Halo Kak, saya ${participantName}${participantEmail}. Saya sudah mendaftar program 30 Day Morning Reading Challenge Baca Bareng Club, mau tanya atau konfirmasi terkait pendaftaran saya.`;
+    return `https://wa.me/${CONTACT_WA_NUMBER}?text=${encodeURIComponent(message)}`;
+  }
+
   function goToStep2(e: React.FormEvent) {
     e.preventDefault();
     setErrorMsg("");
     if (!nama.trim() || !email.trim() || !whatsapp.trim() || !tujuan.trim()) {
-      setErrorMsg("Mohon lengkapi seluruh informasi peserta pada Tahap 1 sebelum melanjutkan.");
+      setErrorMsg("Lengkapi dulu semua data diri di langkah pertama sebelum lanjut.");
       return;
     }
     setStep(2);
@@ -65,7 +75,7 @@ export default function ChallengePage() {
   function goToStep3() {
     setErrorMsg("");
     if (!tagFile) {
-      setErrorMsg("Mohon unggah bukti tangkapan layar atau dokumen PDF sebagai syarat verifikasi.");
+      setErrorMsg("Unggah dulu bukti screenshot atau PDF tag 5 teman di Instagram.");
       return;
     }
     setStep(3);
@@ -74,7 +84,7 @@ export default function ChallengePage() {
   async function handleFinalSubmit() {
     setErrorMsg("");
     if (!tagFile) {
-      setErrorMsg("Berkas bukti verifikasi belum dilampirkan.");
+      setErrorMsg("File bukti verifikasi Instagram belum dilampirkan.");
       return;
     }
 
@@ -103,17 +113,17 @@ export default function ChallengePage() {
       const detail =
         err instanceof Error
           ? err.message
-          : "Terjadi gangguan koneksi. Silakan coba beberapa saat lagi.";
-      setErrorMsg(`Pengiriman belum berhasil: ${detail}`);
+          : "Koneksi sempat terputus. Silakan coba kirim ulang.";
+      setErrorMsg(`Pendaftaran belum terkirim: ${detail}`);
     } finally {
       setLoading(false);
     }
   }
 
   const processSteps = [
-    "Memverifikasi berkas lampiran",
-    "Mendaftarkan data ke sistem",
-    "Menjadwalkan pengiriman dokumen",
+    "Memeriksa file lampiran",
+    "Menyimpan data pendaftaran",
+    "Menyiapkan pengiriman email welcoming",
   ];
 
   const usedCount = Math.max(0, quota.total - quota.remaining);
@@ -122,7 +132,7 @@ export default function ChallengePage() {
 
   return (
     <div className="max-w-2xl mx-auto px-4 sm:px-6 pt-5 sm:pt-10 pb-24">
-      {/* OVERLAY ANIMASI PENGIRIMAN PROFESIONAL */}
+      {/* OVERLAY ANIMASI PENGIRIMAN */}
       {loading && (
         <div className="fixed inset-0 z-50 bg-[#0B2D48]/45 backdrop-blur-xs flex items-center justify-center p-4">
           <div className="bg-white border border-slate-200 rounded-3xl shadow-2xl max-w-sm w-full p-7 text-center">
@@ -135,10 +145,10 @@ export default function ChallengePage() {
             </div>
 
             <h3 className="text-base font-extrabold text-[#0B2D48] tracking-tight">
-              Memproses Pendaftaran
+              Sedang Mengirim Pendaftaran
             </h3>
             <p className="text-xs text-slate-500 mt-1 mb-5">
-              Mohon tetap di halaman ini hingga proses selesai.
+              Tunggu sebentar ya, jangan tutup halaman ini dulu.
             </p>
 
             <div className="space-y-2 text-left bg-slate-50 rounded-2xl p-3.5 border border-slate-100">
@@ -211,11 +221,11 @@ export default function ChallengePage() {
             30 Day Morning Reading Challenge
           </h1>
           <p className="text-slate-600 text-sm mt-2 leading-relaxed">
-            Bangun kebiasaan membaca yang terstruktur setiap pagi pukul 05.00 WIB bersama komunitas{" "}
+            Bangun kebiasaan membaca setiap pagi pukul 05.00 WIB bareng teman-teman{" "}
             <strong>Baca Bareng Club</strong> selama 30 hari penuh.
           </p>
 
-          {/* BAR STATUS KUOTA 1 BARIS LURUS & PRESISI */}
+          {/* BAR STATUS KUOTA */}
           <div className="mt-5 bg-white border border-[#D4EEFF] rounded-2xl p-4">
             <div className="flex items-center justify-between gap-3 mb-2.5">
               <span className="text-xs font-bold text-slate-500 whitespace-nowrap">
@@ -263,7 +273,7 @@ export default function ChallengePage() {
                 Setiap Hari (05.00 – 06.00 WIB)
               </p>
               <p className="text-xs text-slate-500 mt-0.5">
-                Dilaksanakan via Zoom &amp; Grup WhatsApp
+                Via Zoom &amp; Grup WhatsApp
               </p>
             </div>
 
@@ -275,7 +285,7 @@ export default function ChallengePage() {
                 Gratis / Kontribusi Sukarela
               </p>
               <p className="text-xs text-slate-500 mt-0.5">
-                Welcome Letter &amp; Commitment Sheet (PDF)
+                Welcome Letter &amp; Lembar Komitmen (PDF)
               </p>
             </div>
           </div>
@@ -286,10 +296,10 @@ export default function ChallengePage() {
       {!loadingQuota && quota.isFull ? (
         <div className="bg-white border border-slate-200 rounded-3xl p-8 text-center">
           <span className="inline-block bg-slate-100 text-slate-700 font-extrabold text-sm px-5 py-2.5 rounded-full mb-3">
-            Kuota Batch Ini Telah Terpenuhi
+            Kuota Batch Ini Sudah Penuh
           </span>
-          <p className="text-sm text-slate-600 max-w-md mx-auto leading-relaxed">
-            Ikuti pembaruan resmi melalui Instagram{" "}
+          <p className="text-sm text-slate-600 max-w-md mx-auto leading-relaxed mb-5">
+            Pantau terus info batch berikutnya di Instagram{" "}
             <a
               href="https://instagram.com/bacabareng.club"
               target="_blank"
@@ -297,9 +307,17 @@ export default function ChallengePage() {
               className="font-bold text-[#28A9EB] hover:underline"
             >
               @bacabareng.club
-            </a>{" "}
-            untuk jadwal pembukaan pendaftaran batch berikutnya.
+            </a>
+            .
           </p>
+          <a
+            href={getWhatsAppHelpUrl()}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-5 py-3 rounded-2xl transition"
+          >
+            <span>Tanya Admin via WhatsApp ({CONTACT_WA_DISPLAY})</span>
+          </a>
         </div>
       ) : submitted ? (
         <div className="bg-white border border-[#CBEBFF] rounded-3xl p-6 sm:p-10 shadow-sm">
@@ -317,24 +335,22 @@ export default function ChallengePage() {
             </div>
 
             <span className="inline-block bg-[#EBF8FF] text-[#0E5A8A] text-[11px] font-extrabold uppercase tracking-wider px-3.5 py-1 rounded-full mb-3">
-              Registrasi Terkonfirmasi
+              Pendaftaran Berhasil
             </span>
 
             <p className="text-xs sm:text-sm font-bold text-slate-500">
-              Terima Kasih,
+              Terima kasih sudah bergabung,
             </p>
             <h2 className="text-xl sm:text-2xl font-extrabold text-[#0B2D48] tracking-tight mt-0.5 leading-snug">
               {nama}
             </h2>
 
             <p className="text-slate-600 text-sm leading-relaxed mt-3">
-              Data kepesertaan Anda telah resmi tercatat dalam sistem{" "}
-              <strong>Baca Bareng Club</strong>. Dokumen{" "}
-              <strong>Welcome Letter</strong> beserta{" "}
-              <strong>Commitment Sheet (PDF)</strong> sedang dikirimkan secara otomatis ke alamat email:
+              Data kamu sudah masuk ke sistem <strong>Baca Bareng Club</strong>. Surat{" "}
+              <strong>Welcome Letter</strong> dan <strong>Lembar Komitmen (PDF)</strong> sedang dikirimkan ke alamat email kamu:
             </p>
 
-            {/* KOTAK EMAIL SEJAJAR PENUH DENGAN KOTAK INFORMASI */}
+            {/* KOTAK EMAIL */}
             <div className="mt-4 mb-5 w-full flex items-center justify-center gap-2 bg-[#F4FBFF] border border-[#CBEBFF] px-4 py-3 rounded-2xl text-xs sm:text-sm font-bold text-[#0B2D48]">
               <svg className="w-4 h-4 text-[#28A9EB] shrink-0" viewBox="0 0 20 20" fill="none">
                 <path
@@ -353,24 +369,39 @@ export default function ChallengePage() {
               <span className="truncate">{email}</span>
             </div>
 
-            {/* PANDUAN PENGIRIMAN EMAIL */}
-            <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-4 sm:p-5 text-left mb-6">
-              <p className="text-xs font-extrabold uppercase tracking-wider text-[#0B2D48] mb-2">
-                Informasi Pengiriman Email
-              </p>
-              <ul className="text-xs text-slate-600 space-y-2 list-disc pl-4 leading-relaxed">
-                <li>
-                  Proses pengiriman dokumen otomatis memerlukan waktu sekitar{" "}
-                  <strong>1–3 menit</strong>.
-                </li>
-                <li>
-                  Apabila email belum terlihat di <strong>Kotak Masuk (Inbox)</strong>, mohon periksa folder{" "}
-                  <strong>Spam / Junk</strong> atau tab <strong>Promosi (Promotions)</strong>.
-                </li>
-                <li>
-                  Simpan tautan grup koordinasi yang tercantum di dalam dokumen tersebut untuk bergabung bersama peserta lainnya.
-                </li>
-              </ul>
+            {/* INFO PENGECEKAN EMAIL & NARAHUBUNG */}
+            <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-4 sm:p-5 text-left mb-6 space-y-3">
+              <div>
+                <p className="text-xs font-extrabold uppercase tracking-wider text-[#0B2D48] mb-2">
+                  Catatan Penting
+                </p>
+                <ul className="text-xs text-slate-600 space-y-2 list-disc pl-4 leading-relaxed">
+                  <li>
+                    Pengiriman email otomatis butuh waktu sekitar <strong>1–3 menit</strong>.
+                  </li>
+                  <li>
+                    Kalau belum masuk di <strong>Kotak Masuk (Inbox)</strong>, cek juga folder{" "}
+                    <strong>Spam / Junk</strong> atau tab <strong>Promosi</strong>.
+                  </li>
+                  <li>
+                    Di dalam email tersebut sudah ada tautan untuk masuk ke grup koordinasi peserta.
+                  </li>
+                </ul>
+              </div>
+
+              <div className="pt-3 border-t border-slate-200/80">
+                <p className="text-xs text-slate-600 leading-relaxed mb-2.5">
+                  Ada kendala atau email belum masuk setelah 5 menit? Langsung hubungi narahubung kami:
+                </p>
+                <a
+                  href={getWhatsAppHelpUrl()}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full inline-flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold py-3 px-4 rounded-xl transition"
+                >
+                  <span>Chat WhatsApp Narahubung ({CONTACT_WA_DISPLAY})</span>
+                </a>
+              </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -378,7 +409,7 @@ export default function ChallengePage() {
                 href="/"
                 className="w-full bg-[#0B2D48] hover:bg-[#143F63] text-white text-xs font-bold py-3.5 px-5 rounded-2xl transition text-center"
               >
-                Kembali ke Halaman Utama
+                Kembali ke Beranda
               </Link>
               <button
                 type="button"
@@ -400,11 +431,11 @@ export default function ChallengePage() {
               </span>
               <div>
                 <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
-                  Tahap {step} dari 3
+                  Langkah {step} dari 3
                 </p>
                 <h2 className="text-base sm:text-lg font-extrabold text-[#0B2D48]">
-                  {step === 1 && "Informasi Data Diri"}
-                  {step === 2 && "Verifikasi Media Sosial"}
+                  {step === 1 && "Data Diri Peserta"}
+                  {step === 2 && "Bukti Tag Instagram"}
                   {step === 3 && "Kontribusi Sukarela"}
                 </h2>
               </div>
@@ -428,7 +459,7 @@ export default function ChallengePage() {
                   required
                   value={nama}
                   onChange={(e) => setNama(e.target.value)}
-                  placeholder="Masukkan nama lengkap Anda"
+                  placeholder="Tulis nama lengkap kamu"
                   className="w-full rounded-2xl border border-slate-200 bg-slate-50/60 focus:bg-white px-4 py-3.5 text-sm text-[#0B2D48] focus:border-[#3BB9F7] focus:outline-none transition"
                 />
               </div>
@@ -442,7 +473,7 @@ export default function ChallengePage() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="nama@domain.com"
+                  placeholder="nama@email.com (untuk pengiriman Welcome Letter)"
                   className="w-full rounded-2xl border border-slate-200 bg-slate-50/60 focus:bg-white px-4 py-3.5 text-sm text-[#0B2D48] focus:border-[#3BB9F7] focus:outline-none transition"
                 />
               </div>
@@ -470,7 +501,7 @@ export default function ChallengePage() {
                   rows={3}
                   value={tujuan}
                   onChange={(e) => setTujuan(e.target.value)}
-                  placeholder='Contoh: "Menyelesaikan 2 buku non-fiksi dan konsisten membaca 20 menit setiap pagi"'
+                  placeholder='Contoh: "Rutin baca 15 halaman tiap pagi dan selesaiin 2 buku bulan ini"'
                   className="w-full rounded-2xl border border-slate-200 bg-slate-50/60 focus:bg-white px-4 py-3.5 text-sm text-[#0B2D48] focus:border-[#3BB9F7] focus:outline-none transition"
                 />
               </div>
@@ -485,7 +516,7 @@ export default function ChallengePage() {
                 type="submit"
                 className="w-full bg-[#3BB9F7] hover:bg-[#28A9EB] text-white font-extrabold text-sm sm:text-base py-4 rounded-2xl shadow-md shadow-[#3BB9F7]/25 transition inline-flex items-center justify-center gap-2"
               >
-                <span>Lanjutkan ke Tahap Berikutnya</span>
+                <span>Lanjut ke Langkah 2</span>
                 <svg className="w-4 h-4" viewBox="0 0 20 20" fill="none">
                   <path
                     d="M7.5 5L12.5 10L7.5 15"
@@ -505,7 +536,7 @@ export default function ChallengePage() {
               <div className="bg-[#F8FCFF] border border-[#CBEBFF] rounded-2xl p-5">
                 <div className="flex items-center justify-between gap-2 mb-2">
                   <span className="text-xs font-extrabold uppercase tracking-wider text-[#28A9EB]">
-                    Persyaratan Program
+                    Syarat Pendaftaran
                   </span>
                   <a
                     href="https://instagram.com/bacabareng.club"
@@ -517,8 +548,8 @@ export default function ChallengePage() {
                   </a>
                 </div>
                 <p className="text-xs sm:text-sm text-slate-700 leading-relaxed">
-                  Berikan komentar dan <strong>tag 5 rekan</strong> pada unggahan tersemat (<em>pinned post</em>) terbaru di akun Instagram{" "}
-                  <strong>@bacabareng.club</strong>, kemudian lampirkan tangkapan layar atau dokumen PDF sebagai bukti.
+                  Komentar dan <strong>tag 5 teman</strong> di postingan tersemat (<em>pinned post</em>) terbaru Instagram{" "}
+                  <strong>@bacabareng.club</strong>, lalu unggah bukti screenshot atau PDF-nya di bawah ini.
                 </p>
               </div>
 
@@ -535,20 +566,20 @@ export default function ChallengePage() {
                           strokeLinejoin="round"
                         />
                       </svg>
-                      <span>Berkas Terlampir</span>
+                      <span>File Terpilih</span>
                     </span>
                     <p className="w-full truncate px-2 text-xs sm:text-sm font-bold text-[#0B2D48]">
                       {tagFile.name}
                     </p>
-                    <p className="text-[11px] text-slate-400">Ketuk area ini untuk mengganti berkas</p>
+                    <p className="text-[11px] text-slate-400">Ketuk di sini kalau mau ganti file</p>
                   </div>
                 ) : (
                   <div className="space-y-1">
                     <p className="text-sm font-extrabold text-[#0B2D48]">
-                      Unggah Bukti Tag 5 Rekan
+                      Unggah Bukti Tag 5 Teman
                     </p>
                     <p className="text-xs text-slate-400">
-                      Mendukung format gambar (JPG, PNG) atau PDF
+                      Format gambar (JPG, PNG) atau PDF
                     </p>
                   </div>
                 )}
@@ -582,7 +613,7 @@ export default function ChallengePage() {
                   onClick={goToStep3}
                   className="col-span-2 bg-[#3BB9F7] hover:bg-[#28A9EB] text-white font-extrabold text-sm sm:text-base py-4 rounded-2xl shadow-md shadow-[#3BB9F7]/25 transition inline-flex items-center justify-center gap-2"
                 >
-                  <span>Lanjutkan</span>
+                  <span>Lanjut</span>
                   <svg className="w-4 h-4" viewBox="0 0 20 20" fill="none">
                     <path
                       d="M7.5 5L12.5 10L7.5 15"
@@ -602,13 +633,13 @@ export default function ChallengePage() {
             <div className="space-y-5">
               <div className="text-center">
                 <span className="inline-block text-[11px] font-extrabold uppercase tracking-wider text-[#28A9EB] bg-[#E8F7FF] px-3.5 py-1 rounded-full mb-2">
-                  Opsional — Kontribusi Sukarela
+                  Opsional (Seikhlasnya)
                 </span>
                 <h3 className="text-lg font-extrabold text-[#0B2D48]">
                   Dukungan Operasional Komunitas
                 </h3>
                 <p className="text-xs text-slate-500 mt-1.5 max-w-md mx-auto leading-relaxed">
-                  Anda dapat memindai kode QRIS berikut untuk memberikan dukungan operasional sukarela. Apabila belum berkenan, Anda dapat langsung menyelesaikan proses pendaftaran.
+                  Scan QRIS di bawah ini kalau kamu ingin ikut mendukung operasional kegiatan komunitas. Kalau belum berkenan, kamu bisa langsung klik tombol daftar di bawah.
                 </p>
               </div>
 
@@ -623,7 +654,7 @@ export default function ChallengePage() {
                   download="QRIS-Baca-Bareng-Club.jpeg"
                   className="inline-block mt-2.5 text-xs font-extrabold text-[#28A9EB] hover:underline"
                 >
-                  Unduh Gambar QRIS
+                  Simpan Gambar QRIS
                 </a>
               </div>
 
@@ -644,12 +675,12 @@ export default function ChallengePage() {
                           strokeLinejoin="round"
                         />
                       </svg>
-                      <span>Bukti Terlampir</span>
+                      <span>Bukti Terpilih</span>
                     </span>
                     <p className="w-full truncate px-2 text-xs font-bold text-[#0B2D48]">
                       {donationFile.name}
                     </p>
-                    <p className="text-[11px] text-slate-400">Ketuk area ini untuk mengganti berkas</p>
+                    <p className="text-[11px] text-slate-400">Ketuk di sini kalau mau ganti file</p>
                   </div>
                 ) : (
                   <p className="text-xs font-bold text-[#0B2D48]">
@@ -694,6 +725,21 @@ export default function ChallengePage() {
               </div>
             </div>
           )}
+
+          {/* NARAHUBUNG BANTUAN DI BAWAH FORM */}
+          <div className="mt-6 pt-5 border-t border-slate-100 text-center">
+            <p className="text-xs text-slate-500">
+              Mengalami kendala saat mendaftar?{" "}
+              <a
+                href={getWhatsAppHelpUrl()}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-bold text-[#28A9EB] hover:underline"
+              >
+                Hubungi WhatsApp Narahubung ({CONTACT_WA_DISPLAY})
+              </a>
+            </p>
+          </div>
         </div>
       )}
     </div>
