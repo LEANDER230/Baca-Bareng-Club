@@ -87,7 +87,7 @@ export default function DigitalDetoxPage() {
   async function handleFinalSubmit() {
     setErrorMsg("");
     if (!paymentFile) {
-      setErrorMsg("Unggah dulu bukti transfer QRIS Rp25.000 untuk mengunci kursi.");
+      setErrorMsg("Unggah dulu bukti transfer QRIS Rp15.000 untuk mengunci kursi.");
       return;
     }
 
@@ -283,7 +283,7 @@ export default function DigitalDetoxPage() {
                 Biaya Komitmen
               </span>
               <p className="text-sm font-extrabold text-[#0B2D48] mt-1">
-                Rp25.000 / Peserta
+                Rp15.000 / Peserta
               </p>
               <p className="text-xs text-slate-500 mt-0.5">
                 Welcome Letter &amp; Panduan Sesi (PDF)
@@ -674,10 +674,10 @@ export default function DigitalDetoxPage() {
             <div className="space-y-5">
               <div className="bg-[#F8FCFF] border border-[#CBEBFF] rounded-2xl p-5 text-center">
                 <span className="inline-block text-[11px] font-extrabold uppercase tracking-wider text-[#28A9EB] bg-[#E8F7FF] px-3.5 py-1 rounded-full mb-2">
-                  Biaya Komitmen: Rp25.000
+                  Biaya Komitmen: Rp15.000
                 </span>
                 <p className="text-xs text-slate-600 leading-relaxed max-w-md mx-auto">
-                  Scan QRIS di bawah ini sebesar <strong>Rp25.000</strong> untuk mengunci kursi kehadiranmu pada{" "}
+                  Scan QRIS di bawah ini sebesar <strong>Rp15.000</strong> untuk mengunci kursi kehadiranmu pada{" "}
                   <strong>Sabtu, 5 Desember 2026</strong> di <strong>Taman Suropati</strong>.
                 </p>
 
