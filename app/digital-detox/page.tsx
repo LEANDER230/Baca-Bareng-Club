@@ -653,4 +653,139 @@ export default function DigitalDetoxPage() {
 
               <button
                 type="submit"
-                className="w-full bg-[#3BB9F7] hover:bg-[#28A9EB] text-white font-extrabold text-sm
+                className="w-full bg-[#3BB9F7] hover:bg-[#28A9EB] text-white font-extrabold text-sm sm:text-base py-4 rounded-2xl shadow-md shadow-[#3BB9F7]/25 transition inline-flex items-center justify-center gap-2"
+              >
+                <span>Lanjut ke Langkah 2</span>
+                <svg className="w-4 h-4" viewBox="0 0 20 20" fill="none">
+                  <path
+                    d="M7.5 5L12.5 10L7.5 15"
+                    stroke="currentColor"
+                    strokeWidth="2.2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+            </form>
+          )}
+
+          {/* STEP 2 */}
+          {step === 2 && (
+            <div className="space-y-5">
+              <div className="bg-[#F8FCFF] border border-[#CBEBFF] rounded-2xl p-5 text-center">
+                <span className="inline-block text-[11px] font-extrabold uppercase tracking-wider text-[#28A9EB] bg-[#E8F7FF] px-3.5 py-1 rounded-full mb-2">
+                  Biaya Komitmen: Rp25.000
+                </span>
+                <p className="text-xs text-slate-600 leading-relaxed max-w-md mx-auto">
+                  Scan QRIS di bawah ini sebesar <strong>Rp25.000</strong> untuk mengunci kursi kehadiranmu pada{" "}
+                  <strong>Sabtu, 5 Desember 2026</strong> di <strong>Taman Suropati</strong>.
+                </p>
+
+                <div className="max-w-[230px] mx-auto mt-4 bg-white p-3 rounded-2xl border border-[#CBEBFF]">
+                  <img
+                    src="/qris.jpeg"
+                    alt="QRIS Baca Bareng Club"
+                    className="w-full h-auto rounded-xl"
+                  />
+                  <a
+                    href="/qris.jpeg"
+                    download="QRIS-Digital-Detox-Vol7.jpeg"
+                    className="inline-block mt-2 text-xs font-extrabold text-[#28A9EB] hover:underline"
+                  >
+                    Simpan Gambar QRIS
+                  </a>
+                </div>
+              </div>
+
+              <label
+                className={`block w-full min-w-0 rounded-2xl border-2 border-dashed border-[#8ED8FC] bg-[#F9FDFF] p-5 text-center transition ${
+                  loading ? "opacity-50 pointer-events-none" : "hover:bg-[#F0F9FF] cursor-pointer"
+                }`}
+              >
+                {paymentFile ? (
+                  <div className="min-w-0 space-y-1.5">
+                    <span className="inline-flex items-center gap-1.5 bg-[#E8F7FF] text-[#0E5A8A] text-[11px] font-extrabold px-3 py-1 rounded-full">
+                      <svg className="w-3.5 h-3.5" viewBox="0 0 16 16" fill="none">
+                        <path
+                          d="M3.5 8.5L6.5 11.5L12.5 4.5"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                      <span>Bukti Terpilih</span>
+                    </span>
+                    <p className="w-full truncate px-2 text-xs sm:text-sm font-bold text-[#0B2D48]">
+                      {paymentFile.name}
+                    </p>
+                    <p className="text-[11px] text-slate-400">Ketuk di sini kalau mau ganti file</p>
+                  </div>
+                ) : (
+                  <div className="space-y-1">
+                    <p className="text-sm font-extrabold text-[#0B2D48]">
+                      Unggah Bukti Pembayaran QRIS
+                    </p>
+                    <p className="text-xs text-slate-400">
+                      Format gambar (JPG, PNG) atau PDF
+                    </p>
+                  </div>
+                )}
+                <input
+                  type="file"
+                  accept="image/*,.pdf"
+                  disabled={loading}
+                  onChange={(e) => setPaymentFile(e.target.files?.[0] || null)}
+                  className="hidden"
+                />
+              </label>
+
+              {errorMsg && (
+                <p className="text-xs font-bold text-rose-600 bg-rose-50 border border-rose-100 px-4 py-3 rounded-xl">
+                  {errorMsg}
+                </p>
+              )}
+
+              <div className="grid grid-cols-3 gap-3 pt-2">
+                <button
+                  type="button"
+                  disabled={loading}
+                  onClick={() => {
+                    setErrorMsg("");
+                    setStep(1);
+                  }}
+                  className="col-span-1 bg-slate-100 hover:bg-slate-200 disabled:opacity-50 text-slate-700 font-bold text-sm py-4 rounded-2xl transition"
+                >
+                  Kembali
+                </button>
+                <button
+                  type="button"
+                  disabled={loading}
+                  onClick={handleFinalSubmit}
+                  className="col-span-2 bg-[#3BB9F7] hover:bg-[#28A9EB] disabled:bg-[#8ED8FC] text-white font-extrabold text-sm sm:text-base py-4 rounded-2xl shadow-md shadow-[#3BB9F7]/25 transition"
+                >
+                  Selesaikan Pendaftaran
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* BANTUAN WHATSAPP MENTOR DI BAWAH FORM */}
+          <div className="mt-6 pt-5 border-t border-slate-100 text-center">
+            <p className="text-xs text-slate-500">
+              Ada kendala saat daftar?{" "}
+              <a
+                href={getMentorWhatsAppUrl()}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-bold text-[#28A9EB] hover:underline"
+              >
+                Hubungi Mentor
+              </a>
+            </p>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
