@@ -58,7 +58,7 @@ export default function HomePage() {
                 href="/digital-detox"
                 className="bg-white hover:bg-[#F0F9FF] text-[#0B2D48] border border-[#BCE6FF] font-bold px-6 py-3.5 sm:px-7 sm:py-4 rounded-2xl transition flex items-center justify-center gap-2"
               >
-                <span>Ikut Digital Detox</span>
+                <span>Ikut Digital Detox Vol. 7</span>
                 <span>→</span>
               </Link>
             </div>
@@ -159,7 +159,7 @@ export default function HomePage() {
             </div>
           </Link>
 
-          {/* KARTU 2: DIGITAL DETOX */}
+          {/* KARTU 2: DIGITAL DETOX VOL. 7 */}
           <Link
             href="/digital-detox"
             className="group bg-[#F4FBFF] border-2 border-[#CBEBFF] hover:border-[#4CC3FA] rounded-3xl p-6 sm:p-8 shadow-xs hover:shadow-lg hover:shadow-[#4CC3FA]/15 transition-all flex flex-col justify-between"
@@ -167,7 +167,7 @@ export default function HomePage() {
             <div>
               <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
                 <span className="bg-white text-[#0E5A8A] text-[11px] sm:text-xs font-bold px-3 py-1 rounded-full border border-[#CBEBFF]">
-                  OFFLINE (TAMAN LANGSAT)
+                  OFFLINE (TAMAN SUROPATI)
                 </span>
                 {loadingQuota ? (
                   <span className="bg-white text-slate-500 text-[11px] sm:text-xs font-bold px-3 py-1 rounded-full border border-[#CBEBFF]">
@@ -185,11 +185,11 @@ export default function HomePage() {
               </div>
 
               <h3 className="text-xl sm:text-2xl font-extrabold text-[#0B2D48] mb-2.5 group-hover:text-[#28A9EB] transition">
-                Digital Detox: Silent Reading
+                Digital Detox Vol. 7: Silent Reading
               </h3>
               <p className="text-slate-600 text-sm sm:text-base leading-relaxed mb-6">
-                Simpan sejenak ponselmu dan nikmati waktu membaca buku fisik langsung di ruang terbuka 
-                hijau bersama teman-teman baru yang suportif.
+                Sabtu, 5 Desember 2026 di Taman Suropati, Jakarta Pusat. Simpan sejenak ponselmu 
+                dan nikmati waktu membaca buku fisik langsung di ruang terbuka hijau bersama teman-teman baru.
               </p>
             </div>
 
