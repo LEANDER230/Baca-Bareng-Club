@@ -11,9 +11,9 @@ export default function DigitalDetoxPage() {
   const [step, setStep] = useState<1 | 2>(1);
   const [nama, setNama] = useState("");
   const [whatsapp, setWhatsapp] = useState("");
-  const [sumberInfo, setSumberInfo] = useState("Instagram");
-  const [sumberLain, setSumberLain] = useState("");
+  const [sumberInfo, setSumberInfo] = useState("Instagram @bacabareng.club");
   const [harapan, setHarapan] = useState("");
+  const [donasiBuku, setDonasiBuku] = useState<"ya" | "tidak">("tidak");
   const [detailBuku, setDetailBuku] = useState("");
   const [paymentFile, setPaymentFile] = useState<File | null>(null);
 
@@ -32,11 +32,11 @@ export default function DigitalDetoxPage() {
     e.preventDefault();
     setErrorMsg("");
     if (!nama.trim() || !whatsapp.trim() || !harapan.trim()) {
-      setErrorMsg("Lengkapi seluruh data diri wajib pada Langkah 1 terlebih dahulu.");
+      setErrorMsg("Lengkapi seluruh data peserta pada Langkah 1 terlebih dahulu.");
       return;
     }
-    if (sumberInfo === "Yang lain" && !sumberLain.trim()) {
-      setErrorMsg("Sebutkan sumber informasi event terlebih dahulu.");
+    if (donasiBuku === "ya" && !detailBuku.trim()) {
+      setErrorMsg("Tuliskan judul/jenis buku yang ingin kamu donasikan.");
       return;
     }
     setStep(2);
@@ -44,9 +44,8 @@ export default function DigitalDetoxPage() {
 
   async function handleFinalSubmit() {
     setErrorMsg("");
-
     if (!paymentFile) {
-      setErrorMsg("Unggah bukti pembayaran Commitment Fee Rp15.000 via QRIS terlebih dahulu.");
+      setErrorMsg("Unggah bukti pembayaran komitmen Rp25.000 terlebih dahulu.");
       return;
     }
 
@@ -58,18 +57,19 @@ export default function DigitalDetoxPage() {
         program: "digital-detox",
         nama,
         whatsapp,
-        sumberInfo: sumberInfo === "Yang lain" ? `Lainnya: ${sumberLain}` : sumberInfo,
+        sumberInfo,
         harapan,
-        jalurKomitmen: "Commitment Fee Rp15.000",
-        detailBuku: detailBuku.trim() ? detailBuku.trim() : "Tidak membawa donasi buku",
+        detailBuku: donasiBuku === "ya" ? detailBuku : "Tidak membawa donasi buku",
         paymentFile: paymentPayload,
       });
 
-      const updated = await fetchQuota();
-      if (updated?.offline) setQuota(updated.offline);
       setSubmitted(true);
-    } catch {
-      setErrorMsg("Terjadi kendala koneksi. Silakan coba kirim ulang.");
+      fetchQuota().then((updated) => {
+        if (updated?.offline) setQuota(updated.offline);
+      });
+    } catch (err) {
+      const detail = err instanceof Error ? err.message : "Silakan coba kirim ulang.";
+      setErrorMsg(`Gagal mengirim: ${detail}`);
     } finally {
       setLoading(false);
     }
@@ -90,7 +90,7 @@ export default function DigitalDetoxPage() {
         <div className="bg-gradient-to-r from-[#E8F7FF] to-[#F4FBFF] px-5 sm:px-8 py-6 border-b border-[#CBEBFF]">
           <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
             <span className="bg-[#4CC3FA] text-white text-[11px] font-extrabold uppercase tracking-wider px-3.5 py-1 rounded-full">
-              Offline Event Vol. 6
+              Offline Event • Vol. 7
             </span>
             {loadingQuota ? (
               <span className="bg-white text-slate-500 text-xs font-bold px-3.5 py-1 rounded-full border border-[#CBEBFF]">
@@ -102,72 +102,78 @@ export default function DigitalDetoxPage() {
               </span>
             ) : (
               <span className="bg-rose-100 text-rose-700 text-xs font-extrabold px-3.5 py-1 rounded-full">
-                Sisa {quota.remaining} dari {quota.total} Kursi
+                Tersisa {quota.remaining} dari {quota.total} Kursi
               </span>
             )}
           </div>
 
           <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0B2D48] tracking-tight">
-            Digital Detox: Silent Reading
+            Digital Detox Vol. 7: Silent Reading
           </h1>
           <p className="text-slate-600 text-sm mt-1.5 leading-relaxed">
-            Tutup sosial media, buka halaman pertama. Nikmati sesi membaca buku fisik bersama di ruang terbuka hijau.
+            Simpan sejenak ponselmu, bawa buku fisik favoritmu, dan nikmati sesi membaca tenang serta diskusi hangat di ruang terbuka hijau.
           </p>
         </div>
 
-        {/* DETAIL JADWAL & CATATAN */}
-        <div className="p-5 sm:p-8 space-y-5">
+        {/* DETAIL WAKTU, LOKASI & GOOGLE MAPS */}
+        <div className="p-5 sm:p-8 space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
             <div className="bg-[#F8FCFF] border border-[#E1F3FF] rounded-2xl p-4">
               <span className="block text-[11px] font-extrabold uppercase tracking-wider text-[#28A9EB]">
                 Hari &amp; Waktu
               </span>
-              <p className="text-sm font-bold text-[#0B2D48] mt-1">Minggu, 22 November 2026</p>
-              <p className="text-xs text-slate-500 mt-0.5">Pukul 08.00 – 10.15 WIB</p>
+              <p className="text-sm font-bold text-[#0B2D48] mt-1">
+                Sabtu, 5 Desember 2026
+              </p>
+              <p className="text-xs text-slate-500 mt-0.5">
+                Pukul 08.00 – 10.15 WIB
+              </p>
             </div>
 
             <div className="bg-[#F8FCFF] border border-[#E1F3FF] rounded-2xl p-4">
               <span className="block text-[11px] font-extrabold uppercase tracking-wider text-[#28A9EB]">
-                Lokasi &amp; Commitment Fee
+                Titik Kumpul Lokasi
               </span>
-              <p className="text-sm font-bold text-[#0B2D48] mt-1">Taman Langsat, Jakarta Selatan</p>
-              <p className="text-xs text-slate-500 mt-0.5">Commitment Fee: Rp15.000</p>
+              <p className="text-sm font-bold text-[#0B2D48] mt-1">
+                Taman Suropati
+              </p>
+              <p className="text-xs text-slate-500 mt-0.5">
+                Menteng, Jakarta Pusat
+              </p>
             </div>
           </div>
 
-          <div className="border-t border-slate-100 pt-4">
-            <h2 className="text-xs font-extrabold uppercase tracking-wider text-slate-400 mb-3">
-              Benefit &amp; Ketentuan Peserta
-            </h2>
-            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs sm:text-sm text-slate-700">
-              <li className="flex items-start gap-2">
-                <span className="text-[#35B6F5] font-extrabold">✓</span>
-                <span>Baca bareng, sharing seru, &amp; self reflection</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-[#35B6F5] font-extrabold">✓</span>
-                <span>Hadir tepat waktu sebelum sesi dimulai</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-[#35B6F5] font-extrabold">✓</span>
-                <span>Disarankan membawa air minum pribadi</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-[#35B6F5] font-extrabold">✓</span>
-                <span>
-                  Contact Person: <strong>Fathur</strong> (0821 3816 6394)
-                </span>
-              </li>
-            </ul>
+          {/* PETA GOOGLE MAPS INTERAKTIF */}
+          <div className="rounded-2xl overflow-hidden border border-[#CBEBFF] bg-[#F8FCFF]">
+            <iframe
+              title="Peta Lokasi Taman Suropati, Jakarta Pusat"
+              src="https://maps.google.com/maps?q=Taman%20Suropati%20Menteng%20Jakarta%20Pusat&t=&z=16&ie=UTF8&iwloc=&output=embed"
+              className="w-full h-52 sm:h-60 border-0"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+            <div className="px-4 py-2.5 bg-white border-t border-[#E1F3FF] flex items-center justify-between gap-2">
+              <span className="text-xs font-semibold text-slate-600 truncate">
+                Jl. Taman Suropati, Menteng, Jakarta Pusat
+              </span>
+              <a
+                href="https://maps.google.com/?q=Taman+Suropati+Jakarta+Pusat"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="shrink-0 text-xs font-extrabold text-[#28A9EB] hover:underline"
+              >
+                Buka Google Maps ↗
+              </a>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* AREA FORMULIR WIZARD */}
+      {/* AREA FORMULIR */}
       {!loadingQuota && quota.isFull ? (
         <div className="bg-white border border-slate-200 rounded-3xl p-8 text-center">
           <span className="inline-block bg-slate-100 text-slate-700 font-extrabold text-sm px-5 py-2.5 rounded-full mb-3">
-            Kuota Batch Ini Sudah Penuh
+            Kuota Digital Detox Vol. 7 Sudah Penuh
           </span>
           <p className="text-sm text-slate-600 max-w-md mx-auto">
             Pantau Instagram{" "}
@@ -179,7 +185,7 @@ export default function DigitalDetoxPage() {
             >
               @bacabareng.club
             </a>{" "}
-            untuk informasi pembukaan batch berikutnya.
+            untuk jadwal sesi offline berikutnya.
           </p>
         </div>
       ) : submitted ? (
@@ -188,10 +194,12 @@ export default function DigitalDetoxPage() {
             ✓
           </div>
           <h2 className="text-xl sm:text-2xl font-extrabold text-[#0B2D48] mb-2">
-            Kursi Berhasil Diamankan!
+            Kursi Kamu Terdaftar, {nama}!
           </h2>
           <p className="text-slate-600 text-sm leading-relaxed max-w-md mx-auto mb-6">
-            Terima kasih <strong>{nama}</strong>! Bukti Commitment Fee Rp15.000 sudah diterima. Sampai bertemu di Taman Langsat!
+            Sampai bertemu di <strong>Taman Suropati, Jakarta Pusat</strong> pada{" "}
+            <strong>Sabtu, 5 Desember 2026 (08.00 – 10.15 WIB)</strong>. Admin akan menghubungi WhatsApp{" "}
+            <strong>{whatsapp}</strong> untuk undangan grup koordinasi.
           </p>
           <button
             type="button"
@@ -214,7 +222,7 @@ export default function DigitalDetoxPage() {
                   Langkah {step} dari 2
                 </p>
                 <h2 className="text-base sm:text-lg font-extrabold text-[#0B2D48]">
-                  {step === 1 ? "Data Peserta & Donasi Buku" : "Pembayaran Commitment Fee"}
+                  {step === 1 ? "Data Peserta & Donasi Buku" : "Commitment Fee & Konfirmasi"}
                 </h2>
               </div>
             </div>
@@ -236,14 +244,14 @@ export default function DigitalDetoxPage() {
                   required
                   value={nama}
                   onChange={(e) => setNama(e.target.value)}
-                  placeholder="Masukkan nama lengkapmu"
+                  placeholder="Nama panggilan / lengkapmu"
                   className="w-full rounded-2xl border border-slate-200 bg-slate-50/60 focus:bg-white px-4 py-3.5 text-sm text-[#0B2D48] focus:border-[#4CC3FA] focus:outline-none transition"
                 />
               </div>
 
               <div>
                 <label className="block text-sm font-bold text-[#0B2D48] mb-1.5">
-                  Nomor WhatsApp <span className="text-rose-500">*</span>
+                  Nomor WhatsApp Aktif <span className="text-rose-500">*</span>
                 </label>
                 <input
                   type="tel"
@@ -256,71 +264,75 @@ export default function DigitalDetoxPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-[#0B2D48] mb-2">
-                  Tau Event Digital Detox dari mana? <span className="text-rose-500">*</span>
+                <label className="block text-sm font-bold text-[#0B2D48] mb-1.5">
+                  Tahu Event Ini dari Mana?
                 </label>
-                <div className="grid grid-cols-2 gap-2.5">
-                  {["Instagram", "Teman", "Komunitas Lainnya", "Yang lain"].map((opsi) => (
-                    <button
-                      key={opsi}
-                      type="button"
-                      onClick={() => setSumberInfo(opsi)}
-                      className={`py-3 px-3.5 rounded-2xl border text-xs font-bold transition ${
-                        sumberInfo === opsi
-                          ? "border-[#4CC3FA] bg-[#F4FBFF] text-[#0B2D48]"
-                          : "border-slate-200 text-slate-600 hover:border-[#CBEBFF]"
-                      }`}
-                    >
-                      {opsi}
-                    </button>
-                  ))}
-                </div>
-                {sumberInfo === "Yang lain" && (
-                  <input
-                    type="text"
-                    required
-                    value={sumberLain}
-                    onChange={(e) => setSumberLain(e.target.value)}
-                    placeholder="Sebutkan sumber informasinya..."
-                    className="mt-2.5 w-full rounded-2xl border border-slate-200 bg-slate-50/60 px-4 py-3 text-sm focus:border-[#4CC3FA] focus:outline-none"
-                  />
-                )}
+                <select
+                  value={sumberInfo}
+                  onChange={(e) => setSumberInfo(e.target.value)}
+                  className="w-full rounded-2xl border border-slate-200 bg-slate-50/60 focus:bg-white px-4 py-3.5 text-sm text-[#0B2D48] focus:border-[#4CC3FA] focus:outline-none transition"
+                >
+                  <option value="Instagram @bacabareng.club">Instagram @bacabareng.club</option>
+                  <option value="Teman / Komunitas">Teman / Komunitas</option>
+                  <option value="TikTok / Reels">TikTok / Reels</option>
+                  <option value="Alumni Batch Sebelumnya">Alumni Batch Sebelumnya</option>
+                  <option value="Lainnya">Lainnya</option>
+                </select>
               </div>
 
               <div>
                 <label className="block text-sm font-bold text-[#0B2D48] mb-1.5">
-                  Apa yang kamu harapkan dari event ini? <span className="text-rose-500">*</span>
+                  Buku yang Mau Dibawa / Harapan Ikut Sesi Ini <span className="text-rose-500">*</span>
                 </label>
                 <textarea
                   required
                   rows={3}
                   value={harapan}
                   onChange={(e) => setHarapan(e.target.value)}
-                  placeholder="Ceritakan harapanmu mengikuti sesi ini..."
+                  placeholder='Contoh: "Mau bawa buku Filosofi Teras dan kenalan sama teman baca baru"'
                   className="w-full rounded-2xl border border-slate-200 bg-slate-50/60 focus:bg-white px-4 py-3.5 text-sm text-[#0B2D48] focus:border-[#4CC3FA] focus:outline-none transition"
                 />
               </div>
 
-              {/* DONASI BUKU OPSIONAL */}
-              <div className="bg-[#F8FCFF] border border-[#CBEBFF] rounded-2xl p-4 sm:p-5 space-y-2">
-                <div className="flex items-center justify-between gap-2">
-                  <label className="text-sm font-extrabold text-[#0B2D48]">
-                    Punya buku bagus yang sudah selesai dibaca?
-                  </label>
-                  <span className="shrink-0 text-[10px] font-extrabold uppercase tracking-wider text-[#28A9EB] bg-white border border-[#CBEBFF] px-2.5 py-0.5 rounded-full">
-                    Opsional
-                  </span>
+              {/* OPSI DONASI BUKU */}
+              <div className="bg-[#F8FCFF] border border-[#E1F3FF] rounded-2xl p-4 space-y-3">
+                <label className="block text-sm font-bold text-[#0B2D48]">
+                  Apakah kamu berencana membawa buku layak baca untuk didonasikan? (Opsional)
+                </label>
+                <div className="flex gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setDonasiBuku("ya")}
+                    className={`flex-1 py-2.5 rounded-xl text-xs font-extrabold border transition ${
+                      donasiBuku === "ya"
+                        ? "bg-[#4CC3FA] text-white border-[#4CC3FA]"
+                        : "bg-white text-slate-600 border-slate-200"
+                    }`}
+                  >
+                    Ya, Mau Donasi
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setDonasiBuku("tidak")}
+                    className={`flex-1 py-2.5 rounded-xl text-xs font-extrabold border transition ${
+                      donasiBuku === "tidak"
+                        ? "bg-[#0B2D48] text-white border-[#0B2D48]"
+                        : "bg-white text-slate-600 border-slate-200"
+                    }`}
+                  >
+                    Belum Kali Ini
+                  </button>
                 </div>
-                <p className="text-xs text-slate-600 leading-relaxed">
-                  Yuk donasikan ke Baca Bareng Club untuk kami <em>giveaway</em> kepada peserta yang menyelesaikan 30 Day Reading Challenge. Jika ada, tulis Nama &amp; Judul Bukunya di bawah:
-                </p>
-                <input
-                  type="text"
-                  value={detailBuku}
-                  onChange={(e) => setDetailBuku(e.target.value)}
-                  placeholder="Contoh: Atomic Habits - James Clear (kosongkan jika tidak ada)"
-                  className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-[#0B2D48] focus:border-[#4CC3FA] focus:outline-none mt-1"
-                />
+
+                {donasiBuku === "ya" && (
+                  <input
+                    type="text"
+                    value={detailBuku}
+                    onChange={(e) => setDetailBuku(e.target.value)}
+                    placeholder="Tuliskan judul/genre buku yang akan didonasikan"
+                    className="w-full rounded-xl border border-[#CBEBFF] bg-white px-3.5 py-2.5 text-xs text-[#0B2D48] focus:border-[#4CC3FA] focus:outline-none"
+                  />
+                )}
               </div>
 
               {errorMsg && (
@@ -341,61 +353,58 @@ export default function DigitalDetoxPage() {
           {/* STEP 2 */}
           {step === 2 && (
             <div className="space-y-5">
-              <div className="bg-[#F8FCFF] border border-[#CBEBFF] rounded-2xl p-4 sm:p-5 space-y-4">
-                <div className="text-center">
-                  <span className="inline-block bg-white border border-[#CBEBFF] text-[#0B2D48] font-extrabold text-xs px-4 py-1.5 rounded-full mb-2">
-                    Commitment Fee (Wajib): Rp15.000
-                  </span>
-                  <p className="text-xs text-slate-600 max-w-sm mx-auto mb-3">
-                    Scan kode <strong>QRIS BACA BARENG CLUB</strong> di bawah ini menggunakan e-wallet atau mobile banking apa saja.
-                  </p>
+              <div className="bg-[#F8FCFF] border border-[#CBEBFF] rounded-2xl p-5 text-center">
+                <span className="inline-block text-[11px] font-extrabold uppercase tracking-wider text-[#28A9EB] bg-[#E8F7FF] px-3.5 py-1 rounded-full mb-2">
+                  Commitment Fee: Rp25.000
+                </span>
+                <p className="text-xs text-slate-600 leading-relaxed max-w-md mx-auto">
+                  Scan QRIS di bawah ini sebesar <strong>Rp25.000</strong> untuk mengunci kursi kehadiranmu pada <strong>Sabtu, 5 Desember 2026</strong> di <strong>Taman Suropati</strong>.
+                </p>
 
-                  <div className="max-w-[235px] mx-auto bg-white p-3 rounded-2xl border border-[#CBEBFF] shadow-2xs">
-                    <img
-                      src="/qris.jpeg"
-                      alt="QRIS Baca Bareng Club"
-                      className="w-full h-auto rounded-xl"
-                    />
-                    <a
-                      href="/qris.jpeg"
-                      download="QRIS-Baca-Bareng-Club.jpeg"
-                      className="inline-block mt-2.5 text-xs font-extrabold text-[#28A9EB] hover:underline"
-                    >
-                      Simpan Gambar QRIS ↓
-                    </a>
-                  </div>
-                </div>
-
-                {/* KOTAK UPLOAD RAPI (NAMA FILE PANJANG TERPOTONG RAPI) */}
-                <label className="block w-full min-w-0 rounded-2xl border-2 border-dashed border-[#8ED8FC] bg-white hover:bg-[#F0F9FF] p-4 cursor-pointer transition text-center">
-                  {paymentFile ? (
-                    <div className="min-w-0 space-y-1">
-                      <span className="inline-block bg-[#E8F7FF] text-[#0E5A8A] text-[11px] font-extrabold px-2.5 py-0.5 rounded-full">
-                        File Terpilih ✓
-                      </span>
-                      <p className="w-full truncate px-2 text-xs font-bold text-[#0B2D48]">
-                        {paymentFile.name}
-                      </p>
-                      <p className="text-[11px] text-slate-400">Ketuk untuk mengganti file</p>
-                    </div>
-                  ) : (
-                    <div className="space-y-1">
-                      <p className="text-xs font-extrabold text-[#0B2D48]">
-                        + Unggah Bukti Pembayaran Rp15.000 *
-                      </p>
-                      <p className="text-[11px] text-slate-400">
-                        Wajib (Format JPG, PNG, atau PDF)
-                      </p>
-                    </div>
-                  )}
-                  <input
-                    type="file"
-                    accept="image/*,.pdf"
-                    onChange={(e) => setPaymentFile(e.target.files?.[0] || null)}
-                    className="hidden"
+                <div className="max-w-[230px] mx-auto mt-4 bg-white p-3 rounded-2xl border border-[#CBEBFF]">
+                  <img
+                    src="/qris.jpeg"
+                    alt="QRIS Baca Bareng Club"
+                    className="w-full h-auto rounded-xl"
                   />
-                </label>
+                  <a
+                    href="/qris.jpeg"
+                    download="QRIS-Digital-Detox-Vol7.jpeg"
+                    className="inline-block mt-2 text-xs font-extrabold text-[#28A9EB] hover:underline"
+                  >
+                    Simpan Gambar QRIS ↓
+                  </a>
+                </div>
               </div>
+
+              <label className="block w-full min-w-0 rounded-2xl border-2 border-dashed border-[#8ED8FC] bg-[#F9FDFF] hover:bg-[#F0F9FF] p-5 cursor-pointer transition text-center">
+                {paymentFile ? (
+                  <div className="min-w-0 space-y-1">
+                    <span className="inline-block bg-[#E8F7FF] text-[#0E5A8A] text-[11px] font-extrabold px-2.5 py-0.5 rounded-full">
+                      Bukti Terpilih ✓
+                    </span>
+                    <p className="w-full truncate px-2 text-xs sm:text-sm font-bold text-[#0B2D48]">
+                      {paymentFile.name}
+                    </p>
+                    <p className="text-[11px] text-slate-400">Ketuk untuk mengganti file</p>
+                  </div>
+                ) : (
+                  <div className="space-y-1">
+                    <p className="text-sm font-extrabold text-[#0B2D48]">
+                      + Unggah Bukti Pembayaran QRIS
+                    </p>
+                    <p className="text-xs text-slate-400">
+                      Format Screenshot (JPG/PNG) atau PDF
+                    </p>
+                  </div>
+                )}
+                <input
+                  type="file"
+                  accept="image/*,.pdf"
+                  onChange={(e) => setPaymentFile(e.target.files?.[0] || null)}
+                  className="hidden"
+                />
+              </label>
 
               {errorMsg && (
                 <p className="text-xs font-bold text-rose-600 bg-rose-50 px-4 py-3 rounded-xl">
@@ -421,7 +430,7 @@ export default function DigitalDetoxPage() {
                   onClick={handleFinalSubmit}
                   className="w-2/3 bg-[#4CC3FA] hover:bg-[#33B5F2] disabled:bg-slate-300 text-white font-extrabold text-base py-4 rounded-2xl shadow-md shadow-[#4CC3FA]/25 transition"
                 >
-                  {loading ? "Mengirim..." : "Selesai & Daftar ✓"}
+                  {loading ? "Mengirim..." : "Kunci Kursi & Daftar ✓"}
                 </button>
               </div>
             </div>
