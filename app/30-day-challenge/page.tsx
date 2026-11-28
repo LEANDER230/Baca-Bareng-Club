@@ -116,6 +116,10 @@ export default function ChallengePage() {
     "Menjadwalkan pengiriman dokumen",
   ];
 
+  const usedCount = Math.max(0, quota.total - quota.remaining);
+  const fillPercentage =
+    quota.total > 0 ? Math.min(100, Math.round((usedCount / quota.total) * 100)) : 0;
+
   return (
     <div className="max-w-2xl mx-auto px-4 sm:px-6 pt-5 sm:pt-10 pb-24">
       {/* OVERLAY ANIMASI PENGIRIMAN PROFESIONAL */}
@@ -199,24 +203,9 @@ export default function ChallengePage() {
       {/* KARTU INFORMASI PROGRAM */}
       <div className="bg-white border border-[#CBEBFF] rounded-3xl overflow-hidden shadow-xs mb-6">
         <div className="bg-gradient-to-b from-[#EBF8FF] to-[#F7FCFF] px-5 sm:px-8 py-6 border-b border-[#CBEBFF]">
-          <div className="flex items-center justify-between gap-2 mb-3.5">
-            <span className="bg-[#3BB9F7] text-white text-[11px] font-extrabold uppercase tracking-wider px-3.5 py-1.5 rounded-full">
-              Online Program
-            </span>
-            {loadingQuota ? (
-              <span className="bg-white/90 text-slate-500 text-xs font-bold px-3.5 py-1.5 rounded-full border border-[#CBEBFF]">
-                Memeriksa kuota...
-              </span>
-            ) : quota.isFull ? (
-              <span className="bg-slate-200 text-slate-700 text-xs font-extrabold px-3.5 py-1.5 rounded-full">
-                Kuota Penuh ({quota.total}/{quota.total})
-              </span>
-            ) : (
-              <span className="bg-amber-100 text-amber-800 text-xs font-extrabold px-3.5 py-1.5 rounded-full">
-                Tersisa {quota.remaining} dari {quota.total} Slot
-              </span>
-            )}
-          </div>
+          <span className="inline-block bg-[#3BB9F7] text-white text-[11px] font-extrabold uppercase tracking-wider px-3.5 py-1 rounded-full mb-3.5">
+            Online Program
+          </span>
 
           <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0B2D48] tracking-tight leading-snug">
             30 Day Morning Reading Challenge
@@ -225,6 +214,37 @@ export default function ChallengePage() {
             Bangun kebiasaan membaca yang terstruktur setiap pagi pukul 05.00 WIB bersama komunitas{" "}
             <strong>Baca Bareng Club</strong> selama 30 hari penuh.
           </p>
+
+          {/* BAR STATUS KUOTA MODERN */}
+          <div className="mt-5 bg-white/95 border border-[#D4EEFF] rounded-2xl px-4 py-3">
+            <div className="flex items-center justify-between gap-2 text-xs mb-2">
+              <span className="font-bold text-slate-500">Ketersediaan Kuota</span>
+              {loadingQuota ? (
+                <span className="font-bold text-slate-400">Memeriksa...</span>
+              ) : quota.isFull ? (
+                <span className="inline-flex items-center gap-1.5 font-extrabold text-slate-700">
+                  <span className="w-2 h-2 rounded-full bg-slate-400" />
+                  <span>Kuota Penuh ({quota.total}/{quota.total})</span>
+                </span>
+              ) : (
+                <span className="inline-flex items-center gap-1.5 font-extrabold text-[#0B2D48]">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                  <span>
+                    Tersisa {quota.remaining} dari {quota.total} Slot
+                  </span>
+                </span>
+              )}
+            </div>
+
+            <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+              <div
+                className={`h-full rounded-full transition-all duration-500 ${
+                  quota.isFull ? "bg-slate-400" : "bg-gradient-to-r from-[#4CC3FA] to-[#1D8FE1]"
+                }`}
+                style={{ width: `${loadingQuota ? 15 : fillPercentage}%` }}
+              />
+            </div>
+          </div>
         </div>
 
         {/* GRID DETAIL SIMETRIS */}
@@ -278,7 +298,6 @@ export default function ChallengePage() {
         </div>
       ) : submitted ? (
         <div className="bg-white border border-[#CBEBFF] rounded-3xl p-6 sm:p-10 shadow-sm">
-          {/* IKON CENTANG VEKTOR PROFESIONAL */}
           <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#3BB9F7] to-[#1D8FE1] text-white flex items-center justify-center mx-auto mb-5 shadow-md shadow-[#3BB9F7]/25">
             <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none">
               <path
@@ -324,7 +343,6 @@ export default function ChallengePage() {
             </div>
           </div>
 
-          {/* PANDUAN PENERIMAAN EMAIL */}
           <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-4 sm:p-5 max-w-md mx-auto mb-7">
             <p className="text-xs font-extrabold uppercase tracking-wider text-[#0B2D48] mb-2">
               Informasi Pengiriman Email
