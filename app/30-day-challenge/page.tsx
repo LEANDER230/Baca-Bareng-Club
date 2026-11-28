@@ -17,6 +17,7 @@ export default function ChallengePage() {
   const [donationFile, setDonationFile] = useState<File | null>(null);
 
   const [loading, setLoading] = useState(false);
+  const [loadingStage, setLoadingStage] = useState(0);
   const [submitted, setSubmitted] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -26,6 +27,19 @@ export default function ChallengePage() {
       setLoadingQuota(false);
     });
   }, []);
+
+  useEffect(() => {
+    if (!loading) {
+      setLoadingStage(0);
+      return;
+    }
+    const t1 = setTimeout(() => setLoadingStage(1), 1200);
+    const t2 = setTimeout(() => setLoadingStage(2), 2600);
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+    };
+  }, [loading]);
 
   function goToStep2(e: React.FormEvent) {
     e.preventDefault();
@@ -81,6 +95,12 @@ export default function ChallengePage() {
       setLoading(false);
     }
   }
+
+  const loadingMessages = [
+    "Mengunggah bukti pendaftaranmu...",
+    "Mencatat data ke sistem Baca Bareng Club...",
+    "Menyiapkan Surat Welcoming ke emailmu...",
+  ];
 
   return (
     <div className="max-w-2xl mx-auto px-4 sm:px-6 pt-6 sm:pt-10 pb-24">
@@ -164,16 +184,47 @@ export default function ChallengePage() {
           </p>
         </div>
       ) : submitted ? (
-        <div className="bg-white border-2 border-[#4CC3FA] rounded-3xl p-8 sm:p-10 text-center shadow-sm">
-          <div className="w-14 h-14 rounded-full bg-[#E8F7FF] text-[#28A9EB] text-2xl font-extrabold flex items-center justify-center mx-auto mb-4">
+        <div className="bg-white border-2 border-[#4CC3FA] rounded-3xl p-6 sm:p-10 text-center shadow-sm">
+          <div className="w-16 h-16 rounded-full bg-[#E8F7FF] text-[#28A9EB] text-3xl font-extrabold flex items-center justify-center mx-auto mb-4">
             ✓
           </div>
+
+          <span className="inline-block bg-[#E8F7FF] text-[#0E5A8A] text-xs font-extrabold px-3.5 py-1 rounded-full mb-2">
+            Pendaftaran Berhasil Terkirim
+          </span>
+
           <h2 className="text-xl sm:text-2xl font-extrabold text-[#0B2D48] mb-2">
             Selamat Bergabung, {nama}!
           </h2>
-          <p className="text-slate-600 text-sm leading-relaxed max-w-md mx-auto mb-6">
-            Cek kotak masuk (atau folder spam) email <strong>{email}</strong> dalam beberapa menit ke depan untuk menerima <strong>Surat Welcoming Resmi + PDF Komitmen</strong>.
+
+          <p className="text-slate-600 text-sm leading-relaxed max-w-md mx-auto mb-5">
+            Dalam beberapa menit ke depan, sistem kami akan otomatis mengirimkan{" "}
+            <strong>Surat Welcoming Words &amp; PDF Komitmen</strong> ke alamat email:
           </p>
+
+          <div className="inline-block bg-[#F4FBFF] border border-[#CBEBFF] px-4 py-2 rounded-xl text-sm font-extrabold text-[#0B2D48] mb-6">
+            {email}
+          </div>
+
+          {/* KOTAK PANDUAN CEK EMAIL & FOLDER SPAM */}
+          <div className="bg-amber-50/90 border border-amber-200 rounded-2xl p-4 sm:p-5 text-left max-w-md mx-auto mb-6 space-y-2">
+            <p className="text-xs font-extrabold uppercase tracking-wider text-amber-900">
+              Penting — Cara Mengecek Email Welcoming:
+            </p>
+            <ul className="text-xs text-amber-900/90 space-y-1.5 list-disc pl-4 leading-relaxed">
+              <li>
+                Tunggu sekitar <strong>1–3 menit</strong> hingga email otomatis selesai diproses.
+              </li>
+              <li>
+                Apabila belum muncul di kotak masuk utama (<strong>Inbox</strong>), segera periksa folder{" "}
+                <strong>Spam / Junk</strong> atau tab <strong>Promosi (Promotions)</strong>.
+              </li>
+              <li>
+                Tandai email sebagai <em>&ldquo;Bukan Spam&rdquo;</em> agar informasi sesi pagi tidak terlewat.
+              </li>
+            </ul>
+          </div>
+
           <button
             type="button"
             onClick={() => window.location.reload()}
@@ -234,7 +285,7 @@ export default function ChallengePage() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="nama@email.com (untuk kirim PDF Komitmen)"
+                  placeholder="nama@email.com (untuk kirim Surat Welcoming)"
                   className="w-full rounded-2xl border border-slate-200 bg-slate-50/60 focus:bg-white px-4 py-3.5 text-sm text-[#0B2D48] focus:border-[#4CC3FA] focus:outline-none transition"
                 />
               </div>
@@ -391,7 +442,11 @@ export default function ChallengePage() {
                 </a>
               </div>
 
-              <label className="block w-full min-w-0 rounded-2xl border border-dashed border-slate-300 bg-slate-50/60 hover:bg-slate-100/70 p-4 cursor-pointer transition text-center">
+              <label
+                className={`block w-full min-w-0 rounded-2xl border border-dashed border-slate-300 bg-slate-50/60 p-4 text-center transition ${
+                  loading ? "opacity-50 pointer-events-none" : "hover:bg-slate-100/70 cursor-pointer"
+                }`}
+              >
                 {donationFile ? (
                   <div className="min-w-0 space-y-1">
                     <span className="inline-block bg-[#E8F7FF] text-[#0E5A8A] text-[11px] font-extrabold px-2.5 py-0.5 rounded-full">
@@ -410,10 +465,26 @@ export default function ChallengePage() {
                 <input
                   type="file"
                   accept="image/*,.pdf"
+                  disabled={loading}
                   onChange={(e) => setDonationFile(e.target.files?.[0] || null)}
                   className="hidden"
                 />
               </label>
+
+              {/* PANEL ANIMASI PROGRES PENGIRIMAN */}
+              {loading && (
+                <div className="bg-[#F4FBFF] border border-[#8ED8FC] rounded-2xl p-4 flex items-center gap-3.5 animate-pulse">
+                  <div className="w-7 h-7 shrink-0 rounded-full border-3 border-[#CBEBFF] border-t-[#28A9EB] animate-spin" />
+                  <div className="min-w-0">
+                    <p className="text-xs font-extrabold text-[#0B2D48]">
+                      {loadingMessages[loadingStage]}
+                    </p>
+                    <p className="text-[11px] text-slate-500 mt-0.5">
+                      Mohon tunggu sebentar, jangan tutup halaman ini...
+                    </p>
+                  </div>
+                </div>
+              )}
 
               {errorMsg && (
                 <p className="text-xs font-bold text-rose-600 bg-rose-50 px-4 py-3 rounded-xl">
@@ -429,7 +500,7 @@ export default function ChallengePage() {
                     setErrorMsg("");
                     setStep(2);
                   }}
-                  className="w-1/3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm py-4 rounded-2xl transition"
+                  className="w-1/3 bg-slate-100 hover:bg-slate-200 disabled:opacity-50 text-slate-700 font-bold text-sm py-4 rounded-2xl transition"
                 >
                   ← Kembali
                 </button>
@@ -437,9 +508,16 @@ export default function ChallengePage() {
                   type="button"
                   disabled={loading}
                   onClick={handleFinalSubmit}
-                  className="w-2/3 bg-[#4CC3FA] hover:bg-[#33B5F2] disabled:bg-slate-300 text-white font-extrabold text-base py-4 rounded-2xl shadow-md shadow-[#4CC3FA]/25 transition"
+                  className="w-2/3 bg-[#4CC3FA] hover:bg-[#33B5F2] disabled:bg-[#8ED8FC] text-white font-extrabold text-base py-4 rounded-2xl shadow-md shadow-[#4CC3FA]/25 transition flex items-center justify-center gap-2.5"
                 >
-                  {loading ? "Mengirim..." : "Selesai & Daftar ✓"}
+                  {loading ? (
+                    <>
+                      <span className="w-4 h-4 rounded-full border-2 border-white/40 border-t-white animate-spin" />
+                      <span>Sedang Mengirim...</span>
+                    </>
+                  ) : (
+                    <span>Selesai &amp; Daftar ✓</span>
+                  )}
                 </button>
               </div>
             </div>
