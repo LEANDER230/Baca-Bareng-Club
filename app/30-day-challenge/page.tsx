@@ -9,8 +9,7 @@ import {
   submitToSheet,
 } from "../lib/submitRegistration";
 
-const CONTACT_WA_NUMBER = "6285694057352";
-const CONTACT_WA_DISPLAY = "0856-9405-7352";
+const MENTOR_WA_NUMBER = "6285694057352";
 
 export default function ChallengePage() {
   const [quota, setQuota] = useState({ total: 50, remaining: 50, isFull: false });
@@ -55,11 +54,11 @@ export default function ChallengePage() {
     };
   }, [loading]);
 
-  function getWhatsAppHelpUrl() {
+  function getMentorWhatsAppUrl() {
     const participantName = nama.trim() || "Calon Peserta";
     const participantEmail = email.trim() ? ` (${email.trim()})` : "";
-    const message = `Halo Kak, saya ${participantName}${participantEmail}. Saya sudah mendaftar program 30 Day Morning Reading Challenge Baca Bareng Club, mau tanya atau konfirmasi terkait pendaftaran saya.`;
-    return `https://wa.me/${CONTACT_WA_NUMBER}?text=${encodeURIComponent(message)}`;
+    const message = `Halo Kak Mentor, saya ${participantName}${participantEmail}. Saya sudah daftar program 30 Day Morning Reading Challenge Baca Bareng Club, mau tanya terkait pendaftaran saya.`;
+    return `https://wa.me/${MENTOR_WA_NUMBER}?text=${encodeURIComponent(message)}`;
   }
 
   function goToStep2(e: React.FormEvent) {
@@ -311,12 +310,12 @@ export default function ChallengePage() {
             .
           </p>
           <a
-            href={getWhatsAppHelpUrl()}
+            href={getMentorWhatsAppUrl()}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-5 py-3 rounded-2xl transition"
           >
-            <span>Tanya Admin via WhatsApp ({CONTACT_WA_DISPLAY})</span>
+            <span>WhatsApp Mentor</span>
           </a>
         </div>
       ) : submitted ? (
@@ -369,7 +368,7 @@ export default function ChallengePage() {
               <span className="truncate">{email}</span>
             </div>
 
-            {/* INFO PENGECEKAN EMAIL & NARAHUBUNG */}
+            {/* INFO PENGECEKAN EMAIL & WHATSAPP MENTOR */}
             <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-4 sm:p-5 text-left mb-6 space-y-3">
               <div>
                 <p className="text-xs font-extrabold uppercase tracking-wider text-[#0B2D48] mb-2">
@@ -391,15 +390,15 @@ export default function ChallengePage() {
 
               <div className="pt-3 border-t border-slate-200/80">
                 <p className="text-xs text-slate-600 leading-relaxed mb-2.5">
-                  Ada kendala atau email belum masuk setelah 5 menit? Langsung hubungi narahubung kami:
+                  Kalau ada kendala atau butuh bantuan, langsung hubungi mentor kami:
                 </p>
                 <a
-                  href={getWhatsAppHelpUrl()}
+                  href={getMentorWhatsAppUrl()}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full inline-flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold py-3 px-4 rounded-xl transition"
                 >
-                  <span>Chat WhatsApp Narahubung ({CONTACT_WA_DISPLAY})</span>
+                  <span>WhatsApp Mentor</span>
                 </a>
               </div>
             </div>
@@ -473,7 +472,7 @@ export default function ChallengePage() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="nama@email.com (untuk pengiriman Welcome Letter)"
+                  placeholder="nama@email.com"
                   className="w-full rounded-2xl border border-slate-200 bg-slate-50/60 focus:bg-white px-4 py-3.5 text-sm text-[#0B2D48] focus:border-[#3BB9F7] focus:outline-none transition"
                 />
               </div>
@@ -726,17 +725,17 @@ export default function ChallengePage() {
             </div>
           )}
 
-          {/* NARAHUBUNG BANTUAN DI BAWAH FORM */}
+          {/* BANTUAN WHATSAPP MENTOR DI BAWAH FORM */}
           <div className="mt-6 pt-5 border-t border-slate-100 text-center">
             <p className="text-xs text-slate-500">
-              Mengalami kendala saat mendaftar?{" "}
+              Ada kendala saat daftar?{" "}
               <a
-                href={getWhatsAppHelpUrl()}
+                href={getMentorWhatsAppUrl()}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="font-bold text-[#28A9EB] hover:underline"
               >
-                Hubungi WhatsApp Narahubung ({CONTACT_WA_DISPLAY})
+                Hubungi Mentor
               </a>
             </p>
           </div>
